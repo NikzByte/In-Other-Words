@@ -1,0 +1,106 @@
+COMMON JAVA KEYEVENT KEYCODES (java.awt.event.KeyEvent)
+
+--- GENERAL KEYS ---
+
+Key: Enter        | Constant: KeyEvent.VK_ENTER       | Code: 10
+Key: Space        | Constant: KeyEvent.VK_SPACE       | Code: 32
+Key: Backspace    | Constant: KeyEvent.VK_BACK_SPACE  | Code: 8
+Key: Tab          | Constant: KeyEvent.VK_TAB        | Code: 9
+Key: Escape       | Constant: KeyEvent.VK_ESCAPE      | Code: 27
+Key: Delete       | Constant: KeyEvent.VK_DELETE      | Code: 127
+
+
+
+--- MODIFIER KEYS ---
+
+Key: Shift        | Constant: KeyEvent.VK_SHIFT       | Code: 16
+Key: Control      | Constant: KeyEvent.VK_CONTROL     | Code: 17
+Key: Alt          | Constant: KeyEvent.VK_ALT         | Code: 18
+Key: Caps Lock    | Constant: KeyEvent.VK_CAPS_LOCK   | Code: 20
+
+
+
+--- ARROW KEYS ---
+
+Key: Left Arrow   | Constant: KeyEvent.VK_LEFT        | Code: 37
+Key: Up Arrow     | Constant: KeyEvent.VK_UP          | Code: 38
+Key: Right Arrow  | Constant: KeyEvent.VK_RIGHT       | Code: 39
+Key: Down Arrow   | Constant: KeyEvent.VK_DOWN        | Code: 40
+
+
+
+--- LETTERS (A-Z) ---
+
+Key: A            | Constant: KeyEvent.VK_A           | Code: 65
+Key: B            | Constant: KeyEvent.VK_B           | Code: 66
+Key: C            | Constant: KeyEvent.VK_C           | Code: 67
+Key: D            | Constant: KeyEvent.VK_D           | Code: 68
+Key: E            | Constant: KeyEvent.VK_E           | Code: 69
+Key: F            | Constant: KeyEvent.VK_F           | Code: 70
+Key: G            | Constant: KeyEvent.VK_G           | Code: 71
+Key: H            | Constant: KeyEvent.VK_H           | Code: 72
+Key: I            | Constant: KeyEvent.VK_I           | Code: 73
+Key: J            | Constant: KeyEvent.VK_J           | Code: 74
+Key: K            | Constant: KeyEvent.VK_K           | Code: 75
+Key: L            | Constant: KeyEvent.VK_L           | Code: 76
+Key: M            | Constant: KeyEvent.VK_M           | Code: 77
+Key: N            | Constant: KeyEvent.VK_N           | Code: 78
+Key: O            | Constant: KeyEvent.VK_O           | Code: 79
+Key: P            | Constant: KeyEvent.VK_P           | Code: 80
+Key: Q            | Constant: KeyEvent.VK_Q           | Code: 81
+Key: R            | Constant: KeyEvent.VK_R           | Code: 82
+Key: S            | Constant: KeyEvent.VK_S           | Code: 83
+Key: T            | Constant: KeyEvent.VK_T           | Code: 84
+Key: U            | Constant: KeyEvent.VK_U           | Code: 85
+Key: V            | Constant: KeyEvent.VK_V           | Code: 86
+Key: W            | Constant: KeyEvent.VK_W           | Code: 87
+Key: X            | Constant: KeyEvent.VK_X           | Code: 88
+Key: Y            | Constant: KeyEvent.VK_Y           | Code: 89
+Key: Z            | Constant: KeyEvent.VK_Z           | Code: 90
+
+
+
+--- NUMBERS (TOP ROW 0-9) ---
+
+Key: 0            | Constant: KeyEvent.VK_0           | Code: 48
+Key: 1            | Constant: KeyEvent.VK_1           | Code: 49
+Key: 2            | Constant: KeyEvent.VK_2           | Code: 50
+Key: 3            | Constant: KeyEvent.VK_3           | Code: 51
+Key: 4            | Constant: KeyEvent.VK_4           | Code: 52
+Key: 5            | Constant: KeyEvent.VK_5           | Code: 53
+Key: 6            | Constant: KeyEvent.VK_6           | Code: 54
+Key: 7            | Constant: KeyEvent.VK_7           | Code: 55
+Key: 8            | Constant: KeyEvent.VK_8           | Code: 56
+Key: 9            | Constant: KeyEvent.VK_9           | Code: 57
+
+
+
+--- NUMPAD KEYS ---
+
+Key: Numpad 0     | Constant: KeyEvent.VK_NUMPAD0     | Code: 96
+Key: Numpad 1     | Constant: KeyEvent.VK_NUMPAD1     | Code: 97
+Key: Numpad 2     | Constant: KeyEvent.VK_NUMPAD2     | Code: 98
+Key: Numpad 3     | Constant: KeyEvent.VK_NUMPAD3     | Code: 99
+Key: Numpad 4     | Constant: KeyEvent.VK_NUMPAD4     | Code: 100
+Key: Numpad 5     | Constant: KeyEvent.VK_NUMPAD5     | Code: 101
+Key: Numpad 6     | Constant: KeyEvent.VK_NUMPAD6     | Code: 102
+Key: Numpad 7     | Constant: KeyEvent.VK_NUMPAD7     | Code: 103
+Key: Numpad 8     | Constant: KeyEvent.VK_NUMPAD8     | Code: 104
+Key: Numpad 9     | Constant: KeyEvent.VK_NUMPAD9     | Code: 105
+
+
+
+--- FUNCTION KEYS ---
+
+Key: F1           | Constant: KeyEvent.VK_F1          | Code: 112
+Key: F2           | Constant: KeyEvent.VK_F2          | Code: 113
+Key: F3           | Constant: KeyEvent.VK_F3          | Code: 114
+Key: F4           | Constant: KeyEvent.VK_F4          | Code: 115
+Key: F5           | Constant: KeyEvent.VK_F5          | Code: 116
+Key: F6           | Constant: KeyEvent.VK_F6          | Code: 117
+Key: F7           | Constant: KeyEvent.VK_F7          | Code: 118
+Key: F8           | Constant: KeyEvent.VK_F8          | Code: 119
+Key: F9           | Constant: KeyEvent.VK_F9          | Code: 120
+Key: F10          | Constant: KeyEvent.VK_F10         | Code: 121
+Key: F11          | Constant: KeyEvent.VK_F11         | Code: 122
+Key: F12          | Constant: KeyEvent.VK_F12         | Code: 123
