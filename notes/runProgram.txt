@@ -1,0 +1,5 @@
+to run program:
+cd "VisualStudioCode\In Other Words"
+javac -d out (Get-ChildItem -Recurse -Filter *.java -Path src).FullName
+Copy-Item -Recurse -Force src\assets out\
+java -cp out main.Main
