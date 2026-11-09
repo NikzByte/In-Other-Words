@@ -1,0 +1,2 @@
+to pull updates from draft branch:
+git pull origin draft
