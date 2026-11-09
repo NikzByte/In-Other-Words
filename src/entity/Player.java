@@ -14,16 +14,23 @@ public class Player extends Entity {
     GamePanel gp;
     KeyHandler keyH;
 
+    public final int screenX;
+    public final int screenY;
+
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
 
+        screenX = gp.screenWidth/2 - (gp.tileSize/2);
+        screenY = gp.screenHeight/2 - (gp.tileSize/2);
+
         setDefaultValues();
         getPlayerImage();
     }
+
     public void setDefaultValues() {
-        x = 100;
-        y = 100;
+        worldX = gp.tileSize * 10;
+        worldY = gp.tileSize * 10;
         speed = 4;
         direction = "down";
 
@@ -51,16 +58,16 @@ public class Player extends Entity {
         if (keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true) {
             if (keyH.upPressed == true) {
                     direction = "up";
-                    y -= speed; // UPPER LEFT CORNER: X=0, Y=0 (x values increases to the right; y values increases as they go down)
+                    worldY -= speed; // UPPER LEFT CORNER: X=0, Y=0 (x values increases to the right; y values increases as they go down)
                 } else if (keyH.downPressed == true) {
                     direction = "down";
-                    y += speed;
+                    worldY += speed;
                 } else if (keyH.leftPressed == true) {
                     direction = "left";
-                    x -= speed;
+                    worldX -= speed;
                 } else if (keyH.rightPressed == true) {
                     direction = "right";
-                    x += speed;
+                    worldX += speed;
                 }
 
                 spriteCounter++;
@@ -116,20 +123,22 @@ public class Player extends Entity {
                 }
                 break;
         }
-        g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
     }
 
     public BufferedImage formatTransparency(BufferedImage original) {
-    if (original == null) return null;
-    BufferedImage formatted = new BufferedImage(
-        original.getWidth(), 
-        original.getHeight(), 
-        BufferedImage.TYPE_INT_ARGB
-    );
-    Graphics2D g2 = formatted.createGraphics();
-    g2.drawImage(original, 0, 0, null);
-    g2.dispose();
-    return formatted;
+        if (original == null) return null;
+        BufferedImage formatted = new BufferedImage(
+            original.getWidth(), 
+            original.getHeight(), 
+            BufferedImage.TYPE_INT_ARGB
+        );
+
+        Graphics2D g2 = formatted.createGraphics();
+        g2.drawImage(original, 0, 0, null);
+        g2.dispose();
+        return formatted;
     
 }
 }
+

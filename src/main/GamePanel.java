@@ -8,20 +8,31 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import entity.Player;
+import tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable  {
+    
+    // SCREEN SETTINGS
     final int originalTileSize = 32; // 32x32 tile
     final int scale = 3;
 
-    public final int tileSize = originalTileSize * scale; // 48x48
-    final int maxScreenCol = 9;
-    final int maxScreenRow = 6;
-    final int screenWidth = tileSize * maxScreenCol; // 768px
-    final int screenHeight = tileSize * maxScreenRow; // 576px
+    public final int tileSize = originalTileSize * scale; // 96x96
+    public final int maxScreenCol = 10;
+    public final int maxScreenRow = 6;
+    public final int screenWidth = tileSize * maxScreenCol; // 864px
+    public final int screenHeight = tileSize * maxScreenRow; // 576px
 
+    // WORLD SETTINGS
+    public final int maxWorldCol = 20;
+    public final int maxWorldRow = 20;
+    public final int worldWidth = tileSize * maxWorldCol;
+    public final int worldHeight = tileSize * maxWorldRow;
+
+
+    TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler();
     Thread gameThread; // keeps the program running until stopped
-    Player player = new Player(this, keyH);
+    public Player player = new Player(this, keyH);
 
     // set player's default position
     int playerX = 100;
@@ -77,6 +88,9 @@ public class GamePanel extends JPanel implements Runnable  {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D)g;
+
+        // by layer
+        tileM.draw(g2);
         player.draw(g2);
 
         g2.dispose(); // dispose of this graphics context and release any system resources that it is using
