@@ -32,6 +32,7 @@ public class GamePanel extends JPanel implements Runnable  {
     TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler();
     Thread gameThread; // keeps the program running until stopped
+    public CollisionChecker cChecker = new CollisionChecker(this);
     public Player player = new Player(this, keyH);
 
     // set player's default position
