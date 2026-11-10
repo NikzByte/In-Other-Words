@@ -81,19 +81,35 @@ public class GamePanel extends JPanel implements Runnable  {
             }
         }
     }
+
     public void update() {
         player.update();
     }
-    public void paintComponent(Graphics g) { // Graphics - a class that has many functions to draw objects on the screen
-        
+
+@Override
+    public void paintComponent(Graphics g) {  
         super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
 
-        Graphics2D g2 = (Graphics2D)g;
+        // Start timer only when debug mode is enabled
+        long drawStart = 0;
+        if (keyH.checkDrawTime) {
+            drawStart = System.nanoTime();
+        }
 
-        // by layer
+        // Draw tiles and player
         tileM.draw(g2);
         player.draw(g2);
 
-        g2.dispose(); // dispose of this graphics context and release any system resources that it is using
+        // Calculate and render text ONLY when debug mode is enabled
+        if (keyH.checkDrawTime) {
+            long drawEnd = System.nanoTime();
+            long passed = drawEnd - drawStart;
+            g2.setColor(Color.white);
+            g2.drawString("Draw Time: " + passed, 10, 400);
+            System.out.println("Draw Time: " + passed);
+        }
+
+        g2.dispose(); 
     }
 }
