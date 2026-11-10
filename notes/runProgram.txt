@@ -1,5 +1,10 @@
 to run program:
-cd "VisualStudioCode\In Other Words"
+javac -d out (Get-ChildItem -Recurse -Filter *.java -Path src).FullName
+Copy-Item -Recurse -Force src\assets out\
+java -cp out main.Main
+
+if you already have out folder in your directory:
+if (Test-Path out) { Remove-Item -Recurse -Force out }
 javac -d out (Get-ChildItem -Recurse -Filter *.java -Path src).FullName
 Copy-Item -Recurse -Force src\assets out\
 java -cp out main.Main
