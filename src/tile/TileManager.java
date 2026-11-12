@@ -4,35 +4,37 @@ import main.GamePanel;
 import main.UtilityTool;
 
 import javax.imageio.ImageIO;
-
+import java.awt.Graphics2D;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.awt.Graphics2D;
-// import java.awt.image.BufferedImage;
 
 public class TileManager {
+
     GamePanel gp;
     public Tile[] tile;
-    public int mapTileNum[][];
+    public int mapTileNum[][][]; // [mapNum][mapCol][mapRow]
 
     public TileManager(GamePanel gp) {
-        
         this.gp = gp;
 
         tile = new Tile[10];
-        mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
+        mapTileNum = new int[gp.maxMap][gp.maxWorldCol][gp.maxWorldRow];
 
         getTileImage();
-        loadMap();
+        loadMap("/assets/maps/map01.txt", 0); // Pass file path and map index
+        loadMap("/assets/maps/courtyard.txt", 1);
+
+
     }
 
+    // TILE IMAGE LOADING & SCALING
     public void getTileImage() {
-            setup(0, "grassTile", false);
-            setup(1, "dirtPathTile", false);
-            setup(2, "waterTile", true);
-            setup(3, "treeTile", true);
+        setup(0, "grassTile", false);
+        setup(1, "dirtPathTile", false);
+        setup(2, "waterTile", true);
+        setup(3, "treeTile", true);
     }
 
     public void setup(int index, String imagePath, boolean collision) {
@@ -49,9 +51,10 @@ public class TileManager {
         }
     }
 
-    public void loadMap() {
+    // MAP PARSING
+    public void loadMap(String filePath, int map) {
         try {
-            InputStream is = getClass().getResourceAsStream("/assets/maps/map01.txt");
+            InputStream is = getClass().getResourceAsStream(filePath);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
             int col = 0;
@@ -61,12 +64,11 @@ public class TileManager {
                 String line = br.readLine();
                 if (line == null) break;
 
-                // Split line once per row into an array
                 String numbers[] = line.split(" ");
 
                 while (col < gp.maxWorldCol) {
                     int num = Integer.parseInt(numbers[col]);
-                    mapTileNum[col][row] = num;
+                    mapTileNum[map][col][row] = num;
                     col++;
                 }
 
@@ -82,26 +84,26 @@ public class TileManager {
         }
     }
 
+    // RENDERING
     public void draw(Graphics2D g2) {
         int worldCol = 0;
         int worldRow = 0;
 
-        // Loop across the entire world grid (maxWorldCol / maxWorldRow)
         while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
 
-            int tileNum = mapTileNum[worldCol][worldRow];
+            int tileNum = mapTileNum[gp.currentMap][worldCol][worldRow];
 
             int worldX = worldCol * gp.tileSize;
             int worldY = worldRow * gp.tileSize;
             int screenX = worldX - gp.player.worldX + gp.player.screenX;
             int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
-            // Optional render optimization: Only draw tiles within player screen boundaries
+            // Render optimization: Only draw tiles within player screen boundaries
             if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
                 worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
                 worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
                 worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
-                
+
                 g2.drawImage(tile[tileNum].image, screenX, screenY, null);
             }
 
