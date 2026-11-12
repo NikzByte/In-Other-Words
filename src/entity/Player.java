@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 
 import main.GamePanel;
 import main.KeyHandler;
+import main.UtilityTool;
 
 public class Player extends Entity {
 
@@ -35,25 +36,34 @@ public class Player extends Entity {
     public void setDefaultValues() {
         worldX = gp.tileSize * 10;
         worldY = gp.tileSize * 10;
-        speed = 4;
+        speed = 5;
         direction = "down";
     }
 
     public void getPlayerImage() {
-        try {
-            up1 = formatTransparency(ImageIO.read(getClass().getResourceAsStream("/assets/player/playerSprite01.png")));
-            up2 = formatTransparency(ImageIO.read(getClass().getResourceAsStream("/assets/player/playerSprite02.png")));
-            left1 = formatTransparency(ImageIO.read(getClass().getResourceAsStream("/assets/player/playerSprite03.png")));
-            left2 = formatTransparency(ImageIO.read(getClass().getResourceAsStream("/assets/player/playerSprite04.png")));
-            right1 = formatTransparency(ImageIO.read(getClass().getResourceAsStream("/assets/player/playerSprite05.png")));
-            right2 = formatTransparency(ImageIO.read(getClass().getResourceAsStream("/assets/player/playerSprite06.png")));
-            down1 = formatTransparency(ImageIO.read(getClass().getResourceAsStream("/assets/player/playerSprite07.png")));
-            down2 = formatTransparency(ImageIO.read(getClass().getResourceAsStream("/assets/player/playerSprite08.png")));
 
+        up1 = setup("playerSprite01");
+        up2 = setup("playerSprite02");
+        left1 = setup("playerSprite03");
+        left2 = setup("playerSprite04");
+        right1 = setup("playerSprite05");
+        right2 = setup("playerSprite06");
+        down1 = setup("playerSprite07");
+        down2 = setup("playerSprite08");
+    }
+
+    public BufferedImage setup(String imageName) {
+        
+        UtilityTool uTool = new UtilityTool();
+        BufferedImage image = null;
+
+        try {
+            image = ImageIO.read(getClass().getResourceAsStream("/assets/player/" + imageName + ".png"));
+            image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
         } catch (IOException e) {
             e.printStackTrace();
-
         }
+        return image;
     }
 
     public void update() {
@@ -148,7 +158,7 @@ public class Player extends Entity {
                 }
                 break;
         }
-        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, screenX, screenY, null);
     }
 
     public BufferedImage formatTransparency(BufferedImage original) {

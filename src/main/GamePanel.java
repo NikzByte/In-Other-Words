@@ -14,10 +14,10 @@ public class GamePanel extends JPanel implements Runnable  {
     
     // SCREEN SETTINGS
     final int originalTileSize = 32; // 32x32 tile
-    final int scale = 3;
+    final int scale = 4;
 
     public final int tileSize = originalTileSize * scale; // 96x96
-    public final int maxScreenCol = 10;
+    public final int maxScreenCol = 9;
     public final int maxScreenRow = 6;
     public final int screenWidth = tileSize * maxScreenCol; // 864px
     public final int screenHeight = tileSize * maxScreenRow; // 576px
@@ -101,7 +101,6 @@ public class GamePanel extends JPanel implements Runnable  {
         tileM.draw(g2);
         player.draw(g2);
 
-        // Calculate and render text ONLY when debug mode is enabled
         if (keyH.checkDrawTime) {
             long drawEnd = System.nanoTime();
             long passed = drawEnd - drawStart;
