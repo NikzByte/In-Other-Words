@@ -11,8 +11,8 @@ import java.awt.Graphics2D;
 
 public class TileManager {
     GamePanel gp;
-    Tile[] tile;
-    int mapTileNum[][];
+    public Tile[] tile;
+    public int mapTileNum[][];
 
     public TileManager(GamePanel gp) {
         
@@ -35,7 +35,12 @@ public class TileManager {
 
             tile[2] = new Tile();
             tile[2].image = ImageIO.read(getClass().getResourceAsStream("/assets/tiles/temp/waterTile.png"));
-        
+            tile[2].collision = true;
+
+            tile[3] = new Tile();
+            tile[3].image = ImageIO.read(getClass().getResourceAsStream("/assets/tiles/temp/treeTile.png"));
+            tile[3].collision = true;   
+
         } catch (IOException e) {
             e.printStackTrace();
         }
