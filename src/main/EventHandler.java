@@ -10,22 +10,31 @@ public class EventHandler {
     }
 
     public void checkEvent() {
-        // Check if player is currently standing on ANY teleport tile
-        boolean onMap0Exit = isOnTile(0, 19, 7);
-        boolean onMap1Exit = isOnTile(1, 0, 7);
+        // Map 0 (map01) exit tile
+        boolean onMap0RightExit = isOnTile(0, 19, 7);
 
-        // Only re-enable teleporting once the player has completely left both exit tiles
-        if (!onMap0Exit && !onMap1Exit) {
+        // Map 1 (courtyard) right path end (col 19, rows 9-10)
+        boolean onCourtyardRightExit = isOnTile(1, 19, 9) || isOnTile(1, 19, 10);
+
+        // Map 1 (courtyard) bottom path end (row 15, cols 7-9)
+        boolean onCourtyardBottomExit = isOnTile(1, 7, 15) || isOnTile(1, 8, 15) || isOnTile(1, 9, 15);
+
+        // Re-enable teleporting once the player leaves all exit tiles
+        if (!onMap0RightExit && !onCourtyardRightExit && !onCourtyardBottomExit) {
             canTouchEvent = true;
         }
 
         if (canTouchEvent) {
-            // Map 0 (map01) right dirt path -> spawns 1 tile inward on Map 1 (courtyard)
-            if (onMap0Exit && gp.player.direction.equals("right")) {
-                teleport(1, 1, 7);
+            // Map 0 (map01) right path -> Courtyard right path (spawns 1 tile inward at col 18, row 9)
+            if (onMap0RightExit && gp.player.direction.equals("right")) {
+                teleport(1, 18, 9);
             }
-            // Map 1 (courtyard) left dirt path -> spawns 1 tile inward on Map 0 (map01)
-            else if (onMap1Exit && gp.player.direction.equals("left")) {
+            // Courtyard right path -> Map 0 (spawns 1 tile inward at col 18, row 7)
+            else if (onCourtyardRightExit && gp.player.direction.equals("right")) {
+                teleport(0, 18, 7);
+            }
+            // Courtyard bottom path -> Map 0 (spawns at col 18, row 7)
+            else if (onCourtyardBottomExit && gp.player.direction.equals("down")) {
                 teleport(0, 18, 7);
             }
         }
