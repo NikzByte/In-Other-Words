@@ -19,7 +19,7 @@ public class TileManager {
     public TileManager(GamePanel gp) {
         this.gp = gp;
 
-        tile = new Tile[10];
+        tile = new Tile[50];
         mapTileNum = new int[gp.maxMap][gp.maxWorldCol][gp.maxWorldRow];
 
         getTileImage();
@@ -29,13 +29,45 @@ public class TileManager {
 
     }
 
-    // TILE IMAGE LOADING & SCALING
     public void getTileImage() {
+        
+        // Original map01 tiles (0-3)
         setup(0, "grassTile", false);
         setup(1, "dirtPathTile", false);
         setup(2, "waterTile", true);
         setup(3, "treeTile", true);
+
+        // Courtyard tiles (10-37)
+        setup(10, "courtyardTile01", true);  // Tree
+        setup(11, "courtyardTile02", true);  // Roof left
+        setup(12, "courtyardTile03", true);  // Roof middle
+        setup(13, "courtyardTile04", false); // Concrete path
+        setup(14, "courtyardTile05", false); // Grass
+        setup(15, "courtyardTile06", true);  // Roof bottom-left
+        setup(16, "courtyardTile07", true);  // Roof bottom-middle
+        setup(17, "courtyardTile08", true);  // Wall left
+        setup(18, "courtyardTile09", true);  // Wall window
+        setup(19, "courtyardTile10", true);  // Wall window
+        setup(20, "courtyardTile11", true);  // Wall window
+        setup(21, "courtyardTile12", true);  // Wall window
+        setup(22, "courtyardTile13", true);  // Wall left
+        setup(23, "courtyardTile14", true);  // Wall window
+        setup(24, "courtyardTile15", true);  // Wall window
+        setup(25, "courtyardTile16", true);  // Wall window
+        setup(26, "courtyardTile17", true);  // Wall window
+        setup(27, "courtyardTile18", true);  // Wall bottom-left
+        setup(28, "courtyardTile19", true);  // Wall door left
+        setup(29, "courtyardTile20", true);  // Wall door right
+        setup(30, "courtyardTile21", true);  // Wall bottom
+        setup(31, "courtyardTile22", true);  // Wall bottom-right
+        setup(32, "courtyardTile23", true);  // Bulletin board bottom-left
+        setup(33, "courtyardTile24", true);  // Bulletin board bottom-right
+        setup(34, "courtyardTile25", true);  // Bulletin board top-left
+        setup(35, "courtyardTile26", true);  // Bulletin board top-right
+        setup(36, "courtyardTile27", true);  // Bench left
+        setup(37, "courtyardTile28", true);  // Bench right
     }
+        
 
     public void setup(int index, String imagePath, boolean collision) {
         UtilityTool uTool = new UtilityTool();
