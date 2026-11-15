@@ -70,20 +70,23 @@ public class GamePanel extends JPanel {
     private long animationFrame;
     
     private static final int ORIGINAL_TILE_SIZE = 32;
-    private static final int TILE_SCALE = 3;
+    private static final int TILE_SCALE = 4;
 
     public final int tileSize = ORIGINAL_TILE_SIZE * TILE_SCALE;
-    public final int maxScreenCol = 10;
+    public final int maxScreenCol = 9;
     public final int maxScreenRow = 6;
     public final int screenWidth = tileSize * maxScreenCol;
     public final int screenHeight = tileSize * maxScreenRow;
 
     public final int maxWorldCol = 20;
     public final int maxWorldRow = 20;
+    public final int maxMap = 10;
+    public int currentMap = 0;
     final TileManager tileM = new TileManager(this);
-    private final KeyHandler keyH = new KeyHandler();
+    private final KeyHandler keyH = new KeyHandler(this);
     private javax.swing.Timer gameTimer;
     public CollisionChecker cChecker = new CollisionChecker(this);
+    public EventHandler eHandler = new EventHandler(this);
     public Player player = new Player(this, keyH);
 
     private static final int FPS = 60;
@@ -182,7 +185,7 @@ public class GamePanel extends JPanel {
         if (story.started() && !story.completed() && JOptionPane.showConfirmDialog(this,
                 "Start a new story? Unsaved progress will be replaced.", "New Game",
                 JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION) return;
-        story.start(); storyView.resetPresentation(); player.setDefaultValues(); clearMovement();
+        story.start(); storyView.resetPresentation(); player.setDefaultValues(); currentMap = 0; clearMovement();
         showAbout = false; screen = Screen.GAME; returnScreen = Screen.GAME; talking = true;
         refreshStoryVisibility();
     }
@@ -228,7 +231,10 @@ public class GamePanel extends JPanel {
     public void update() {
         animationFrame++;
         if(!notice.isEmpty()&&System.currentTimeMillis()>=noticeExpiresAt)notice="";
-        if (screen == Screen.GAME && !talking) player.update();
+        if (screen == Screen.GAME && !talking) {
+            player.update();
+            eHandler.checkEvent();
+        }
     }
     public void paintComponent(Graphics g) {
         
@@ -238,8 +244,14 @@ public class GamePanel extends JPanel {
 
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         if (screen == Screen.GAME) {
+            long drawStart = keyH.checkDrawTime ? System.nanoTime() : 0;
             tileM.draw(g2);
             player.draw(g2);
+            if (keyH.checkDrawTime) {
+                g2.setColor(Color.WHITE);
+                g2.setFont(new Font("SansSerif", Font.PLAIN, 14));
+                g2.drawString("Draw time: " + (System.nanoTime() - drawStart) / 1_000_000.0 + " ms", 14, 86);
+            }
             g2.scale(getWidth() / 960.0, getHeight() / 576.0);
             drawGameUi(g2);
         } else {
@@ -694,6 +706,9 @@ public class GamePanel extends JPanel {
     private void saveGame() {
         if (story == null || !story.started()) { showNotice("Start a story before saving."); return; }
         try {
+            progress.setStoryValue("map", Integer.toString(currentMap));
+            progress.setStoryValue("worldX", Integer.toString(player.worldX));
+            progress.setStoryValue("worldY", Integer.toString(player.worldY));
             files.saveProgress(progress);
             showNotice("Game saved.");
         } catch (IOException e) {
@@ -708,7 +723,12 @@ public class GamePanel extends JPanel {
             if (loaded.getStoryValue("node").isEmpty() && loaded.getStoryState().isEmpty()) {
                 showNotice("No storyline save found. Choose New Game to begin."); return;
             }
+            int[] location = readSavedLocation(loaded);
             story.load(loaded);
+            player.setDefaultValues();
+            currentMap = location[0];
+            player.worldX = location[1];
+            player.worldY = location[2];
             screen = Screen.GAME; returnScreen = Screen.GAME; talking = true;
             storyView.resetPresentation();
             clearMovement();
@@ -716,6 +736,25 @@ public class GamePanel extends JPanel {
             showNotice("Save loaded.");
         } catch (IOException | IllegalArgumentException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Could not load story", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    private int[] readSavedLocation(GameProgress saved) {
+        String mapValue = saved.getStoryValue("map");
+        String xValue = saved.getStoryValue("worldX");
+        String yValue = saved.getStoryValue("worldY");
+        if (mapValue.isEmpty() && xValue.isEmpty() && yValue.isEmpty())
+            return new int[]{0, tileSize * 10, tileSize * 10};
+        try {
+            int map = Integer.parseInt(mapValue);
+            int x = Integer.parseInt(xValue);
+            int y = Integer.parseInt(yValue);
+            if (map < 0 || map > 1 || x < 0 || x >= maxWorldCol * tileSize
+                    || y < 0 || y >= maxWorldRow * tileSize)
+                throw new NumberFormatException("Out of bounds");
+            return new int[]{map, x, y};
+        } catch (NumberFormatException error) {
+            throw new IllegalArgumentException("The saved map position is invalid.", error);
         }
     }
 }
