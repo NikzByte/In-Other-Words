@@ -13,21 +13,23 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-import javax.swing.JFileChooser;
 import javax.swing.JPanel;
+import javax.swing.JOptionPane;
 
 import data.FileManager;
 import data.GameProgress;
 import data.VocabularyEntry;
 import entity.Player;
 import tile.TileManager;
+import story.StoryManager;
+import story.StoryScript;
+import story.StoryView;
 
-public class GamePanel extends JPanel implements Runnable {
+public class GamePanel extends JPanel {
+    private static final long serialVersionUID = 1L;
 
     private enum Screen { TITLE, GAME, DICTIONARY, SETTINGS, SAVES }
     private Screen screen = Screen.TITLE;
@@ -36,11 +38,18 @@ public class GamePanel extends JPanel implements Runnable {
     private final Color cream = new Color(0xF6, 0xE9, 0xC7);
     private final Color pink = new Color(0xFF, 0xB2, 0xC2);
     private final Color raspberryPlum = new Color(0xBD, 0x2D, 0x87);
-    private final Color babyBlueIce = new Color(0x9A, 0xC4, 0xF8);
     private final Color softYellow = new Color(0xF2, 0xDE, 0xA5);
     private final GameProgress progress = new GameProgress();
-    private final FileManager files = new FileManager(progress);
+    private final FileManager files;
+    private StoryManager story;
+    private StoryView storyView;
+    private int dictionaryPage;
+    private String selectedWord = "";
+    private static final int WORDS_PER_PAGE = 5;
+    private static final String[] LANGUAGE_FILTERS = {"All", "Cebuano", "Ilokano", "Central Bikol"};
+    private static final int[] FILTER_WIDTHS = {74, 112, 112, 138};
     private boolean talking;
+    private boolean returnTalking;
     private boolean showAbout;
     private String notice = "";
     private long noticeExpiresAt;
@@ -56,13 +65,9 @@ public class GamePanel extends JPanel implements Runnable {
     private boolean fullscreen;
     private boolean skipAfterChoices;
     private boolean muteAll;
-    private String typedReply = "";
-    private boolean hideOverworld;
-    private BufferedImage dialogueBackground;
     private int pointerX = -1;
     private int pointerY = -1;
     private long animationFrame;
-    private double displayedAffection;
     
     private static final int ORIGINAL_TILE_SIZE = 32;
     private static final int TILE_SCALE = 3;
@@ -77,22 +82,36 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxWorldRow = 20;
     final TileManager tileM = new TileManager(this);
     private final KeyHandler keyH = new KeyHandler();
-    private Thread gameThread;
+    private javax.swing.Timer gameTimer;
     public CollisionChecker cChecker = new CollisionChecker(this);
     public Player player = new Player(this, keyH);
 
     private static final int FPS = 60;
 
-    public GamePanel() {
+    public GamePanel() { this(java.nio.file.Path.of("saves")); }
+
+    public GamePanel(java.nio.file.Path saveDirectory) {
+        files = new FileManager(saveDirectory, progress);
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(cream);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+        this.setLayout(null);
         try {
-            vocabulary = files.loadVocabulary("vocabulary.tsv");
-        } catch (IOException ignored) {
-            // The dictionary can still show words learned during play.
+            story = new StoryManager(StoryScript.load(), progress);
+            storyView = new StoryView(story, progress, this::handleStoryAction);
+            storyView.setVisible(false);
+            add(storyView);
+            java.util.LinkedHashMap<String, VocabularyEntry> entries = new java.util.LinkedHashMap<>();
+            for (StoryScript.Word word : story.script().words()) {
+                entries.putIfAbsent(word.text(), new VocabularyEntry(word.text(), word.meaning(), word.dialect(), word.review()));
+            }
+            vocabulary = List.copyOf(entries.values());
+        } catch (IOException error) {
+            notice = "The storyline could not be loaded. Please check the story resource files.";
+            noticeExpiresAt = Long.MAX_VALUE;
+            error.printStackTrace();
         }
         addMouseListener(new MouseAdapter() {
             @Override
@@ -111,13 +130,12 @@ public class GamePanel extends JPanel implements Runnable {
         addKeyListener(new KeyAdapter() {
             @Override public void keyPressed(KeyEvent e) {
                 int code=e.getKeyCode();
-                if(code==KeyEvent.VK_ESCAPE&&screen!=Screen.TITLE){if(screen==Screen.GAME&&talking)talking=false;else screen=returnScreen;}
-                else if(code==KeyEvent.VK_ENTER&&screen==Screen.TITLE)screen=Screen.GAME;
-                else if(code==KeyEvent.VK_E&&screen==Screen.GAME&&!talking)talking=true;
+                if(code==KeyEvent.VK_ESCAPE&&screen!=Screen.TITLE){if(screen==Screen.GAME&&talking)talking=false;else goBack();}
+                else if(code==KeyEvent.VK_ENTER&&screen==Screen.TITLE)startNewStory();
+                else if(code==KeyEvent.VK_E&&screen==Screen.GAME&&!talking)resumeStory();
                 else if(e.isControlDown()&&code==KeyEvent.VK_S)saveGame();
                 else if(e.isControlDown()&&code==KeyEvent.VK_L)loadGame();
-                else if(talking&&progress.getCurrentStage()<=2&&code>=KeyEvent.VK_1&&code<=KeyEvent.VK_3)submitDialogueChoice(code-KeyEvent.VK_1);
-                else if(talking&&progress.getCurrentStage()>=3&&code==KeyEvent.VK_ENTER)submitTypedReply();
+                refreshStoryVisibility();
                 repaint();
             }
             @Override public void keyTyped(KeyEvent e) {
@@ -125,68 +143,107 @@ public class GamePanel extends JPanel implements Runnable {
                     char c=e.getKeyChar();
                     if (c=='\b' && !searchText.isEmpty()) searchText=searchText.substring(0,searchText.length()-1);
                     else if (!Character.isISOControl(c) && searchText.length()<40) searchText+=c;
-                    repaint();
-                } else if (screen == Screen.GAME && talking && progress.getCurrentStage() >= 3) {
-                    char c=e.getKeyChar();
-                    if(c=='\b'&&!typedReply.isEmpty())typedReply=typedReply.substring(0,typedReply.length()-1);
-                    else if(!Character.isISOControl(c)&&typedReply.length()<90)typedReply+=c;
+                    dictionaryPage = 0;
                     repaint();
                 }
             }
         });
     }
 
+    /** Keep simulation and Swing input on the same event thread. */
     public void startGameThread() {
-        gameThread = new Thread(this);
-        gameThread.start();
+        if (gameTimer == null) gameTimer = new javax.swing.Timer(1000 / FPS, e -> { update(); repaint(); });
+        gameTimer.start();
     }
 
-    @Override 
-    public void run() {
+    @Override public void removeNotify() {
+        if (gameTimer != null) gameTimer.stop();
+        super.removeNotify();
+    }
 
-        double drawInterval = 1000000000/FPS;
-        double nextDrawTime = System.nanoTime() + drawInterval;
+    private void clearMovement() {
+        keyH.upPressed = keyH.downPressed = keyH.leftPressed = keyH.rightPressed = false;
+    }
 
-        while(gameThread != null) {
-            update();
-            repaint();
-            
-            try {
-            double remainingTime = nextDrawTime - System.nanoTime();
-            remainingTime = remainingTime/1000000;
-            
+    @Override public void doLayout() {
+        if (storyView != null) storyView.setBounds(0, 0, getWidth(), getHeight());
+    }
 
-            if (remainingTime < 0) {
-                remainingTime = 0;
-            }
-            Thread.sleep((long)remainingTime);
+    private void refreshStoryVisibility() {
+        if (storyView == null) return;
+        storyView.setVisible(screen == Screen.GAME && talking && story.started());
+        storyView.setHintsEnabled(showHints);
+        storyView.refresh();
+        if (!storyView.isVisible()) requestFocusInWindow();
+    }
 
-            nextDrawTime += drawInterval;
+    private void startNewStory() {
+        if (story == null) { showNotice("The storyline is unavailable."); return; }
+        if (story.started() && !story.completed() && JOptionPane.showConfirmDialog(this,
+                "Start a new story? Unsaved progress will be replaced.", "New Game",
+                JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION) return;
+        story.start(); storyView.resetPresentation(); player.setDefaultValues(); clearMovement();
+        showAbout = false; screen = Screen.GAME; returnScreen = Screen.GAME; talking = true;
+        refreshStoryVisibility();
+    }
 
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+    private void resumeStory() {
+        if (story == null || !story.started()) { startNewStory(); return; }
+        screen = Screen.GAME; talking = true;
+        keyH.upPressed = keyH.downPressed = keyH.leftPressed = keyH.rightPressed = false;
+        refreshStoryVisibility();
+    }
+
+    private void handleStoryAction(String action) {
+        switch (action) {
+            case "Save" -> saveGame();
+            case "Load" -> loadGame();
+            case "Words" -> { dictionaryPage = 0; openScreen(Screen.DICTIONARY); }
+            case "Options" -> openScreen(Screen.SETTINGS);
+            case "Map" -> { talking = false; screen = Screen.GAME; clearMovement(); }
+            case "Menu" -> { talking = false; screen = Screen.TITLE; clearMovement(); }
+            case "Journal" -> openStoryJournal();
+            case "Hint" -> JOptionPane.showMessageDialog(this, story.hint(), "Language hint", JOptionPane.INFORMATION_MESSAGE);
+            default -> { }
+        }
+        refreshStoryVisibility(); repaint();
+    }
+
+    private void openStoryJournal() {
+        if (story == null || !story.started()) { showNotice("Start the story to open your journal."); return; }
+        String partner = progress.getSelectedPartner();
+        String message = "Current scene: " + story.scene().title() + "\nChapter " + progress.getCurrentStage()
+                + "\n" + (partner.isEmpty() ? "Meet your clubmates and choose a partner in Chapter 2."
+                : "Project partner: " + partner + "\nOptional: Learn the language with " + partner)
+                + "\nLearned vocabulary: " + progress.getLearnedWords().size()
+                + "\n\nStudy Breaks use the questions written in your group's story.";
+        int selected = JOptionPane.showOptionDialog(this, message, "Story journal", JOptionPane.DEFAULT_OPTION,
+                JOptionPane.PLAIN_MESSAGE, null, new String[]{"Study Break", "Learn with partner", "Close"}, "Close");
+        if (selected == 0 || selected == 1) {
+            try { story.startPractice(selected == 1); screen = Screen.GAME; talking = true; }
+            catch (IllegalStateException error) { showNotice(error.getMessage()); }
         }
     }
+
     public void update() {
         animationFrame++;
         if(!notice.isEmpty()&&System.currentTimeMillis()>=noticeExpiresAt)notice="";
-        displayedAffection+=(progress.getAffectionScore()-displayedAffection)*0.12;
-        if(Math.abs(progress.getAffectionScore()-displayedAffection)<0.02)displayedAffection=progress.getAffectionScore();
         if (screen == Screen.GAME && !talking) player.update();
     }
     public void paintComponent(Graphics g) {
         
         super.paintComponent(g);
 
-        Graphics2D g2 = (Graphics2D)g;
+        Graphics2D g2 = (Graphics2D)g.create();
 
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         if (screen == Screen.GAME) {
             tileM.draw(g2);
             player.draw(g2);
+            g2.scale(getWidth() / 960.0, getHeight() / 576.0);
             drawGameUi(g2);
         } else {
+            g2.scale(getWidth() / 960.0, getHeight() / 576.0);
             g2.setColor(cream); g2.fillRect(0, 0, getWidth(), getHeight());
             switch (screen) {
                 case TITLE -> drawTitle(g2);
@@ -196,20 +253,25 @@ public class GamePanel extends JPanel implements Runnable {
                 default -> { }
             }
         }
-        drawNotice(g2);
 
         g2.dispose();
     }
 
+    @Override protected void paintChildren(Graphics g) {
+        super.paintChildren(g);
+        Graphics2D overlay = (Graphics2D) g.create();
+        drawNotice(overlay);
+        overlay.dispose();
+    }
+
     private void drawTitle(Graphics2D g) {
-        int w=getWidth(),h=getHeight();double sx=w/960.0,sy=h/576.0;
-        Graphics2D ui=(Graphics2D)g.create();ui.scale(sx,sy);ui.setColor(cream);ui.fillRect(0,0,960,576);
-        panel(ui,58,38,525,162,pink,20);
-        ui.setColor(ink);ui.setFont(new Font("SansSerif",Font.BOLD,48));ui.drawString("In Other Words",73,108);
+        Graphics2D ui=(Graphics2D)g.create();ui.setColor(cream);ui.fillRect(0,0,960,576);
+        panel(ui,58,38,340,162,pink,20);
+        ui.setColor(ink);ui.setFont(new Font("SansSerif",Font.BOLD,38));ui.drawString("In Other Words",73,108);
         ui.setColor(raspberryPlum);ui.setFont(new Font("SansSerif",Font.BOLD,31));ui.drawString("Mahal Kita",74,151);
         ui.setColor(ink);ui.setFont(new Font("SansSerif",Font.PLAIN,17));ui.drawString("A language-learning story",74,181);
-        int heartSize=20+(int)(2*Math.sin(animationFrame/8.0));ui.setColor(raspberryPlum);ui.setFont(new Font("SansSerif",Font.PLAIN,heartSize));ui.drawString("♥",545,75);
-        String[] labels={"Start","Load","Dictionary","Settings","About","Quit"};
+        int heartSize=20+(int)(2*Math.sin(animationFrame/8.0));ui.setColor(raspberryPlum);ui.setFont(new Font("SansSerif",Font.PLAIN,heartSize));ui.drawString("♥",365,75);
+        String[] labels={"New Game","Load","Dictionary","Settings","About","Quit"};
         for(int i=0;i<labels.length;i++)button(ui,78,214+i*50,261,42,labels[i],i==0?pink:(i<4?softYellow:cream));
         dashedPanel(ui,432,38,500,468,cream,20);
         if(showAbout){
@@ -227,99 +289,24 @@ public class GamePanel extends JPanel implements Runnable {
             drawCentered(ui, "shape the story you share.", 682, 314);
             ui.setFont(new Font("SansSerif",Font.PLAIN,16));drawCentered(ui,"Bisaya  •  Ilokano  •  Bicolano",682,361);
         }
+        if (story != null && story.started() && !story.completed())
+            button(ui,560,430,244,42,"Continue story",pink);
+        ui.setFont(new Font("SansSerif",Font.PLAIN,14));
+        drawCentered(ui,"Every language has a story. Sometimes, finding the right words is where yours begins.",480,551);
         ui.dispose();
     }
 
     private void drawGameUi(Graphics2D g) {
-        int w=getWidth(), h=getHeight();
+        int w=960, h=576;
         panel(g, 14, 12, 236, 54, cream, 12);
         g.setColor(ink); g.setFont(new Font("SansSerif",Font.BOLD,17)); g.drawString("Campus",28,35);
         g.setFont(new Font("SansSerif",Font.PLAIN,14)); g.drawString("Chapter "+progress.getCurrentStage()+"  •  Affection "+progress.getAffectionScore(),28,55);
         if(!talking) panel(g, 14, h-66, w-28, 54, cream, 12);
-        if(talking){drawDialogue(g,w,h);return;}
+        if(talking) return;
         String[] labels={"Save","Load","Words","Journal","Options","Talk"};
         int x=24; int[] widths={92,92,106,112,112,100};
         for(int i=0;i<labels.length;i++){ button(g,x,h-57,widths[i],38,labels[i],labels[i].equals("Talk")?pink:cream); x+=widths[i]+8; }
         g.setColor(ink);g.setFont(new Font("SansSerif",Font.PLAIN,13));g.drawString("WASD move  •  E talk  •  Esc back",w-258,h-34);
-    }
-
-    private void drawDialogue(Graphics2D g,int w,int h) {
-        double sx=w/960.0, sy=h/576.0;
-        Graphics2D ui=(Graphics2D)g.create();ui.scale(sx,sy);
-        if(hideOverworld){
-            if(dialogueBackground!=null)ui.drawImage(dialogueBackground,0,0,960,576,null);
-            else{ui.setColor(cream);ui.fillRect(0,0,960,576);}
-        }
-
-        panel(ui,15,13,264,67,cream,18);
-        ui.setColor(ink);ui.setFont(new Font("SansSerif",Font.PLAIN,20));ui.drawString("Street by School",23,43);
-        ui.setColor(ink);ui.setFont(new Font("SansSerif",Font.PLAIN,16));ui.drawString("4:00 PM  |  Chapter "+progress.getCurrentStage(),23,66);
-
-        button(ui,287,20,102,40,hideOverworld?"Show map":"Hide map",cream);
-        button(ui,397,20,112,40,"Import BG",ink);
-        panel(ui,720,8,220,67,cream,18);
-        int affection=(int)Math.round(displayedAffection);
-        ui.setColor(ink);ui.setFont(new Font("SansSerif",Font.PLAIN,15));ui.drawString("Affection  "+(affection>0?"+":"")+affection,728,29);
-        panel(ui,736,45,188,16,cream,9);
-        int center=830, amount=Math.min(88,Math.abs(affection)*16);
-        ui.setColor(affection<0?babyBlueIce:pink);
-        ui.fillRoundRect(affection>=0?center:center-amount,49,amount,8,8,8);
-        ui.setColor(ink);ui.setStroke(new java.awt.BasicStroke(2));ui.drawLine(center,45,center,61);
-
-        dashedPanel(ui,40,91,340,337,cream,16);
-        ui.setColor(ink);ui.setFont(new Font("SansSerif",Font.PLAIN,18));
-        drawCentered(ui,"[CHARACTER SPRITE]",210,251);
-        panel(ui,24,435,225,48,pink,16);
-        ui.setColor(ink);ui.setFont(new Font("SansSerif",Font.BOLD,26));drawCentered(ui,"[NAME]",136,468);
-
-        String[] actions={"Save","Load","Words","Journal","Options","Quit"};
-        int[] ax={24,92,160,238,330,424}, aw={62,62,72,86,86,64};
-        for(int i=0;i<actions.length;i++)button(ui,ax[i],490,aw[i],42,actions[i],cream);
-
-        panel(ui,469,87,470,105,cream,20);
-        ui.setColor(ink);ui.setFont(new Font("SansSerif",Font.PLAIN,22));
-        ui.drawString("[Love interest speaks a line in their dialect,",483,128);
-        ui.drawString("with [new word]]",483,154);
-        ui.setColor(ink);ui.setFont(new Font("SansSerif",Font.PLAIN,15));
-        ui.drawString("Tap a highlighted word to add it to your Dictionary",483,176);
-        ui.setColor(cream);
-        int[] speechPointerX = {505, 524, 515};
-        int[] speechPointerY = {191, 191, 210};
-        ui.fillPolygon(speechPointerX, speechPointerY, 3);
-        ui.setColor(ink);
-        ui.setStroke(new java.awt.BasicStroke(3));
-        ui.drawLine(505, 191, 515, 210);
-        ui.drawLine(515, 210, 524, 191);
-
-        if(progress.getCurrentStage()<=2){
-            String[] choices={"[Choice 1]","[Choice 2]","[Choice 3]"};Color[] badges={softYellow,raspberryPlum,pink};
-            for (int i = 0; i < choices.length; i++) {
-                int y = 229 + i * 68;
-                boolean hovered = pointerX >= 518 && pointerX < 938
-                        && pointerY >= y && pointerY < y + 54;
-                int lift = hovered ? 2 : 0;
-                panel(ui, 518, y - lift, 420, 54, hovered ? pink : cream, 22);
-                ui.setColor(ink);
-                ui.setFont(new Font("SansSerif", Font.PLAIN, 22));
-                ui.drawString(choices[i], 530, y + 35 - lift);
-                ui.setColor(ink);
-                ui.fillOval(504, y - 5 - lift, 38, 38);
-                ui.setColor(badges[i]);
-                ui.fillOval(507, y - 2 - lift, 32, 32);
-                ui.setColor(ink);
-                ui.setFont(new Font("SansSerif", Font.BOLD, 17));
-                drawCentered(ui, Integer.toString(i + 1), 523, y + 22 - lift);
-            }
-        } else {
-            dashedPanel(ui,518,444,420,82,cream,16);
-            ui.setColor(ink);ui.setFont(new Font("SansSerif",Font.PLAIN,15));ui.drawString("Stages 3-4: typed reply replaces the choices",531,462);
-            panel(ui, 531, 472, 294, 42, cream, 10);
-            ui.setColor(ink);
-            ui.setFont(new Font("SansSerif", Font.PLAIN, 15));
-            ui.drawString(typedReply.isEmpty() ? "type your reply here..." : typedReply, 537, 499);
-            button(ui,836,468,91,46,"Send",pink);
-        }
-        ui.dispose();
     }
 
     private void dashedPanel(Graphics2D g, int x, int y, int width, int height, Color fill, int arc) {
@@ -338,85 +325,84 @@ public class GamePanel extends JPanel implements Runnable {
         g.drawString(text, centerX - metrics.stringWidth(text) / 2, baseline);
     }
 
+    private List<VocabularyEntry> filteredVocabulary() {
+        String query = searchText.toLowerCase(java.util.Locale.ROOT);
+        return vocabulary.stream()
+                .filter(entry -> story != null && story.knowsWord(entry.getWord()))
+                .filter(entry -> dictionaryFilter.equals("All") || entry.getDialect().equals(dictionaryFilter))
+                .filter(entry -> query.isBlank() || entry.getWord().toLowerCase(java.util.Locale.ROOT).contains(query)
+                        || entry.getMeaning().toLowerCase(java.util.Locale.ROOT).contains(query))
+                .toList();
+    }
+
+    private int dictionaryPages() { return Math.max(1, (filteredVocabulary().size() + WORDS_PER_PAGE - 1) / WORDS_PER_PAGE); }
+
     private void drawDictionary(Graphics2D g) {
-        int width = getWidth();
-        int height = getHeight();
-        pageFrame(g, "Dictionary", width, height);
-
-        int left = 198;
-        int contentWidth = width - left - 30;
-        int listWidth = Math.max(250, (int) (contentWidth * 0.57));
+        pageFrame(g, "Vocabulary Log", 960, 576);
+        int left = 198, listWidth = 420;
         drawDictionaryFilters(g, left);
-        drawDictionarySearch(g, left, listWidth);
-        int shown = drawVocabularyRows(g, left, listWidth);
-        if (shown == 0) {
-            g.setColor(ink);
-            g.setFont(new Font("SansSerif", Font.PLAIN, 15));
-            g.drawString("Words you learn during conversations will appear here.", left + 8, 220);
+        panel(g, left, 125, listWidth, 40, cream, 12);
+        g.setColor(ink); g.setFont(new Font("SansSerif", Font.PLAIN, 15));
+        String search = "Search: " + (searchText.isEmpty() ? "type a word or meaning" : searchText);
+        drawWrapped(g, search, left + 14, 151, listWidth - 28, 18, 1);
+        List<VocabularyEntry> entries = filteredVocabulary();
+        dictionaryPage = Math.min(dictionaryPage, dictionaryPages() - 1);
+        int start = dictionaryPage * WORDS_PER_PAGE;
+        if (entries.isEmpty()) {
+            g.setFont(new Font("SansSerif", Font.PLAIN, 17));
+            drawWrapped(g, story == null || story.knownWordCount() == 0
+                    ? "Your notebook is waiting for its first word."
+                    : "No words match this filter or search.", left + 10, 213, listWidth - 20, 24, 3);
         }
-
-        int detailX = left + listWidth + 18;
-        int detailWidth = width - detailX - 30;
-        int detailHeight = Math.min(250, height - 270);
-        panel(g, detailX, 180, detailWidth, detailHeight, cream, 14);
-        g.setColor(ink);
-        g.setFont(new Font("SansSerif", Font.BOLD, 18));
-        g.drawString("Your progress", detailX + 16, 210);
-        g.setFont(new Font("SansSerif", Font.PLAIN, 15));
-        g.drawString("Learned words: " + progress.getLearnedWords().size(), detailX + 16, 244);
+        for (int i = start; i < Math.min(entries.size(), start + WORDS_PER_PAGE); i++) {
+            VocabularyEntry entry = entries.get(i);
+            int y = 180 + (i - start) * 60;
+            panel(g, left, y, listWidth, 53, selectedWord.equals(entry.getWord()) ? pink : cream, 10);
+            g.setColor(ink); g.setFont(new Font("SansSerif", Font.BOLD, 16));
+            while (g.getFontMetrics().stringWidth(entry.getWord()) > listWidth - 24 && g.getFont().getSize() > 11)
+                g.setFont(g.getFont().deriveFont((float)g.getFont().getSize() - 1));
+            g.drawString(entry.getWord(), left + 12, y + 22);
+            g.setFont(new Font("SansSerif", Font.PLAIN, 13));
+            g.drawString(entry.getDialect() + "  /  " + (story.isLearnedWord(entry.getWord()) ? "Learned" : "Heard")
+                    + "  /  " + entry.getDifficulty(), left + 12, y + 43);
+        }
+        button(g, left, 503, 112, 36, "Previous", cream);
+        button(g, left + 124, 503, 112, 36, "Next", cream);
+        g.setColor(ink); g.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        g.drawString("Page " + (dictionaryPage + 1) + " / " + dictionaryPages(), left + 254, 528);
+        panel(g, 638, 180, 292, 298, cream, 14);
+        VocabularyEntry selected = entries.stream().filter(e -> e.getWord().equals(selectedWord)).findFirst()
+                .orElse(entries.isEmpty() ? null : entries.get(start));
+        g.setColor(ink); g.setFont(new Font("SansSerif", Font.BOLD, 18));
+        g.drawString(selected == null ? "Your progress" : "Word details", 652, 210);
+        if (selected != null) {
+            g.setFont(new Font("SansSerif", Font.BOLD, 17));
+            drawWrapped(g, selected.getWord(), 652, 242, 260, 22, 3);
+            g.setFont(new Font("SansSerif", Font.PLAIN, 16));
+            drawWrapped(g, selected.getMeaning(), 652, 316, 260, 22, 4);
+            g.setFont(new Font("SansSerif", Font.PLAIN, 13));
+            g.drawString(selected.getDialect() + " / " + selected.getDifficulty(), 652, 423);
+        }
+        g.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        g.drawString("Learned words: " + progress.getLearnedWords().size(), 652, 455);
     }
 
     private void drawDictionaryFilters(Graphics2D g, int left) {
-        String[] filters = {"All", "Bisaya", "Ilokano", "Bicolano"};
         int x = left;
-        for (String filter : filters) {
-            int width = filter.equals("All") ? 74 : 112;
-            Color fill = dictionaryFilter.equals(filter) ? softYellow : cream;
-            button(g, x, 76, width, 38, filter, fill);
-            x += width + 8;
+        for (int i = 0; i < LANGUAGE_FILTERS.length; i++) {
+            String filter = LANGUAGE_FILTERS[i];
+            button(g, x, 76, FILTER_WIDTHS[i], 38, filter, dictionaryFilter.equals(filter) ? softYellow : cream);
+            x += FILTER_WIDTHS[i] + 8;
         }
     }
 
-    private void drawDictionarySearch(Graphics2D g, int left, int listWidth) {
-        panel(g, left, 125, listWidth, 40, cream, 12);
-        g.setColor(ink);
-        g.setFont(new Font("SansSerif", Font.PLAIN, 15));
-        String value = searchText.isEmpty() ? "type a word (keyboard)" : searchText;
-        g.drawString("Search: " + value, left + 14, 151);
-    }
-
-    private int drawVocabularyRows(Graphics2D g, int left, int listWidth) {
-        int y = 180;
-        int shown = 0;
-        String query = searchText.toLowerCase();
-        for (VocabularyEntry entry : vocabulary) {
-            if (!dictionaryFilter.equals("All")
-                    && !entry.getDialect().equalsIgnoreCase(dictionaryFilter)) {
-                continue;
-            }
-            if (!query.isBlank() && !entry.getWord().toLowerCase().contains(query)
-                    && !entry.getMeaning().toLowerCase().contains(query)) {
-                continue;
-            }
-
-            panel(g, left, y, listWidth, 42, cream, 10);
-            g.setColor(ink);
-            g.setFont(new Font("SansSerif", Font.BOLD, 16));
-            g.drawString(entry.getWord(), left + 12, y + 27);
-            g.setFont(new Font("SansSerif", Font.PLAIN, 15));
-            String details = entry.getMeaning() + "  •  " + entry.getDialect();
-            g.drawString(details, left + Math.min(150, listWidth / 2), y + 27);
-            y += 49;
-            shown++;
-            if (shown == 6) {
-                break;
-            }
-        }
-        return shown;
+    private void drawWrapped(Graphics2D g, String text, int x, int y, int width, int spacing, int limit) {
+        List<String> lines = StoryView.wrap(text, g.getFontMetrics(), width);
+        for (int i = 0; i < Math.min(limit, lines.size()); i++) g.drawString(lines.get(i), x, y + i * spacing);
     }
 
     private void drawSettings(Graphics2D g) {
-        int w=getWidth(),h=getHeight();pageFrame(g,"Settings",w,h);
+        int w=960,h=576;pageFrame(g,"Settings",w,h);
         int left=198, right=w-24, gap=34, colW=(right-left-gap)/2, rightX=left+colW+gap;
         g.setColor(ink);g.setFont(new Font("SansSerif",Font.PLAIN,20));g.drawString("Display",left,112);g.drawString("Skip",rightX,112);
         button(g,left,124,Math.min(180,colW),38,(fullscreen?"✓":"□")+" Window",fullscreen?cream:softYellow);
@@ -445,23 +431,20 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void drawSaves(Graphics2D g) {
-        int w=getWidth(),h=getHeight();pageFrame(g,"Save / Load",w,h);
-        int contentLeft=198, contentRight=w-30, contentW=contentRight-contentLeft;
-        int controlX=(176+w)/2-105;
-        button(g,controlX,82,98,40,"Save",softYellow);button(g,controlX+113,82,98,40,"Load",cream);
-        int gap=12, cardW=(contentW-gap*2)/3;
-        for (int i = 0; i < 3; i++) {
-            int x = contentLeft + i * (cardW + gap);
-            panel(g, x, 150, cardW, h - 220, cream, 14);
-            g.setColor(ink);
-            g.setFont(new Font("SansSerif", Font.BOLD, 19));
-            g.drawString(i == 0 ? "Auto-save" : "Slot " + (i + 1), x + 14, 184);
-            g.setFont(new Font("SansSerif", Font.PLAIN, 15));
-            g.drawString("Chapter " + progress.getCurrentStage(), x + 14, 214);
-            g.drawString("Affection " + progress.getAffectionScore(), x + 14, 238);
-            button(g, x + 12, h - 112, cardW - 24, 40,
-                    i == 0 ? "Save here" : "Empty slot", i == 0 ? softYellow : cream);
-        }
+        pageFrame(g, "Save / Load", 960, 576);
+        panel(g, 216, 130, 690, 290, cream, 16);
+        g.setColor(ink); g.setFont(new Font("SansSerif", Font.BOLD, 24));
+        g.drawString("Your story", 240, 175);
+        g.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        if (story != null && story.started()) {
+            drawWrapped(g, "Current scene: " + story.scene().title(), 240, 218, 635, 25, 3);
+            g.drawString("Chapter " + progress.getCurrentStage() + " / Affection " + progress.getAffectionScore(), 240, 300);
+            g.drawString("Partner: " + (progress.getSelectedPartner().isEmpty() ? "Not chosen yet" : progress.getSelectedPartner()), 240, 332);
+        } else g.drawString("Start a new story or load your saved progress.", 240, 218);
+        g.setFont(new Font("SansSerif", Font.PLAIN, 15));
+        g.drawString("One save slot. Saving replaces your previous saved progress.", 240, 389);
+        button(g, 290, 450, 240, 44, "Save progress", softYellow);
+        button(g, 560, 450, 280, 44, "Load saved story", cream);
     }
 
     private void pageFrame(Graphics2D g, String title, int width, int height) {
@@ -542,31 +525,13 @@ public class GamePanel extends JPanel implements Runnable {
         g.setComposite(previousComposite);
     }
 
-    private void submitDialogueChoice(int choice) {
-        if (choice < 0 || choice > 2) {
-            return;
-        }
-        progress.setAffectionScore(progress.getAffectionScore() + (choice == 0 ? 1 : 0));
-        talking = false;
-        showNotice("Conversation choice recorded.");
-    }
-
-    private void submitTypedReply() {
-        if (typedReply.isBlank()) {
-            showNotice("Type a reply before sending.");
-            return;
-        }
-        progress.setAffectionScore(progress.getAffectionScore() + 1);
-        typedReply = "";
-        talking = false;
-        showNotice("Reply sent.");
-    }
-
     private void handleClick(int x, int y) {
-        int width = getWidth();
-        int height = getHeight();
+        x = x * 960 / Math.max(1, getWidth());
+        y = y * 576 / Math.max(1, getHeight());
+        int width = 960;
+        int height = 576;
 
-        if (screen != Screen.TITLE && isBackButton(x, y, width)) {
+        if (screen != Screen.TITLE && screen != Screen.GAME && isBackButton(x, y, width)) {
             goBack();
         } else if (screen == Screen.TITLE) {
             handleTitleClick(x, y, width, height);
@@ -576,6 +541,14 @@ public class GamePanel extends JPanel implements Runnable {
             handleSidebarClick(y);
         } else if (screen == Screen.DICTIONARY && y >= 76 && y < 116) {
             selectDictionaryFilter(x);
+            dictionaryPage = 0;
+        } else if (screen == Screen.DICTIONARY && y >= 503 && y <= 539) {
+            if (x >= 198 && x <= 310) dictionaryPage = Math.max(0, dictionaryPage - 1);
+            else if (x >= 322 && x <= 434) dictionaryPage = Math.min(dictionaryPages() - 1, dictionaryPage + 1);
+        } else if (screen == Screen.DICTIONARY && x >= 198 && x <= 618 && y >= 180 && y < 480) {
+            int index = dictionaryPage * WORDS_PER_PAGE + (y - 180) / 60;
+            List<VocabularyEntry> entries = filteredVocabulary();
+            if (index < entries.size()) selectedWord = entries.get(index).getWord();
         } else if (screen == Screen.SETTINGS) {
             handleSettingsClick(x, y, width);
         } else if (screen == Screen.SAVES) {
@@ -583,6 +556,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         requestFocusInWindow();
+        refreshStoryVisibility();
         repaint();
     }
 
@@ -593,16 +567,16 @@ public class GamePanel extends JPanel implements Runnable {
     private void handleTitleClick(int x, int y, int width, int height) {
         int uiX = x * 960 / Math.max(1, width);
         int uiY = y * 576 / Math.max(1, height);
+        if (uiX >= 560 && uiX <= 804 && uiY >= 430 && uiY <= 472
+                && story != null && story.started() && !story.completed()) { resumeStory(); return; }
         if (uiX < 78 || uiX > 339) {
             return;
         }
         if (uiY >= 214 && uiY < 256) {
-            showAbout = false;
-            screen = Screen.GAME;
+            startNewStory();
         } else if (uiY >= 264 && uiY < 306) {
             loadGame();
             showAbout = false;
-            screen = Screen.GAME;
         } else if (uiY >= 314 && uiY < 356) {
             openScreen(Screen.DICTIONARY);
         } else if (uiY >= 364 && uiY < 406) {
@@ -610,14 +584,17 @@ public class GamePanel extends JPanel implements Runnable {
         } else if (uiY >= 414 && uiY < 456) {
             showAbout = true;
         } else if (uiY >= 464 && uiY < 506) {
-            gameThread = null;
-            System.exit(0);
+            if (JOptionPane.showConfirmDialog(this, "Exit the game? Save first to keep your progress.",
+                    "Exit", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                if (gameTimer != null) gameTimer.stop();
+                java.awt.Window window = javax.swing.SwingUtilities.getWindowAncestor(this);
+                if (window != null) window.dispose();
+            }
         }
     }
 
     private void handleGameClick(int x, int y, int width, int height) {
         if (talking) {
-            handleDialogueClick(x * 960 / Math.max(1, width), y * 576 / Math.max(1, height));
             return;
         }
         if (y < height - 66) {
@@ -630,44 +607,11 @@ public class GamePanel extends JPanel implements Runnable {
         } else if (x < 335) {
             openScreen(Screen.DICTIONARY);
         } else if (x < 455) {
-            showNotice("Your story journal is ready.");
+            openStoryJournal();
         } else if (x < 575) {
             openScreen(Screen.SETTINGS);
-        } else {
-            talking = true;
-        }
-    }
-
-    private void handleDialogueClick(int x, int y) {
-        if (y >= 20 && y <= 64 && x >= 287 && x < 389) {
-            hideOverworld = !hideOverworld;
-        } else if (y >= 20 && y <= 64 && x >= 397 && x < 509) {
-            importDialogueBackground();
-        } else if (y >= 490 && y <= 536) {
-            handleDialogueAction(x);
-        } else if (progress.getCurrentStage() <= 2 && x >= 500 && y >= 224 && y < 418) {
-            submitDialogueChoice((y - 224) / 68);
-        } else if (progress.getCurrentStage() >= 3 && x >= 830 && y >= 462 && y < 520) {
-            submitTypedReply();
-        }
-    }
-
-    private void handleDialogueAction(int x) {
-        if (x >= 24 && x < 88) {
-            saveGame();
-        } else if (x >= 92 && x < 156) {
-            loadGame();
-        } else if (x >= 160 && x < 234) {
-            talking = false;
-            openScreen(Screen.DICTIONARY);
-        } else if (x >= 238 && x < 326) {
-            showNotice("Your story journal is ready.");
-        } else if (x >= 330 && x < 420) {
-            talking = false;
-            openScreen(Screen.SETTINGS);
-        } else if (x >= 424 && x < 490) {
-            talking = false;
-            screen = Screen.TITLE;
+        } else if (x <= 678) {
+            resumeStory();
         }
     }
 
@@ -680,21 +624,17 @@ public class GamePanel extends JPanel implements Runnable {
             default -> screen;
         };
         if (item == 3) {
-            showNotice("Help: move with WASD and choose Talk to start a conversation.");
+            JOptionPane.showMessageDialog(this, "Story: Enter/Space continues, 1-3 chooses an answer.\nType replies and press Enter to send.\nEsc opens the map; E resumes the story.\nCtrl+S saves; Ctrl+L loads. Words opens your vocabulary log.", "Controls", JOptionPane.INFORMATION_MESSAGE);
         } else {
             openScreen(destination);
         }
     }
 
     private void selectDictionaryFilter(int x) {
-        if (x < 110) {
-            dictionaryFilter = "All";
-        } else if (x < 235) {
-            dictionaryFilter = "Bisaya";
-        } else if (x < 360) {
-            dictionaryFilter = "Ilokano";
-        } else {
-            dictionaryFilter = "Bicolano";
+        int left = 198;
+        for (int i = 0; i < LANGUAGE_FILTERS.length; i++) {
+            if (x >= left && x <= left + FILTER_WIDTHS[i]) { dictionaryFilter = LANGUAGE_FILTERS[i]; return; }
+            left += FILTER_WIDTHS[i] + 8;
         }
     }
 
@@ -728,32 +668,31 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void handleSaveClick(int x, int y, int width, int height) {
-        if (y >= 80 && y < 130) {
-            if (x < width / 2) saveGame();
-            else loadGame();
-        } else if (y >= height - 125) {
-            if (x < width / 3) saveGame();
-            else loadGame();
+        if (y >= 450 && y <= 494) {
+            if (x >= 290 && x <= 530) saveGame();
+            else if (x >= 560 && x <= 840) loadGame();
         }
     }
 
     private void openScreen(Screen destination) {
         if (destination != screen) {
-            returnScreen = screen;
+            if (screen == Screen.TITLE || screen == Screen.GAME) {
+                returnScreen = screen;
+                returnTalking = talking;
+            }
             screen = destination;
+            clearMovement();
         }
     }
 
     private void goBack() {
-        Screen destination = returnScreen;
-        if (destination == screen) {
-            destination = Screen.GAME;
-        }
-        screen = destination;
-        talking = false;
+        if (screen == Screen.GAME) { talking = false; screen = Screen.TITLE; }
+        else { screen = returnScreen; talking = returnTalking; }
+        clearMovement();
     }
 
     private void saveGame() {
+        if (story == null || !story.started()) { showNotice("Start a story before saving."); return; }
         try {
             files.saveProgress(progress);
             showNotice("Game saved.");
@@ -762,39 +701,21 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    private void importDialogueBackground() {
-        JFileChooser chooser = new JFileChooser();
-        chooser.setDialogTitle("Choose a dialogue background image");
-        if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
-            return;
-        }
-        try {
-            BufferedImage selected = ImageIO.read(chooser.getSelectedFile());
-            if (selected == null) {
-                showNotice("That file is not a supported image.");
-                return;
-            }
-            dialogueBackground = selected;
-            hideOverworld = true;
-            showNotice("Dialogue background loaded.");
-        } catch (IOException e) {
-            showNotice("Could not load that image.");
-        }
-    }
-
     private void loadGame() {
+        if (story == null) { showNotice("The storyline is unavailable."); return; }
         try {
             GameProgress loaded = files.loadProgress();
-            progress.resetProgress();
-            progress.setCurrentStage(loaded.getCurrentStage());
-            progress.setSelectedPartner(loaded.getSelectedPartner());
-            progress.setAffectionScore(loaded.getAffectionScore());
-            for (String word : loaded.getLearnedWords()) {
-                progress.addLearnedWord(word);
+            if (loaded.getStoryValue("node").isEmpty() && loaded.getStoryState().isEmpty()) {
+                showNotice("No storyline save found. Choose New Game to begin."); return;
             }
+            story.load(loaded);
+            screen = Screen.GAME; returnScreen = Screen.GAME; talking = true;
+            storyView.resetPresentation();
+            clearMovement();
+            refreshStoryVisibility();
             showNotice("Save loaded.");
-        } catch (IOException e) {
-            showNotice("No save found yet.");
+        } catch (IOException | IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Could not load story", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }

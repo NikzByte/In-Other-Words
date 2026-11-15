@@ -1,6 +1,8 @@
 package data;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /** Holds progress for one playthrough. FileManager handles persistence. */
 public class GameProgress {
@@ -9,6 +11,29 @@ public class GameProgress {
     private String selectedPartner = "";
     private int affectionScore = 0;
     private final ArrayList<String> learnedWords = new ArrayList<>();
+    private final Map<String, String> storyState = new LinkedHashMap<>();
+
+    public String getStoryValue(String key) { return storyState.getOrDefault(key, ""); }
+
+    public void setStoryValue(String key, String value) {
+        if (key == null || key.isBlank() || value == null)
+            throw new IllegalArgumentException("Story state needs a key and a value.");
+        storyState.put(key, value);
+    }
+
+    public Map<String, String> getStoryState() { return new LinkedHashMap<>(storyState); }
+    public void removeStoryValue(String key) { storyState.remove(key); }
+
+    /** Copy into the shared instance so UI, scoring and file handling stay in sync. */
+    public void copyFrom(GameProgress source) {
+        if (source == this) return;
+        resetProgress();
+        setCurrentStage(source.getCurrentStage());
+        setSelectedPartner(source.getSelectedPartner());
+        setAffectionScore(source.getAffectionScore());
+        for (String word : source.getLearnedWords()) addLearnedWord(word);
+        storyState.putAll(source.getStoryState());
+    }
 
     public int getCurrentStage() {
         return currentStage;
@@ -65,5 +90,6 @@ public class GameProgress {
         selectedPartner = "";
         affectionScore = 0;
         learnedWords.clear();
+        storyState.clear();
     }
 }

@@ -103,6 +103,9 @@ public class FileManager {
         properties.setProperty("currentStage", Integer.toString(progress.getCurrentStage()));
         properties.setProperty("selectedPartner", progress.getSelectedPartner());
         properties.setProperty("affectionScore", Integer.toString(progress.getAffectionScore()));
+        for (var entry : progress.getStoryState().entrySet()) {
+            properties.setProperty("story." + entry.getKey(), entry.getValue());
+        }
         ArrayList<String> learnedWords = progress.getLearnedWords();
         properties.setProperty("learnedWordCount", Integer.toString(learnedWords.size()));
         for (int i = 0; i < learnedWords.size(); i++) {
@@ -135,6 +138,9 @@ public class FileManager {
             }
             for (int i = 0; i < wordCount; i++) {
                 loadedProgress.addLearnedWord(required(properties, "learnedWord." + i));
+            }
+            for (String key : properties.stringPropertyNames()) {
+                if (key.startsWith("story.")) loadedProgress.setStoryValue(key.substring(6), properties.getProperty(key));
             }
         } catch (IllegalArgumentException e) {
             throw new IOException("Invalid progress file " + saveFile + ": " + e.getMessage(), e);

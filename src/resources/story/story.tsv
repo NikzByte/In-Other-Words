@@ -1,0 +1,1217 @@
+# In Other Words — authored story graph v1
+# Source: https://docs.google.com/document/d/1y2bMMOxSLxpfkcUlGqj0GsUtZiGvvX8i_xA0FaLhW_w/edit
+# Snapshot: 2026-11-13. UTF-8 story data read directly by Java. Reviewed variants remain excluded.
+SCENE	M01	First Words	Admissions office, morning. A ceiling fan ticks. An application form waits on the counter.	1
+SCENE	M02	Honorifics	Building A, Room 401, but soon will be known as home. A flight of stairs, then a door already open. Three overlapping voices leak into the hallway.	1
+SCENE	S1-01	Cognates and Near-Cognates	Room 401, after the orientation and casual discussions. The chairs in the classroom are formed in a circle, although four are only used. A whiteboard is set in the middle of the group.	1
+SCENE	S1-02A	Gratitude	Room 401, Jessa sits in front of you while the other two discuss amongst themselves in the corner.	1
+SCENE	S1-02B	Respect	Room 401. Inna sits a little apart, notebook squared to the desk edge.	1
+SCENE	S1-03	Greetings	Room 401. Nikka sits across from you, one foot on a chair.	1
+SCENE	S1-04	Dictionary	Library. Late afternoon. A quiet corner with a single carrel and a green-shaded lamp. A small sign: STUDY BREAK AVAILABLE.	1
+SCENE	S2-01	Discourse in Everyday Life (Project Brief)	Room 401, a week later. A projector hums to life as the club advisor presents a powerpoint to the screen with the words “Language in Everyday Life.”	2
+SCENE	J2-01	Inclusive and Exclusive "We"	A corner table by the window with sticky notes everywhere. A sign says QUIET PLEASE, which Jessa has ignored twice already.	2
+SCENE	J2-02	Code-Switching: When the Anger Comes Out in Cebuano	Room 401. The club PC freezes on Jessa's title slide.	2
+SCENE	J2-03	Study Break: Interjections and Particles	Late afternoon. You have a free hour and a quiet carrel with a green lamp.	2
+SCENE	J2-04	Private Speech	Library, evening. The reading room is almost empty except for Jessa is rearranging sticky notes into a calendar on the table.	2
+SCENE	J2-05	Teasing in Untranslated Words	Room 401, after a project meeting. You lean on Jessa's laptop and accidentally close it.	2
+SCENE	J2-06	Pragmatics: Hushed Library Talk	Library, evening. Inna's usual table is buried in club papers. The librarian's desk has a laminated sign: SILENCE IS GOLDEN. Jessa has been reading it out loud for a full minute.	2
+SCENE	J2-L	Learn with Jessa: Food and Feelings (optional tutor session)	In the library at the corner table. Jessa has brought a paper bag and is hiding something behind it.	2
+SCENE	J3-00	Pooling Pesos	Room 401, afternoon. Nikka has a ledger and a calculator she doesn't need. Jessa is sitting on a desk, which is not a chair. Inna is making a color-coded list on the whiteboard.	3
+SCENE	J3-01	Hometown	Cebuano streets. A busy roadside in Cebu at noon. Lola Ising sits behind a food stall under a blue tarp as cousin Yani wipes the counter.	3
+SCENE	J3-02	Register: When the Joke Stops	Jessa’s home. Lola Ising's house behind the stall. A small kitchen with a rice cooker, plastic chairs, and a calendar from three years ago. Jessa folds a chair, unfolds it, folds it again.	3
+SCENE	J3-03	Kinship Terms (Closing Time)	Home. The same kitchen, but under the dim evening light. The rice cooker clicks off. Jessa washes, you dry. Yani sets the table and eavesdrops on purpose.	3
+SCENE	J3-S	Study Break: Endearments and Feelings	Library, back on campus. Sticky notes from Cebu are pinned in the carrel.	3
+SCENE	J4-00	Pragmatics: Stage Fright	Room 401, presentation morning. Chairs are rearranged into rows. Jessa is nowhere in sight until someone notices a pair of sneakers sticking out from under the supply table.	4
+SCENE	J4-01	Translation and Meaning	Room 401, presentation day. The projector fan whirs. Some students are here to watch the presentation but most are falling asleep.	4
+SCENE	J4-02	Endearments	Balcony of Building A, night. Campus lights glow in the distance. Jessa leans on the rail with her sleeves over her hands.	4
+SCENE	J-R	Romantic Ending: Beyond the Laughter	Balcony of Building A, night. The wind has dropped.	4
+SCENE	J-F	Classmates-Only: Still Here	Room 401, a week later. Rain on the window.	4
+SCENE	J-N	Rejection: No Punchline	Balcony of Building A, night. A respectful distance between you.	4
+SCENE	I2-01	Pronouns: Datayo and Dakami	Library, afternoon. Section C, third table. A planner lies open to a color-coded week. Inna caps each highlighter before choosing the next.	2
+SCENE	I2-02	Code-Switching: A Controlled Burst	Room 401, afternoon. Jessa is waving a cup of milk tea around while telling a story. The cup tips. It heads straight for Inna's planner.	2
+SCENE	I2-03	Study Break: Question Words	Library, late afternoon. A free hour, a window seat, and a quiet reading room.	2
+SCENE	I2-04	Private Speech	Library, evening. The reading room is almost empty. Inna is tallying the club's funds on the back of a flyer, lips moving.	2
+SCENE	I2-05	Kinship Terms and Teasing	Room 401, after rehearsal. You ask Inna to explain a slide a second time.	2
+SCENE	I2-06	Pragmatics: Planner Etiquette	Library, afternoon. Section C is crowded. Jessa and Nikka both want the corner table. They're pretending they don't.	2
+SCENE	I2-L	Learn with Inna: Numbers and Please (optional tutor session)	Library, evening. The same study table. Inna has color-coded flashcards and a small, nervous kind of excitement.	2
+SCENE	I3-00	Pooling Pesos	Room 401, afternoon. Inna has made a spreadsheet and a backup spreadsheet. Nikka is auditing both. Jessa is eating chips.	3
+SCENE	I3-01	Dialect and Hometown	A narrow street in Vigan, morning. The family stall is half open; frying oil and calamansi in the air. Apong Pasing sits on a stool; Migo, Inna's younger brother, reads a comic on an upturned crate.	3
+SCENE	I3-02	Register: Two Responsibilities	Inna's family house. A small back room with boxes and a table half-covered in notes. Inna folds the same cardboard box three times.	3
+SCENE	I3-03	Honorific Shifts	Inna's family house, late afternoon, after the interview. Inna slips between languages as she goes: Ilokano with Migo, Taglish with you, careful English for her planner.	3
+SCENE	I3-S	Study Break: Apology, Want, and Warmth	Library, afternoon. Back on campus. A square of sun sits on the carrel.	3
+SCENE	I4-00	Pragmatics: Stage Fright	Room 401, presentation morning. Chairs in rows. Inna is rereading her script for the ninth time. The corner of the page is soft from handling.	4
+SCENE	I4-01	Translation and Meaning: The Slide She Added	Room 401, presentation day. Inna stands at the lectern with a printed script and the planner under her arm.	4
+SCENE	I4-02	Endearments: Room for a Choice	Library, closing time. Section C, third table. Rain on the window. Inna's planner is open between two cups of tea; the fourth column is no longer blank.	4
+SCENE	I-R	Romantic Ending: The Things We Choose	Library, closing time. Same table, same rain. The tea has gone lukewarm.	4
+SCENE	I-F	Classmates-Only: A Place Beside Me	Room 401, a few days later. Students drift in for the next meeting.	4
+SCENE	I-N	Rejection: My Own Answer	Library, closing time. The two of you stand a polite distance apart.	4
+SCENE	N2-01	Interrogatives: Ano, Siisay, Sain, Taano	Library, afternoon. A back table by the bookshelf. Nikka has a field notebook open and a sketch of the campus with three question marks drawn on it.	2
+SCENE	N2-02	Code-Switching: Short and Sharp	Room 401, afternoon. Nikka has drawn a map of the building on the whiteboard in careful, colored marker. A classmate leans on the board while talking and smears half of it.	2
+SCENE	N2-03	Study Break: Yes, No, and Existence	Library, evening. A study carrel by the window; a green lamp; a drawing of a bear in the margin of your notes.	2
+SCENE	N2-04	Private Speech	Library, night. The reading room is quiet. Nikka is mapping the group's schedule on a blank sheet, murmuring with the pen.	2
+SCENE	N2-05	Untranslated Teasing: Oon and Dai	Room 401, after rehearsal. You ask Nikka a string of simple questions about the schedule. She decides to answer in the shortest possible way.	2
+SCENE	N2-06	Pragmatics: The Treasurer's Audit	Library, afternoon. Nikka's ledger is open on the table with a calculator, two highlighters, and a receipt for chairs that were never bought.	2
+SCENE	N2-L	Learn with Nikka: Places and Questions (optional tutor session)	Library, evening. The bookshelf. Nikka has laid out a worn street map and three colored pencils.	2
+SCENE	N3-00	Pooling Pesos	Room 401, afternoon. Nikka is behind the club table with a ledger, Jessa's receipts, and a face like an auditor's. Inna is annotating a map. Jessa is eating a rice cake that is not hers.	3
+SCENE	N3-01	Dialect and Hometown: Three Accounts	A riverside market in Naga, morning. Stalls under blue tarps, wet cobbles, a shouting jeepney. Nikka carries a notebook; you carry the recorder.	3
+SCENE	N3-02	Epistemic Words: An Honest Unknown	Nikka's family house, early evening. A small table by a window that looks onto the river. Field notes are spread across it. Nikka's mother passes through with a tray and a look that says "eat something."	3
+SCENE	N3-03	Hedges and Certainty: The Unopened Email	Naga stalls, night. Stalls closing. A string of bulbs, a rolling shutter, a vendor humming. Nikka sits on an overturned crate with her phone face-down on her knee.	3
+SCENE	N3-S	Study Break: Magayon and Maogma	Library, afternoon. Back on campus. A rain-spotted window; the green lamp again.	3
+SCENE	N4-00	Pragmatics: Stage Fright	Room 401, presentation morning. Nikka has laid out her cue cards in an exact semicircle. Jessa is trying to rearrange them.	4
+SCENE	N4-01	Translation and Meaning: "I Don't Know Yet"	Room 401, presentation day. Nikka's notes are clean. The final slide reads: What We Know, What We Heard, What We Don't Yet Know.	4
+SCENE	N4-02	Future Tense: A Future in Pencil	Campus garden, evening. Rain has just stopped; leaves drip. Nikka's campus map is rolled under her arm. She sits on the bench with her back to the wall, as if she has chosen the least likely view.	4
+SCENE	N-R	Romantic Ending: A Map Without Answers	Campus garden, evening. A drop of water falls from a leaf onto the notebook.	4
+SCENE	N-F	Classmates-Only: The Roads We Share	Room 401, a week later. They walk out together, the long way.	4
+SCENE	N-N	Rejection: My Own Direction	Campus garden, evening. The same bench. This time Nikka stays standing.	4
+WORD	learned_salamat_kaayo	Salamat kaayo	thank you very much	Cebuano	Draft
+WORD	learned_kita	Kita / kami	we (incl.) / we (excl.)	Cebuano	Draft
+WORD	learned_kaon	Kaon ta! / Mokaon mi	let's eat / we are eating	Cebuano	Priority review
+WORD	learned_unsa	Unsa?	what?	Cebuano	Draft
+WORD	learned_ayaw	Ayaw	don't	Cebuano	Draft
+WORD	learned_hala	Hala!	exclamation of alarm	Cebuano	Draft
+WORD	learned_ambot	Ambot	I don't know	Cebuano	Draft
+WORD	learned_unsaon	Unsaon ko ni?	what do I do about this?	Cebuano	Priority review
+WORD	learned_lagot	Lagot ka!	you're in trouble!	Cebuano	Draft
+WORD	learned_gimingaw	Gimingaw ko nimo / kang Lola	I miss you / I miss Lola	Cebuano	Draft
+WORD	learned_gutom	Gutom / Gigutom ko	hungry / I'm hungry	Cebuano	Draft
+WORD	learned_busog	Busog	full	Cebuano	Draft
+WORD	learned_lami	Lami kaayo	very delicious	Cebuano	Draft
+WORD	learned_kapoy	Kapoy	tired	Cebuano	Draft
+WORD	learned_hinay	Hinay-hinay	slowly; gently	Cebuano	Draft
+WORD	learned_palihug	Palihug balika	please repeat that	Cebuano	Priority review
+WORD	learned_ate	Ate	older sister (address)	Cebuano	Draft
+WORD	learned_pasayloa	Pasayloa ko	forgive me	Cebuano	Draft
+WORD	learned_salamat_pagsulti	Salamat kaayo sa imong pagsulti	thank you for telling me	Cebuano	Priority review
+WORD	learned_ganahan	Ganahan ko nimo	I like you	Cebuano	Draft
+WORD	learned_agyamanak	Agyamanak / apo	thank you / respect marker	Ilokano	Draft
+WORD	learned_datayo	Datayo / dakami	we (incl.) / we (excl.)	Ilokano	Draft
+WORD	learned_intayon	Intayon	let's go	Ilokano	Draft
+WORD	learned_apay	Ay, apay a kasta?	why does it have to be like this?	Ilokano	Draft
+WORD	learned_ania	Ania / Apay	what / why	Ilokano	Draft
+WORD	learned_haan	Haan	no; not	Ilokano	Draft
+WORD	learned_maysa	Maysa, dua, tallo, uppat, lima	one to five	Ilokano	Draft
+WORD	learned_narigat	Narigat	hard; difficult	Ilokano	Draft
+WORD	learned_ading	Ading / manang	younger sibling / older sister	Ilokano	Draft
+WORD	learned_kayat	Ania ti kayat mo?	what do you want?	Ilokano	Draft
+WORD	learned_pangngaasim	Pangngaasim	please	Ilokano	Draft
+WORD	learned_kayat_ko	Kayat ko	I want; I like	Ilokano	Draft
+WORD	learned_wen	Wen	yes	Ilokano	Draft
+WORD	learned_agyamanak_unay	Agyamanak unay	thank you very much	Ilokano	Draft
+WORD	learned_kusina	Adda iti kusina	it's in the kitchen	Ilokano	Priority review
+WORD	learned_pakawanen	Pakawanen mo ak	forgive me	Ilokano	Draft
+WORD	learned_haan_nalaka	Haan a nalaka	it's not easy	Ilokano	Draft
+WORD	learned_kayat_agpili	Kayat ko ti agpili	I want to choose	Ilokano	Priority review
+WORD	learned_bayam	Bay-am	leave it; let it be	Ilokano	Priority review
+WORD	learned_ayayaten	Ay-ayaten ka	I love you	Ilokano	Draft
+WORD	learned_marhay_na_aga	Marhay na aga	good morning	Central Bikol	Draft
+WORD	learned_dai_man_maraot	Dai man maraot	not bad	Central Bikol	Priority review
+WORD	learned_taano	Ano / siisay / sain / taano	what / who / where / why	Central Bikol	Draft
+WORD	learned_oon	Oon / dai	yes / no; not	Central Bikol	Draft
+WORD	learned_dai	Oon / dai	yes / no; not	Central Bikol	Draft
+WORD	learned_igwa	Igwa / mayo	there is / none	Central Bikol	Draft
+WORD	learned_mayo	Igwa / mayo	there is / none	Central Bikol	Draft
+WORD	learned_aram	Aram ko / dai ko aram	I know / I don't know	Central Bikol	Draft
+WORD	learned_pira	Pira? / Pira ini?	how much? / how much is this?	Central Bikol	Priority review
+WORD	learned_taga_sain	Taga-sain ka? / Taga-Naga ako	where are you from? / I'm from Naga	Central Bikol	Priority review
+WORD	learned_magayon	Magayon	beautiful	Central Bikol	Draft
+WORD	learned_tabi	Tabi	excuse me; with respect	Central Bikol	Draft
+WORD	learned_dios_mabalos	Dios mabalos	thank you (sincere)	Central Bikol	Draft
+WORD	learned_dai_ko_pa_aram	Dai ko pa aram	I don't know yet	Central Bikol	Draft
+WORD	learned_maogma	Maogma ako	I'm happy	Central Bikol	Draft
+NODE	M01.0	M01	LINE	Narration	Admissions office, morning. A ceiling fan ticks. An application form waits on the counter.			M01.1		
+NODE	M01.1	M01	LINE	Staff	Next student please! Here’s your acknowledgement receipt and… Oh? You’re that one student transferee from the CICS department, aren’t you?			M01.2		
+NODE	M01.2	M01	LINE	MC	Thank you po… Oh uhm yeah, that’s me. Am I… that known already?			M01.3		
+NODE	M01.3	M01	LINE	Staff	Oh, don’t worry ‘nak. I just remember you distinctly since I never thought somebody would choose “The Filipino Language and its Dialects” for their club. Usually, kids like you opt for the more gizmo-whiz-something stuff!			M01.4		
+NODE	M01.4	M01	LINE	MC	Ah, that’s why… I have always wanted to know more about our different languages and—			M01.5		
+NODE	M01.5	M01	LINE	Staff	Well anyways! Enough about that. Just sign your name in the sheet and you’ll officially be part of the club!			M01.6		
+NODE	M01.6	M01	INPUT	Staff	What is your first name?			M01.7		firstName
+NODE	M01.7	M01	INPUT	Staff	What is your last name?			M01.8		lastName
+NODE	M01.8	M01	INPUT	Staff	What nickname would you like to use?			M01.9		nickname
+NODE	M01.9	M01	LINE	Staff	Mx. [LAST NAME], you have a nice name! Well then, the club room is in Building A - Room 401. Enjoy the rest of the semester, especially considering the girls are a rambunctious bunch.			M01.10		
+NODE	M01.10	M01	LINE	MC	R-rambunctious?			M01.11		
+NODE	M01.11	M01	LINE	Staff	Oh you’ll see dear!			M01.12		
+NODE	M01.12	M01	LINE	Narration	As you walk through the unfamiliar buildings of this familiar campus, you wonder how this fall semester of second year will change the wind of the following months.			M02.0		
+NODE	M02.0	M02	LINE	Narration	Building A, Room 401, but soon will be known as home. A flight of stairs, then a door already open. Three overlapping voices leak into the hallway.			M02.1		
+NODE	M02.1	M02	LINE	Jessa	Don’t call me a thief! It’s just chairs, if I was feeling a bit more devious, I would’ve stolen their IDs!			M02.2		
+NODE	M02.2	M02	LINE	Inna	It was daylight robbery, Jessa. You didn’t even ask the prof to borrow some— you blatantly stole two chairs under his nose.			M02.3		
+NODE	M02.3	M02	LINE	Nikka	Correction: Three. Can’t you count? I do believe it's more concerning how she managed to carry all that despite being 148—			M02.4		
+NODE	M02.4	M02	LINE	Jessa	HEY! That’s irrelevant—			M02.5		
+NODE	M02.5	M02	LINE	Narration	The rambunctious voices came to a halt when somebody— you— opened the door.			M02.6		
+NODE	M02.6	M02	LINE	MC	Uh. Hello po? Is this the language club?			M02.7		
+NODE	M02.7	M02	LINE	Jessa	Woah woah woah! A new member? I could’ve sworn my seniors told me that this club was not a hot spot for students but suddenly we’re four?!?!?!?			M02.8		
+NODE	M02.8	M02	LINE	Nikka	Jessa, tone it down. You’re scaring the newcomer.			M02.9		
+NODE	M02.9	M02	LINE	Inna	Nikka, I fear it's too late. Can’t you see them backing out of the room?			M02.10		
+NODE	M02.10	M02	LINE	Narration	Once again, the room stilled into silence. You awkwardly decide to hand them the receipt the staff gave you earlier to confirm that you are a member of the club as well.			M02.11		
+NODE	M02.11	M02	LINE	Jessa	Mx. [LAST NAME]? Grabe, ang pormal! I can’t believe somebody new decided to join this club of ours! Vice prezi, this calls for a celebration!!!!!			M02.12		
+NODE	M02.12	M02	LINE	Inna	We don’t even have the funds to……… (sigh) I suppose a welcome is in order, [FIRST NAME].			M02.13		
+NODE	M02.13	M02	LINE	Nikka	Okay but before everything else, how do you want us to call you?			M02.14		
+NODE	M02.14	M02	CHOICE	You	What do you want to be called?			M02.15		
+OPTION	M02.14	"[LAST NAME] is fine."	add:rapport_I=+1;address:lastName
+OPTION	M02.14	"Just my first name. We're all clubmates naman."	add:rapport_N=+1;address:firstName
+OPTION	M02.14	"You can call me [NICKNAME]!"	add:rapport_J=+1;address:nickname
+NODE	M02.15	M02	LINE	Inna	Hm. I suppose that’s fine.	pick_M02=A		M02.16		
+NODE	M02.16	M02	LINE	Jessa	Hala, so formal! “Boss” na lang tawag ko sa’yo. No buts!	pick_M02=A		M02.17		
+NODE	M02.17	M02	LINE	Jessa	[FIRST NAME] [FIRST NAME] [FIRST NAME]... I’ll remember your name from now on!	pick_M02=B		M02.18		
+NODE	M02.18	M02	LINE	Nikka	Easiest to remember considering it's the name we’ll first see.	pick_M02=B		M02.19		
+NODE	M02.19	M02	LINE	Jessa	Yay! We’ll be besties from now on, [NICKNAME]!!”	pick_M02=C		M02.20		
+NODE	M02.20	M02	LINE	Jessa	Okay, our introductions next! I'm Jessa, Jessa Villarin. I’m the club president and the very best around. ✌🏼			M02.21		
+NODE	M02.21	M02	LINE	Inna	I’m Inna Agcaoili, the vice president. Here’s to a joyous semester together.			M02.22		
+NODE	M02.22	M02	LINE	Nikka	Nikka Roco, but you can just call me Nikka. I’m the club treasurer— oh! That would make you the secretary then.			M02.23		
+NODE	M02.23	M02	LINE	All	Welcome to the club!			S1-01.0		
+NODE	S1-01.0	S1-01	LINE	Narration	Room 401, after the orientation and casual discussions. The chairs in the classroom are formed in a circle, although four are only used. A whiteboard is set in the middle of the group.			S1-01.1		
+NODE	S1-01.1	S1-01	LINE	Jessa	We’re not a language club without the language, so for today’s task, let’s give our new addition a word!			S1-01.2		
+NODE	S1-01.2	S1-01	LINE	MC	… Did I do something wrong?			S1-01.3		
+NODE	S1-01.3	S1-01	LINE	Nikka	She didn’t mean it like that. Every week, we circle around and say a word in our own dialect.			S1-01.4		
+NODE	S1-01.4	S1-01	LINE	Inna	I don’t think you’ve realized it yet but we’re from different areas in the Philippines. I personally am from Ilokos, Nikka is from Bikol, and Jessa is from Cebu.			S1-01.5		
+NODE	S1-01.5	S1-01	LINE	Jessa	Isn’t it amazing!? We’re all from different regions in the Philippines yet we still managed to wander up here! Oh, how about you boss? Where did you come from?			S1-01.6		
+NODE	S1-01.6	S1-01	INPUT	Jessa	Where did you come from?			S1-01.7		address
+NODE	S1-01.7	S1-01	LINE	Inna	[ADDRESS] you say? It’s unbelievable to think about how we all managed to meet here now despite our distance.			S1-01.8		
+NODE	S1-01.8	S1-01	LINE	Jessa & Nikka	It’s kinda like fate !! / It’s kind of like fate?			S1-01.9		
+NODE	S1-01.9	S1-01	LINE	Jessa	?!??!?! Nikka hey !!!			S1-01.10		
+NODE	S1-01.10	S1-01	LINE	Nikka	Predictable as ever.			S1-01.11		
+NODE	S1-01.11	S1-01	LINE	Narration	The two girls began chasing around each other in the room while Inna stood there deadpanned. This seems to be a common experience in the club.			S1-02A.0		
+NODE	S1-02A.0	S1-02A	LINE	Narration	Room 401, Jessa sits in front of you while the other two discuss amongst themselves in the corner.			S1-02A.1		
+NODE	S1-02A.1	S1-02A	LINE	Jessa	I’m so sorry about the fuss! Nikka really knows how to get me going I swear!!			S1-02A.2		
+NODE	S1-02A.2	S1-02A	LINE	MC	It’s alright, I don’t really mind.			S1-02A.3		
+NODE	S1-02A.3	S1-02A	LINE	Jessa	Aww thank y—			S1-02A.4		
+NODE	S1-02A.4	S1-02A	LINE	Narration	Suddenly, Jessa sat up straight and looked at you expectantly.			S1-02A.5		
+NODE	S1-02A.5	S1-02A	LINE	Jessa	Salamat kaayo.		hear:learned_salamat_kaayo	S1-02A.6		
+NODE	S1-02A.6	S1-02A	LINE	MC	What??			S1-02A.7		
+NODE	S1-02A.7	S1-02A	LINE	Jessa	Hehe… It’s kind of like thank you but given with more gratitude. You already know Salamat since it's the same in Tagalog though.			S1-02A.8		
+NODE	S1-02A.8	S1-02A	LINE	MC	Then kaayo would mean…?			S1-02A.9		
+NODE	S1-02A.9	S1-02A	LINE	Jessa	It would mean “... very, very much.” See the emphasis now?			S1-02A.10		
+NODE	S1-02A.10	S1-02A	CHOICE	You	What does "Salamat kaayo" mean?			S1-02A.11		
+OPTION	S1-02A.10	"Thank you very much."	learn:learned_salamat_kaayo;add:rapport_J=+1
+OPTION	S1-02A.10	"Thank you"	
+OPTION	S1-02A.10	"You’re welcome."	
+NODE	S1-02A.11	S1-02A	LINE	Jessa	Awh! You’re very very veryyyy much welcome too, bossing!	pick_S1-02A=A		S1-02A.12		
+NODE	S1-02A.12	S1-02A	LINE	Jessa	Almost!!! You missed the “kaayo” [NICKNAME]!!	pick_S1-02A=B		S1-02A.13		
+NODE	S1-02A.13	S1-02A	LINE	Jessa	Hey now you’re being a little too advanced than who you’re talking with !!	pick_S1-02A=C		S1-02B.0		
+NODE	S1-02B.0	S1-02B	LINE	Narration	Room 401. Inna sits a little apart, notebook squared to the desk edge.			S1-02B.1		
+NODE	S1-02B.1	S1-02B	LINE	Inna	A word with no context is just a sound, so here's a word for you. Agyamanak. It means "thank you," or more exactly "I thank you."		hear:learned_agyamanak	S1-02B.2		
+NODE	S1-02B.2	S1-02B	LINE	MC	Is it casual?			S1-02B.3		
+NODE	S1-02B.3	S1-02B	LINE	Inna	No no… It's more polite and sincere. With family, you say it quicker while with someone you respect, say it fully and clearly. (a beat) See how context affects a word?			S1-02B.4		
+NODE	S1-02B.4	S1-02B	LINE	MC	I see... Agyamanak.			S1-02B.5		
+NODE	S1-02B.5	S1-02B	LINE	Inna	Say it slower. Again.			S1-02B.6		
+NODE	S1-02B.6	S1-02B	LINE	Inna	In addition, you can add apo to show respect. For example: Agyamanak, apo.			S1-02B.7		
+NODE	S1-02B.7	S1-02B	CHOICE	You	What does "Agyamanak" mean?			S1-02B.8		
+OPTION	S1-02B.7	"I thank you; thank you."	learn:learned_agyamanak;add:rapport_I=+1
+OPTION	S1-02B.7	"Thanks."	
+OPTION	S1-02B.7	"I'm sorry."	
+NODE	S1-02B.8	S1-02B	LINE	Inna	Correct, I’m glad you’re a rather quick learner… Not that it would be bad if you made a mistake though… Ahem. Anyways, you’re welcome.	pick_S1-02B=A		S1-02B.9		
+NODE	S1-02B.9	S1-02B	LINE	Inna	That’s incorrect, even though it’s close. Agyamanak is more polite, so Thank you is the better term.	pick_S1-02B=B		S1-02B.10		
+NODE	S1-02B.10	S1-02B	LINE	Inna	Ah. Don’t apologize, it’s alright to not immediately get the term correct… Oh that was your guess? (a beat) I’m… sorry.	pick_S1-02B=C		S1-03.0		
+NODE	S1-03.0	S1-03	LINE	Narration	Room 401. Nikka sits across from you, one foot on a chair.			S1-03.1		
+NODE	S1-03.1	S1-03	LINE	Nikka	Most people would learn a phrase and assume they know the whole story from just that.			S1-03.2		
+NODE	S1-03.2	S1-03	LINE	MC	There’s usually a context to better understand the situation no?			S1-03.3		
+NODE	S1-03.3	S1-03	LINE	Nikka	Bingo. Look at this: Marhay na aga or to you, it’s "Good morning" or Magandang araw. But in a market, it could also mean: I see you, the day has started, we're both here.		hear:learned_marhay_na_aga	S1-03.4		
+NODE	S1-03.4	S1-03	LINE	MC	From a two word translation to a full sentence…			S1-03.5		
+NODE	S1-03.5	S1-03	LINE	Nikka	See how context matters before the word settles? That’s what I like about language— how it changes into something you need at the moment.			S1-03.6		
+NODE	S1-03.6	S1-03	LINE	MC	Marhay na aga.			S1-03.7		
+NODE	S1-03.7	S1-03	LINE	Nikka	Hah! (small smile) Dai man maraot. Not bad. Unfortunately, it’s already noon.		hear:learned_dai_man_maraot	S1-03.8		
+NODE	S1-03.8	S1-03	CHOICE	You	When would you say "Marhay na aga"?			S1-03.9		
+OPTION	S1-03.8	To greet someone in the morning.	learn:learned_marhay_na_aga;add:rapport_N=+1
+OPTION	S1-03.8	To ask for directions.	
+OPTION	S1-03.8	To apologize.	
+NODE	S1-03.9	S1-03	LINE	Nikka	Yes but remember who says it first. People can tell you a lot with the right timing.	pick_S1-03=A		S1-03.10		
+NODE	S1-03.10	S1-03	LINE	Nikka	You should always greet somebody first before immediately asking questions, you know?	pick_S1-03=B		S1-03.11		
+NODE	S1-03.11	S1-03	LINE	Nikka	It could work if you’re being sarcastic, otherwise, incorrect.	pick_S1-03=C		S1-04.0		
+NODE	S1-04.0	S1-04	LINE	Narration	Library. Late afternoon. A quiet corner with a single carrel and a green-shaded lamp. A small sign: STUDY BREAK AVAILABLE.			S1-04.1		
+NODE	S1-04.1	S1-04	LINE	Narration	Three new words in your notebook. Three people whose voices you can already hear when you read them back.			S1-04.2		
+NODE	S1-04.2	S1-04	LINE	System	Welcome to the Library Hub. Study Breaks are solo scripted quizzes for downtime. Progress through the story to receive more study strategies.			S1-04.3		
+NODE	S1-04.3	S1-04	LINE	System	STUDY BREAK (tutorial). Review: Salamat kaayo, Agyamanak, Marhay na aga.			S1-04.4		
+NODE	S1-04.4	S1-04	QUIZ	Study Break	Match "Agyamanak" to its meaning.		learn:learned_agyamanak	S1-04.5		0
+OPTION	S1-04.4	Thank you	
+OPTION	S1-04.4	Good morning	
+OPTION	S1-04.4	Please	
+NODE	S1-04.5	S1-04	QUIZ	Study Break	Which word means "good morning" in Central Bikol?		learn:learned_marhay_na_aga	S1-04.6		0
+OPTION	S1-04.5	Marhay na aga	
+OPTION	S1-04.5	Salamat kaayo	
+OPTION	S1-04.5	Agyamanak	
+NODE	S1-04.6	S1-04	TYPED	Study Break	Write the Cebuano phrase for "thank you very much."		learn:learned_salamat_kaayo	S1-04.7	it starts with the word you share with Tagalog.	Salamat kaayo
+NODE	S1-04.7	S1-04	LINE	Narration	Your notebook feels different now. Heavier. In a good way.			S1-04.8		
+NODE	S1-04.8	S1-04	LINE	System	You can review these words or repeat this study break.			S1-04.9		
+NODE	S1-04.9	S1-04	CHOICE	You	Before you leave			S2-01.0		
+OPTION	S1-04.9	Review the log	
+OPTION	S1-04.9	Do one more Study Break	
+OPTION	S1-04.9	Leave the library	
+NODE	S2-01.0	S2-01	LINE	Narration	Room 401, a week later. A projector hums to life as the club advisor presents a powerpoint to the screen with the words “Language in Everyday Life.”			S2-01.1		
+NODE	S2-01.1	S2-01	LINE	Professor	Okay, club, quiet muna. I know how fun it’s been to just mingle around with each other during the beginning week but it’s now time to officially start the club activities.			S2-01.2		
+NODE	S2-01.2	S2-01	LINE	Professor	You guys will be doing a project named: Language in Everyday Life. You will be paired into two members and you are tasked to experience your chosen language in its everyday occurrence. You will need to include a small vocab set and examples of the language in context. After that, you’ll write a reflection on what you learned throughout the project.			S2-01.3		
+NODE	S2-01.3	S2-01	LINE	Professor	Optionally, you can visit yourself the areas where your chosen dialect is more common in usage. It would just be paid by your own pocket though, but I’ll give extra credit to those who do in-person research. Do you understand the task everyone?			S2-01.4		
+NODE	S2-01.4	S2-01	LINE	Club	Yes, Ma'am!!			S2-01.5		
+NODE	S2-01.5	S2-01	LINE	Jessa	(whispering) Hey hey! Let’s partner up, it’ll be fun trust me! I know a lot of people who can help us ace this!!			S2-01.6		
+NODE	S2-01.6	S2-01	LINE	Inna	(whispering) If you want to partner with me then just say so, I promise to present something amazing.			S2-01.7		
+NODE	S2-01.7	S2-01	LINE	Nikka	(whispering) Oh? Choose me as your partner if you want but I don’t like partners who are pabigat, alright?			S2-01.8		
+NODE	S2-01.8	S2-01	LINE	MC	(thinking) Hm… I should choose somebody that I feel like I’ll really get along with.			S2-01.9		
+NODE	S2-01.9	S2-01	CHOICE	You	Choose your project partner			S2-01.10		
+OPTION	S2-01.9	Choose Jessa	partner:Jessa
+OPTION	S2-01.9	Choose Inna	partner:Inna
+OPTION	S2-01.9	Choose Nikka	partner:Nikka
+NODE	S2-01.10	S2-01	LINE	Jessa	Wait, really? You chose me? Okay okay okay. (to the other two) Sorry!!Yyou can't have the club's newest member. Ma’am, do we get additional points for being the first group to form!?	pick_S2-01=A		S2-01.11		
+NODE	S2-01.11	S2-01	LINE	Professor	No.	pick_S2-01=A		S2-01.12		
+NODE	S2-01.12	S2-01	LINE	Inna	Thanks for choosing me [NICKNAME]. I’ll try my best to send the task assignment later once I get home. I hope you don’t mind?	pick_S2-01=B		S2-01.13		
+NODE	S2-01.13	S2-01	LINE	MC	I won’t, don’t worry.	pick_S2-01=B		S2-01.14		
+NODE	S2-01.14	S2-01	LINE	Inna	(A small smile) Agyamanak, [FIRST NAME].	pick_S2-01=B		S2-01.15		
+NODE	S2-01.15	S2-01	LINE	Nikka	Oh wow. Okay. (blinks, then half a smile) You better pull your weight alright, I’m not one to take excuses.	pick_S2-01=C		S2-01.16		
+NODE	S2-01.16	S2-01	LINE	MC	I figured.	pick_S2-01=C		S2-01.17		
+NODE	S2-01.17	S2-01	LINE	Nikka	You learn quickly, Mx. [LAST NAME].	pick_S2-01=C		S2-01.18		
+NODE	S2-01.18	S2-01	LINE	Narration	Jessa fills every silence before it can land. The MC learns when to laugh with her, when to ask what she means, and when to leave the gap open.			S2-01.19		
+NODE	S2-01.19	S2-01	LINE	Narration	Settings: Library, Classroom, Street/Stalls (Cebu), Home (Cebu), Balcony.			@route		
+NODE	J2-01.0	J2-01	LINE	Narration	A corner table by the window with sticky notes everywhere. A sign says QUIET PLEASE, which Jessa has ignored twice already.			J2-01.1		
+NODE	J2-01.1	J2-01	LINE	Jessa	Okay, team meeting— although we’re only two members. Anyways, let’s discuss the distribution for tasks. I’ll be in charge of the food and you’ll be the team leader!			J2-01.2		
+NODE	J2-01.2	J2-01	LINE	MC	Why is the new guy the team leader…? Not to mention you forgot to distribute the tasks for the project?			J2-01.3		
+NODE	J2-01.3	J2-01	LINE	Jessa	Ah- Right, the project. Sorry, I haven’t eaten breakfast yet...			J2-01.4		
+NODE	J2-01.4	J2-01	LINE	Jessa	OH! Since it’s lunch time soon, I have an idea!			J2-01.5		
+NODE	J2-01.5	J2-01	LINE	Jessa	First assignment for the project muna kasi I'm a responsible researcher now. DYK, in Cebuano we have two kinds of "we." 🤓☝️			J2-01.6		
+NODE	J2-01.6	J2-01	LINE	Jessa	Kita means we and that means you're included. Kami means we but it doesn’t count you.. So Kaon ta! is "let's eat," meaning you're invited. While Mokaon mi is "we're eating," and you're just third wheeling our group!		hear:learned_kita;hear:learned_kaon	J2-01.7		
+NODE	J2-01.7	J2-01	LINE	MC	So one little word decides if included or not?			J2-01.8		
+NODE	J2-01.8	J2-01	LINE	Jessa	I know right? One wrong word immediately ditches you like that! Petty sobrang petty!			J2-01.9		
+NODE	J2-01.9	J2-01	TYPED	Jessa	Invite Jessa to lunch, including her. Type the Cebuano.		learn:learned_kita;aff:+1;learn:learned_kaon	J2-01.10	the "we" ending comes after "kaon."	Kaon ta!|Kaon ta|Kaon na ta
+NODE	J2-01.10	J2-01	LINE	Jessa	Nice you included yourself! Finally lunch— or well, brunch since I haven’t eaten yet? It’s my treat for answering so well!	ok_J2-01.9		J2-01.11		
+NODE	J2-01.11	J2-01	LINE	Jessa	Awh man, you got it wrong. It’s “Kaon ta!” … Don’t worry, let’s go get lunch either way. You’re treating me though!	!ok_J2-01.9		J2-02.0		
+NODE	J2-02.0	J2-02	LINE	Narration	Room 401. The club PC freezes on Jessa's title slide.			J2-02.1		
+NODE	J2-02.1	J2-02	LINE	Jessa	No, no, no, no... come on, just load please— you were working five minutes ago—			J2-02.2		
+NODE	J2-02.2	J2-02	LINE	Narration	(The progress bar stops. She jabs the keyboard.)			J2-02.3		
+NODE	J2-02.3	J2-02	LINE	Jessa	Unsa man diay ni?! Ayaw, ayaw, ayaw!		hear:learned_ayaw;hear:learned_unsa	J2-02.4		
+NODE	J2-02.4	J2-02	LINE	Narration	(She slaps the desk. The room freezes. A chair squeaks.)			J2-02.5		
+NODE	J2-02.5	J2-02	LINE	Jessa	O-oh, I didn’t realize you’re here… I’m sorry. That was loud.			J2-02.6		
+NODE	J2-02.6	J2-02	LINE	MC	Was that... Cebuano?	!learned_unsa		J2-02.7		
+NODE	J2-02.7	J2-02	LINE	Nikka	She said "what even is this." (a beat) The rest was prayer.	!learned_unsa		J2-02.8		
+NODE	J2-02.8	J2-02	LINE	Jessa	It was NOT prayer. It was… more of a persuasion tactic.	!learned_unsa		J2-02.9		
+NODE	J2-02.9	J2-02	LINE	Inna	More like begging.	!learned_unsa		J2-02.10		
+NODE	J2-02.10	J2-02	LINE	Jessa	HEY!!!	!learned_unsa		J2-02.11		
+NODE	J2-02.11	J2-02	LINE	MC	"Unsa man diay ni?" Does that mean “What even is this?”	learned_unsa		J2-02.12		
+NODE	J2-02.12	J2-02	LINE	Jessa	(blinks, then slowly grins) You understood that? Okay. That's embarrassing. And also kinda sweet. I can’t believe my student is learning!	learned_unsa		J2-02.13		
+NODE	J2-02.13	J2-02	AUTO			learned_unsa	set:jessa_heard_unsa=true;variant:+1	J2-02.14		
+NODE	J2-02.14	J2-02	CHOICE	You	How do you answer?			J2-02.15		
+OPTION	J2-02.14	Help fix the slide	
+OPTION	J2-02.14	Laugh and mimic her tone	
+OPTION	J2-02.14	"Calm down. It's just a slide."	set:jessa_minimized=true
+NODE	J2-02.15	J2-02	LINE	Jessa	You will? Awwww thank you so much! My life saver ever!!	pick_J2-02=A		J2-02.16		
+NODE	J2-02.16	J2-02	LINE	Jessa	Hey! That’s not a way to treat your senior!! (she's laughing too)	pick_J2-02=B		J2-02.17		
+NODE	J2-02.17	J2-02	LINE	Jessa	Ah. (a short breath) You’re right… It’s just a slide.	pick_J2-02=C		J2-03.0		
+NODE	J2-03.0	J2-03	LINE	Narration	Late afternoon. You have a free hour and a quiet carrel with a green lamp.			J2-03.1		
+NODE	J2-03.1	J2-03	LINE	System	STUDY BREAK — Cebuano: Interjections and Particles. Five items from the dictionary database.			J2-03.2		
+NODE	J2-03.2	J2-03	QUIZ	Study Break	"Hala!" is used when someone is...		learn:learned_hala	J2-03.3		0
+OPTION	J2-03.2	surprised or alarmed	
+OPTION	J2-03.2	saying goodbye	
+OPTION	J2-03.2	offering thanks	
+NODE	J2-03.3	J2-03	QUIZ	Study Break	Which word means "I don't know"?		learn:learned_ambot	J2-03.4		0
+OPTION	J2-03.3	Ambot	
+OPTION	J2-03.3	Lami	
+OPTION	J2-03.3	Kapoy	
+NODE	J2-03.4	J2-03	TYPED	Study Break	Write "What?" in Cebuano.		learn:learned_unsa	J2-03.5		Unsa?|Unsa|Unsa man
+NODE	J2-03.5	J2-03	TYPED	Study Break	Arrange the cards to mean "What am I going to do about this?" Cards: ko / Unsaon / ni.		learn:learned_unsaon	J2-03.6		Unsaon ko ni?
+NODE	J2-03.6	J2-03	QUIZ	Study Break	"Lagot ka!" most closely means...		learn:learned_lagot	J2-03.7		0
+OPTION	J2-03.6	You're in trouble!	
+OPTION	J2-03.6	You're welcome!	
+OPTION	J2-03.6	Good luck!	
+NODE	J2-03.7	J2-03	LINE	System	Study Break complete. New: Ambot, Unsa, Unsaon ko ni, Lagot ka.			J2-03.8		
+NODE	J2-03.8	J2-03	LINE	Narration	You close the lamp. Somewhere across campus, a projector sighs in Cebuano.			J2-04.0		
+NODE	J2-04.0	J2-04	LINE	Narration	Library, evening. The reading room is almost empty except for Jessa is rearranging sticky notes into a calendar on the table.			J2-04.1		
+NODE	J2-04.1	J2-04	LINE	Narration	(She mutters, not noticing that you have sat down nearby.)			J2-04.2		
+NODE	J2-04.2	J2-04	LINE	Jessa	Asa na man to... asa na man to... Unsaon ko ni? (she moves one note, then another, then covers her face) ...Hayst.		hear:learned_unsaon	J2-04.3		
+NODE	J2-04.3	J2-04	LINE	Jessa	Gimingaw ko kang Lola.		hear:learned_gimingaw	J2-04.4		
+NODE	J2-04.4	J2-04	LINE	Narration	(She goes still. Then straightens as if the sentence never happened.)			J2-04.5		
+NODE	J2-04.5	J2-04	LINE	Jessa	Oh! Hi! Didn't see you. How long have you been there?			J2-04.6		
+NODE	J2-04.6	J2-04	LINE	MC	"Unsaon ko ni." What do I do with this? (gently) It seems like the problem doesn’t seem to be just the sticky notes…	learned_unsaon		J2-04.7		
+NODE	J2-04.7	J2-04	LINE	Jessa	(a long pause) ...Maybe, it’s just that... Yeah sorry.	learned_unsaon		J2-04.8		
+NODE	J2-04.8	J2-04	LINE	MC	Not long. You were talking to the notes.	!learned_unsaon		J2-04.9		
+NODE	J2-04.9	J2-04	LINE	Jessa	They listen better than most people. They’re like mini journals of my thoughts. Hmm… On that note.	!learned_unsaon		J2-04.10		
+NODE	J2-04.10	J2-04	LINE	Narration	(She pretends to scribble something but her eyes aren't on them.)	!learned_unsaon		J2-05.0		
+NODE	J2-05.0	J2-05	LINE	Narration	Room 401, after a project meeting. You lean on Jessa's laptop and accidentally close it.			J2-05.1		
+NODE	J2-05.1	J2-05	LINE	Jessa	Ay. Ay! Lagot ka, lagot ka, lagot ka kay Lola! (sing-song, dancing around you) I'm telling her!			J2-05.2		
+NODE	J2-05.2	J2-05	LINE	MC	What does that even mean?	!learned_lagot		J2-05.3		
+NODE	J2-05.3	J2-05	LINE	Jessa	It means I have power over you. (grinning) And that you owe me a snack.	!learned_lagot		J2-05.4		
+NODE	J2-05.4	J2-05	LINE	MC	"Lagot ka"? I know that one. (smirking) Lagot ka rin, Jessa. You left your charger in the library still plugged!	learned_lagot		J2-05.5		
+NODE	J2-05.5	J2-05	LINE	Jessa	(a gasp) Ah damn it! My secret has been exposed! Tell the librarian I didn’t mean it pleaseee… (laughing) I’m so proud of you though, doing research behind my back!	learned_lagot		J2-05.6		
+NODE	J2-05.6	J2-05	AUTO			learned_lagot	set:jessa_teases_back=true;variant:+1	J2-05.7		
+NODE	J2-05.7	J2-05	LINE	Jessa	(a pause) Don’t worry, I wasn't mad about the slide.			J2-05.8		
+NODE	J2-05.8	J2-05	LINE	MC	I know.			J2-05.9		
+NODE	J2-05.9	J2-05	LINE	Jessa	You know me so well.			J2-06.0		
+NODE	J2-06.0	J2-06	LINE	Narration	Library, evening. Inna's usual table is buried in club papers. The librarian's desk has a laminated sign: SILENCE IS GOLDEN. Jessa has been reading it out loud for a full minute.			J2-06.1		
+NODE	J2-06.1	J2-06	LINE	Jessa	"Silence is golden." (whispering, very loudly) Gold is expensive though. Nikka, how much does our silence cost?			J2-06.2		
+NODE	J2-06.2	J2-06	LINE	Nikka	(without looking up from her ledger) Fifty pesos per sentence, amount payable to the club treasurer.			J2-06.3		
+NODE	J2-06.3	J2-06	LINE	Inna	Please don't encourage her.			J2-06.4		
+NODE	J2-06.4	J2-06	LINE	Jessa	Okay okay okay, I'll whisper. Watch. (whispering) Boss, are you ready for the next vocab list?			J2-06.5		
+NODE	J2-06.5	J2-06	LINE	Narration	(Her whisper carries across the whole reading room. The librarian looks up. All four of you freeze.)			J2-06.6		
+NODE	J2-06.6	J2-06	LINE	Librarian	Shh.			J2-06.7		
+NODE	J2-06.7	J2-06	LINE	Jessa	(tiny) Sorry po. Hinay-hinay na ko.		hear:learned_hinay	J2-06.8		
+NODE	J2-06.8	J2-06	LINE	MC	Hinay-hinay?			J2-06.9		
+NODE	J2-06.9	J2-06	LINE	Jessa	It means like… "slowly" or "gently." Like when Lola tells you to put the plate down softly. Or not to run on the wet floor. Or to calm down. Hinay-hinay lang,.			J2-06.10		
+NODE	J2-06.10	J2-06	LINE	MC	So it's not "shut up."			J2-06.11		
+NODE	J2-06.11	J2-06	LINE	Jessa	NEVER. It's basically "easy lang." The softer way.			J2-06.12		
+NODE	J2-06.12	J2-06	LINE	Nikka	She learned it by being told it a lot.			J2-06.13		
+NODE	J2-06.13	J2-06	LINE	Jessa	Wow. The treasurer is bullying me again.			J2-06.14		
+NODE	J2-06.14	J2-06	LINE	Inna	It’s an observation more than anything.			J2-06.15		
+NODE	J2-06.15	J2-06	TYPED	Jessa	Tell Jessa to take it slowly.		learn:learned_hinay	J2-06.16	say it twice, like a heartbeat.	Hinay-hinay lang|Hinay-hinay
+NODE	J2-06.16	J2-06	LINE	Jessa	(placing a hand over her heart) Hinay-hinay lang. Woah, that sounded so gentle. Say it again when I panic, please. Very ASMR.	ok_J2-06.15		J2-06.17		
+NODE	J2-06.17	J2-06	LINE	Jessa	Almost! It's the same word twice. Hinay. Hinay. (she bobs her head) Like a slow waltz.	!ok_J2-06.15		J2-L.0		
+NODE	J2-L.0	J2-L	CHOICE	Library	Would you like a tutor session with Jessa?			J2-L.1		
+OPTION	J2-L.0	Learn together	
+OPTION	J2-L.0	Continue the story	set:skip_J2-L=true
+NODE	J2-L.1	J2-L	LINE	Narration	In the library at the corner table. Jessa has brought a paper bag and is hiding something behind it.	!skip_J2-L		J2-L.2		
+NODE	J2-L.2	J2-L	LINE	Jessa	Tutor time! Let’s set some rules, rule one: No english for you. You can’t learn if you rely too much on familiar language. Rule two: Each wrong answer means you need to treat me to food for a day in the canteen!	!skip_J2-L		J2-L.3		
+NODE	J2-L.3	J2-L	LINE	MC	Hey that’s—	!skip_J2-L		J2-L.4		
+NODE	J2-L.4	J2-L	LINE	Jessa	Rule one! Unless you wanna treat me so badly.	!skip_J2-L		J2-L.5		
+NODE	J2-L.5	J2-L	LINE	Jessa	Okay let’s begin; the words I chose are very relevant too! Gutom is hungry. Busog is full. Lami is delicious.	!skip_J2-L	hear:learned_gutom;hear:learned_busog	J2-L.6		
+NODE	J2-L.6	J2-L	LINE	Jessa	And kapoy is Tired. You probably know those english words already though.	!skip_J2-L	hear:learned_kapoy	J2-L.7		
+NODE	J2-L.7	J2-L	LINE	MC	Gutom, busog, lami, kapoy.	!skip_J2-L		J2-L.8		
+NODE	J2-L.8	J2-L	LINE	Jessa	Well, now I really want you to get it wrong. This is aking me hungry!	!skip_J2-L		J2-L.9		
+NODE	J2-L.9	J2-L	TYPED	Jessa	Tell Jessa you're hungry.	!skip_J2-L	learn:learned_gutom	J2-L.10	add ko for "I."	Gigutom ko|Gutom ko
+NODE	J2-L.10	J2-L	LINE	Jessa	Gigutom ko too! Let’s go get some food in our system then!	!skip_J2-L&ok_J2-L.9		J2-L.11		
+NODE	J2-L.11	J2-L	LINE	Jessa	Close! Try "ko" after the hungry word. "Ko" is "I." Meaning I’m hungry!	!skip_J2-L&!ok_J2-L.9		J2-L.12		
+NODE	J2-L.12	J2-L	TYPED	Jessa	Tell Jessa the snack is very delicious.	!skip_J2-L	learn:learned_lami	J2-L.13		Lami kaayo|Lami kaayo ni|Lami gyud
+NODE	J2-L.13	J2-L	LINE	Jessa	Kapoy na pud ko...	!skip_J2-L		J2-L.14		
+NODE	J2-L.14	J2-L	LINE	Narration	(She looks up quickly.)	!skip_J2-L		J2-L.15		
+NODE	J2-L.15	J2-L	LINE	Jessa	Don't translate that. It's a secret. (grinning) Nah, kidding aside, it just means "I'm tired again."	!skip_J2-L		J2-L.16		
+NODE	J2-L.16	J2-L	LINE	Jessa	I’m glad you’re learning so well. Next week will be our in-person research too so the fact you’ve gotten the hang of it is… Nice.	!skip_J2-L		J2-L.17		
+NODE	J2-L.17	J2-L	CHOICE	You	How do you answer?	!skip_J2-L		J2-L.18		
+OPTION	J2-L.17	“Salamat kaayo nimo sa tanan.”	set:jessa_gratitude=true
+OPTION	J2-L.17	“All thanks to you.”	
+OPTION	J2-L.17	"It’s because of the project."	aff:-1
+NODE	J2-L.18	J2-L	LINE	Jessa	Woah! You’ve been doing your research huh? (An awkward laugh) Nimo is for saying things to a single person while sa tanan is for everything.	!skip_J2-L&pick_J2-L=A		J2-L.19		
+NODE	J2-L.19	J2-L	LINE	Jessa	You’re basically telling me—	!skip_J2-L&pick_J2-L=A		J2-L.20		
+NODE	J2-L.20	J2-L	LINE	MC	Thank you so much for everything.	!skip_J2-L&pick_J2-L=A		J2-L.21		
+NODE	J2-L.21	J2-L	LINE	Jessa	You make it sound like I did something crazy… (Looks away) Way sapayan. You’re welcome.	!skip_J2-L&pick_J2-L=A		J2-L.22		
+NODE	J2-L.22	J2-L	LINE	Jessa	I’m glad my student finally knows respect!	!skip_J2-L&pick_J2-L=B		J2-L.23		
+NODE	J2-L.23	J2-L	LINE	Jessa	Don’t tell me you’re only learning for the project!?	!skip_J2-L&pick_J2-L=C		J2-L.24		
+NODE	J2-L.24	J2-L	AUTO			!skip_J2-L	library:1	J3-00.0		
+NODE	J3-00.0	J3-00	LINE	Narration	Room 401, afternoon. Nikka has a ledger and a calculator she doesn't need. Jessa is sitting on a desk, which is not a chair. Inna is making a color-coded list on the whiteboard.			J3-00.1		
+NODE	J3-00.1	J3-00	LINE	Nikka	Okay, I believe its time for the club budget meeting. Ma’am said the in-person trips are paid out of our own pockets, so I did the math.			J3-00.2		
+NODE	J3-00.2	J3-00	LINE	Jessa	AGH! Math, and so early in the day!? My poor ears !!!			J3-00.3		
+NODE	J3-00.3	J3-00	LINE	Nikka	We would need money for transportation, food, and Jessa’ impulsive shopping sprees.			J3-00.4		
+NODE	J3-00.4	J3-00	LINE	Jessa	Hey don’t put a tax on my motivation!			J3-00.5		
+NODE	J3-00.5	J3-00	LINE	Inna	Motivation is questionable if it’s a 300 lost on the first day.			J3-00.6		
+NODE	J3-00.6	J3-00	LINE	Nikka	(ignores) It would be a total of around three thousand five hundred for the total expenses. It’s best to make your money’s worth by actually doing the project and wasting time treating this as a vacation. Got it, children?			J3-00.7		
+NODE	J3-00.7	J3-00	LINE	Narration	(They all look at you. You weren't expecting to be the one deciding.)			J3-00.8		
+NODE	J3-00.8	J3-00	LINE	Jessa	Hey boss, don't stress about it! You don't have to say yes right now. Lola will cook, and my tita's cousin has extra mats, so no hotel! You just bring yourself and transportation money!			J3-00.9		
+NODE	J3-00.9	J3-00	CHOICE	You	How do you answer?			J3-00.10		
+OPTION	J3-00.9	"I'll go. I want to hear the language where it lives."	aff:+1
+OPTION	J3-00.9	"I'm worried about the cost."	
+OPTION	J3-00.9	"Can I decide tomorrow?"	
+NODE	J3-00.10	J3-00	LINE	Jessa	YAY! (then, quieter) Thank you. Really. It means a lot that you'd go all that way for this.	pick_J3-00=A		J3-00.11		
+NODE	J3-00.11	J3-00	LINE	Nikka	Pay your share by Friday, Mx. [LAST NAME].	pick_J3-00=A		J3-00.12		
+NODE	J3-00.12	J3-00	LINE	Inna	(dry) You’re too obsessed with money, Nikka.	pick_J3-00=A		J3-00.13		
+NODE	J3-00.13	J3-00	LINE	Nikka	I said that because I'm the treasurer. Nothing more, or less.	pick_J3-00=A		J3-00.14		
+NODE	J3-00.14	J3-00	LINE	Jessa	Oh, it’s alright, trust me (she hops off the desk) I’m the club president so I’m in charge with making sure my clubmates are all accounted for. With that, I’m using the class funds to treat you!	pick_J3-00=B		J3-00.15		
+NODE	J3-00.15	J3-00	LINE	Nikka	She didn’t even do that when I needed money. (flatly) I'll log it as a "donation." Sliding scale.	pick_J3-00=B		J3-00.16		
+NODE	J3-00.16	J3-00	LINE	Inna	That's… actually very kind of you, Jessa.	pick_J3-00=B		J3-00.17		
+NODE	J3-00.17	J3-00	LINE	Jessa	Why would I give you money if I don’t know where you’re using it!	pick_J3-00=B		J3-00.18		
+NODE	J3-00.18	J3-00	LINE	Nikka	Don’t make it sound weird.	pick_J3-00=B		J3-00.19		
+NODE	J3-00.19	J3-00	LINE	Jessa	Of course! Sleep on it, boss. Lola isn't going anywhere. She's been there for forty years.	pick_J3-00=C		J3-00.20		
+NODE	J3-00.20	J3-00	LINE	Narration	(Nikka writes your name in pencil. Not pen. You notice.)	pick_J3-00=C		J3-01.0		
+NODE	J3-01.0	J3-01	LINE	Narration	Cebuano streets. A busy roadside in Cebu at noon. Lola Ising sits behind a food stall under a blue tarp as cousin Yani wipes the counter.			J3-01.1		
+NODE	J3-01.1	J3-01	LINE	Jessa	La! This is [PLAYER NAME], my project partner! They’re the new club member and my favorite student.			J3-01.2		
+NODE	J3-01.2	J3-01	LINE	Lola Ising	Aaah. Iha, don’t treat your friends like they’re your students. [PLAYER NAME], sit. Kaon.			J3-01.3		
+NODE	J3-01.3	J3-01	LINE	Narration	(She puts a plate in front of you.)			J3-01.4		
+NODE	J3-01.4	J3-01	LINE	Yani	(whispering) She already decided she likes you. Don't ruin it.			J3-01.5		
+NODE	J3-01.5	J3-01	LINE	Lola Ising	Lami?			J3-01.6		
+NODE	J3-01.6	J3-01	LINE	MC	Lami kaayo, La.	learned_lami		J3-01.7		
+NODE	J3-01.7	J3-01	LINE	Narration	(Lola's eyebrows go up. Yani snorts.)	learned_lami		J3-01.8		
+NODE	J3-01.8	J3-01	LINE	Lola Ising	Aaay! This one speaks! Jessa, this one speaks!	learned_lami		J3-01.9		
+NODE	J3-01.9	J3-01	LINE	Jessa	La, they know "lami."	learned_lami		J3-01.10		
+NODE	J3-01.10	J3-01	LINE	Lola Ising	Then they can eat more. Here. (adds another piece) Ask what you want to ask.	learned_lami		J3-01.11		
+NODE	J3-01.11	J3-01	AUTO			learned_lami	set:lola_impressed=true;variant:+1	J3-01.12		
+NODE	J3-01.12	J3-01	LINE	MC	It's really good, La. Salamat kaayo.	!learned_lami		J3-01.13		
+NODE	J3-01.13	J3-01	LINE	Narration	(Lola nods. Jessa leans over.)	!learned_lami		J3-01.14		
+NODE	J3-01.14	J3-01	LINE	Jessa	She says your accent needs work but your heart is in it.	!learned_lami		J3-01.15		
+NODE	J3-01.15	J3-01	LINE	Lola Ising	That is not what I said.			J3-01.16		
+NODE	J3-01.16	J3-01	LINE	Lola Ising	Always the funny one, this child. Even at funerals.			J3-01.17		
+NODE	J3-01.17	J3-01	LINE	Jessa	La.			J3-01.18		
+NODE	J3-01.18	J3-01	LINE	Lola Ising	I'm complimenting you.			J3-01.19		
+NODE	J3-01.19	J3-01	LINE	Jessa	It doesn't sound like it.			J3-01.20		
+NODE	J3-01.20	J3-01	LINE	Narration	(A beat. Then Jessa is suddenly telling a story about the club you’ve already known by heart. The stall laughs. Nobody notices she changed the subject, except you.)			J3-01.21		
+NODE	J3-01.21	J3-01	TYPED	Jessa	Write "Please repeat that."		learn:learned_palihug;aff:+1	J3-02.0	it starts with "Palihug."	Palihug balika
+NODE	J3-02.0	J3-02	LINE	Narration	Jessa’s home. Lola Ising's house behind the stall. A small kitchen with a rice cooker, plastic chairs, and a calendar from three years ago. Jessa folds a chair, unfolds it, folds it again.			J3-02.1		
+NODE	J3-02.1	J3-02	LINE	Jessa	You noticed, didn’t you?			J3-02.2		
+NODE	J3-02.2	J3-02	LINE	MC	That you changed the subject earlier?			J3-02.3		
+NODE	J3-02.3	J3-02	LINE	Jessa	Hah. (she sits on the unfolded chair and looks at you) I have a tendency to… minimize things. With jokes, as you can see earlier.			J3-02.4		
+NODE	J3-02.4	J3-02	LINE	MC	Does that make it easier to talk about things?			J3-02.5		
+NODE	J3-02.5	J3-02	LINE	Jessa	Sometimes. But sometimes people think that’s all I am. It’s… bad.			J3-02.6		
+NODE	J3-02.6	J3-02	LINE	Jessa	I was going to say something deep just now but I don’t think I have it in me.			J3-02.7		
+NODE	J3-02.7	J3-02	LINE	MC	You don't have to say it funny. Or say anything at all if it’s hard for you.			J3-02.8		
+NODE	J3-02.8	J3-02	LINE	Jessa	I know. I just... I don't know what happens if I stop. It’s scary.			J3-02.9		
+NODE	J3-02.9	J3-02	CHOICE	You	What do you say?			J3-02.10		
+OPTION	J3-02.9	"I’m here to listen."	set:keySceneResolved=true;set:jessa_boundary_respected=true;aff:+2
+OPTION	J3-02.9	"You should stop hiding it away."	set:keySceneResolved=false;aff:-1
+OPTION	J3-02.9	Make a joke to change the subject	set:keySceneResolved=false
+NODE	J3-02.10	J3-02	LINE	MC	If you need it, I’m here to listen. I’m not really good with comfort but… I’m good with words?	pick_J3-02=A		J3-02.11		
+NODE	J3-02.11	J3-02	LINE	Narration	(Jessa laughs a little before it dies down quietly. She takes a long deep breath.)	pick_J3-02=A		J3-02.12		
+NODE	J3-02.12	J3-02	LINE	Jessa	When Lolo died, everyone at the wake was crying and I couldn't stand how quiet it was. So I told a joke, just one. And they all laughed. And everyone said I was… brave.	pick_J3-02=A		J3-02.13		
+NODE	J3-02.13	J3-02	LINE	MC	Were you?	pick_J3-02=A		J3-02.14		
+NODE	J3-02.14	J3-02	LINE	Jessa	No. I was scared of the quiet. And now I'm scared that if I stop being the funny one, nobody will want what's left.	pick_J3-02=A		J3-02.15		
+NODE	J3-02.15	J3-02	LINE	MC	"Gimingaw." You said it at the library. You miss him.	pick_J3-02=A&learned_gimingaw		J3-02.16		
+NODE	J3-02.16	J3-02	LINE	Jessa	(stunned, quietly) Gimingaw ko. Every day. You really remembered. (a shaky smile) Okay. Okay, that's... thank you.	pick_J3-02=A&learned_gimingaw		J3-02.17		
+NODE	J3-02.17	J3-02	AUTO			pick_J3-02=A&learned_gimingaw	variant:+1	J3-02.18		
+NODE	J3-02.18	J3-02	LINE	Jessa	Can you just sit here with me?	pick_J3-02=A		J3-02.19		
+NODE	J3-02.19	J3-02	LINE	Narration	(You sit. Lola's radio plays a slow song from the next room.)	pick_J3-02=A		J3-02.20		
+NODE	J3-02.20	J3-02	LINE	Jessa	(snaps) You make it sound easy.	pick_J3-02=B		J3-02.21		
+NODE	J3-02.21	J3-02	LINE	Jessa	I'm sorry I didn’t—	pick_J3-02=B		J3-02.22		
+NODE	J3-02.22	J3-02	LINE	Narration	(She stacks the chair too quickly. Her smile is nothing but a line.)	pick_J3-02=B		J3-02.23		
+NODE	J3-02.23	J3-02	LINE	Jessa	I'll check if Lola needs anything.	pick_J3-02=B		J3-02.24		
+NODE	J3-02.24	J3-02	LINE	Jessa	(laughing, half a second late) Funny. You’re so funny, [LAST NAME].	pick_J3-02=C		J3-02.25		
+NODE	J3-02.25	J3-02	LINE	Narration	(Her shoulders drop, just slightly. The thing she was about to say goes back in.)	pick_J3-02=C		J3-03.0		
+NODE	J3-03.0	J3-03	LINE	Narration	Home. The same kitchen, but under the dim evening light. The rice cooker clicks off. Jessa washes, you dry. Yani sets the table and eavesdrops on purpose.			J3-03.1		
+NODE	J3-03.1	J3-03	LINE	Yani	Ate Ate! ikaw na ang mag-hugas, ha. (grinning) I'm kidding. I wanna watch you teach!			J3-03.2		
+NODE	J3-03.2	J3-03	LINE	Jessa	Oh sure Yani, watch your big sis be the best teacher around. You probably already know what Ate means in Bisaya, which is older sister, like what silly Yani calls me!		hear:learned_ate	J3-03.3		
+NODE	J3-03.3	J3-03	LINE	MC	Even me?			J3-03.4		
+NODE	J3-03.4	J3-03	LINE	Jessa	In Cebu, Ate and Kuya are for everyone who looks a little older, just like how it is for Tagalog. The usual Ate for me, Kuya for a vendor. (a beat) And Lola is for the one who runs everything.			J3-03.5		
+NODE	J3-03.5	J3-03	LINE	Narration	(A plate changes hands. Your fingers touch. Jessa clears her throat and talks very fast about the plate's feelings.)			J3-03.6		
+NODE	J3-03.6	J3-03	LINE	Narration	Taste Lola's leftover adobo together	pick_J3-02=A	aff:+1	J3-03.7		
+NODE	J3-03.7	J3-03	LINE	Jessa	Boss! Come ‘ere and try this! Tell me what you think. No sugarcoating!	pick_J3-02=A		J3-03.8		
+NODE	J3-03.8	J3-03	LINE	MC	It's really good.	pick_J3-02=A		J3-03.9		
+NODE	J3-03.9	J3-03	LINE	Jessa	Say it in Cebuano. (smirks) Lami kaayo.	pick_J3-02=A		J3-03.10		
+NODE	J3-03.10	J3-03	TYPED	Jessa	Write "It's really delicious."	pick_J3-02=A	learn:learned_lami	J3-03.11		Lami kaayo|Lami gyud
+NODE	J3-03.11	J3-03	LINE	Jessa	(softly) Thanks for sitting with me earlier.	pick_J3-02=A		J3-03.12		
+NODE	J3-03.12	J3-03	LINE	MC	Walay sapayan, Jessa.	pick_J3-02=A		J3-03.13		
+NODE	J3-03.13	J3-03	LINE	Narration	Repair: apologize	!pick_J3-02=A	set:jessa_boundary_respected=true	J3-03.14		
+NODE	J3-03.14	J3-03	LINE	MC	I'm sorry about before. I shouldn't have said that. Pasayloa ko.	!pick_J3-02=A		J3-03.15		
+NODE	J3-03.15	J3-03	LINE	Jessa	(a pause, then quietly) Correct… That's the right way to say it.	!pick_J3-02=A		J3-03.16		
+NODE	J3-03.16	J3-03	LINE	MC	I just wanted to know what was going on and I rushed you through it.	!pick_J3-02=A		J3-03.17		
+NODE	J3-03.17	J3-03	LINE	Jessa	It’s alright. Don’t worry, you can’t really ignore curiosity.	!pick_J3-02=A		J3-03.18		
+NODE	J3-03.18	J3-03	LINE	MC	I'll just listen.	!pick_J3-02=A		J3-03.19		
+NODE	J3-03.19	J3-03	LINE	Jessa	I’ll tell you when I’m ready [PLAYER NAME]..	!pick_J3-02=A		J3-03.20		
+NODE	J3-03.20	J3-03	AUTO			!pick_J3-02=A	learn:learned_pasayloa	J3-S.0		
+NODE	J3-S.0	J3-S	LINE	Narration	Library, back on campus. Sticky notes from Cebu are pinned in the carrel.			J3-S.1		
+NODE	J3-S.1	J3-S	LINE	System	STUDY BREAK — Cebuano: Feelings and Endearments. Five items.			J3-S.2		
+NODE	J3-S.2	J3-S	QUIZ	Study Break	"Gimingaw ko nimo" most closely means...		learn:learned_gimingaw	J3-S.3		0
+OPTION	J3-S.2	I miss you	
+OPTION	J3-S.2	I'm hungry	
+OPTION	J3-S.2	I'm angry at you	
+NODE	J3-S.3	J3-S	QUIZ	Study Break	"Pasayloa ko" means...		learn:learned_pasayloa	J3-S.4		0
+OPTION	J3-S.3	I'm sorry; forgive me	
+OPTION	J3-S.3	Thank you	
+OPTION	J3-S.3	Wait a moment	
+NODE	J3-S.4	J3-S	TYPED	Study Break	Write "Thank you for telling me."		learn:learned_salamat_pagsulti	J3-S.5		Salamat kaayo sa imong pagsulti|Salamat kaayo sa pagsulti
+NODE	J3-S.5	J3-S	QUIZ	Study Break	"Ganahan ko nimo" means...		learn:learned_ganahan	J3-S.6		0
+OPTION	J3-S.5	I like you	
+OPTION	J3-S.5	I'm tired	
+OPTION	J3-S.5	I'm lost	
+NODE	J3-S.6	J3-S	QUIZ	Study Break	Which word means "to be tired"?		learn:learned_kapoy	J3-S.7		0
+OPTION	J3-S.6	Kapoy	
+OPTION	J3-S.6	Lami	
+OPTION	J3-S.6	Busog	
+NODE	J3-S.7	J3-S	LINE	Narration	A drawing of a dog sits in the margin of your notes. You don't remember drawing it.			J4-00.0		
+NODE	J4-00.0	J4-00	LINE	Narration	Room 401, presentation morning. Chairs are rearranged into rows. Jessa is nowhere in sight until someone notices a pair of sneakers sticking out from under the supply table.			J4-00.1		
+NODE	J4-00.1	J4-00	LINE	Nikka	There she is. Jessa shoes.			J4-00.2		
+NODE	J4-00.2	J4-00	LINE	Jessa	(from under the table) I'm not here. I'm a chair.			J4-00.3		
+NODE	J4-00.3	J4-00	LINE	Inna	She stole two chairs during the start of the semester. This one is not a chair.			J4-00.4		
+NODE	J4-00.4	J4-00	LINE	MC	Jessa, do you want me to take your place on the first slide?			J4-00.5		
+NODE	J4-00.5	J4-00	LINE	Jessa	No! I want... (a muffled sigh) I want to go back in time and not pick the slide about Lola.			J4-00.6		
+NODE	J4-00.6	J4-00	LINE	Nikka	You picked it because it's the best slide.			J4-00.7		
+NODE	J4-00.7	J4-00	LINE	Jessa	Don't be nice to me, I'll cry on the carpet.			J4-00.8		
+NODE	J4-00.8	J4-00	LINE	Inna	We don't have a carpet.			J4-00.9		
+NODE	J4-00.9	J4-00	LINE	Jessa	Then on the floor!			J4-00.10		
+NODE	J4-00.10	J4-00	LINE	Narration	(You crouch to her level. Nikka hands you a cup of water, then looks away as if she didn't.)			J4-00.11		
+NODE	J4-00.11	J4-00	CHOICE	You	What do you say?			J4-00.12		
+OPTION	J4-00.11	"We'll do it together. Don’t worry, I’m here by your side."	aff:+1
+OPTION	J4-00.11	"Come on up, Jessa. They're waiting."	
+OPTION	J4-00.11	Sit under the table with her for a minute	set:jessa_trust=true;aff:+1
+NODE	J4-00.12	J4-00	LINE	Jessa	(a quiet laugh before finally crawling out) You’ve really seen the best and worse of me huh, [NICKNAME]? Okay. Let’s do it together.	pick_J4-00=A		J4-00.13		
+NODE	J4-00.13	J4-00	LINE	Jessa	(pulling herself up) Hala, so strict naman Boss. Fine. But if I faint, you carry me.	pick_J4-00=B		J4-00.14		
+NODE	J4-00.14	J4-00	LINE	Jessa	...You don't have to do this.	pick_J4-00=C		J4-00.15		
+NODE	J4-00.15	J4-00	LINE	MC	I know. I just need time too.	pick_J4-00=C		J4-00.16		
+NODE	J4-00.16	J4-00	LINE	Narration	(Nikka sighs, then crouches, then Inna sighs, then crouches, too. Four people under a table. The professor walks in.)	pick_J4-00=C		J4-00.17		
+NODE	J4-00.17	J4-00	LINE	Professor	...What on earth is this club.	pick_J4-00=C		J4-01.0		
+NODE	J4-01.0	J4-01	LINE	Narration	Room 401, presentation day. The projector fan whirs. Some students are here to watch the presentation but most are falling asleep.			J4-01.1		
+NODE	J4-01.1	J4-01	LINE	Jessa	(taking the clicker) Good morning, everyone! The projector and I agreed to be professional today, don’t worry! (a ripple of laughter) It’ll try its best.			J4-01.2		
+NODE	J4-01.2	J4-01	LINE	Narration	(A real laugh. She settles into the rhythm of slides, discussion, and jokes littered all over the presentation.)			J4-01.3		
+NODE	J4-01.3	J4-01	LINE	Jessa	Slide six. This one's... (She clicks. A photo of Lola Ising at her stall fills the screen.)			J4-01.4		
+NODE	J4-01.4	J4-01	LINE	Narration	(The fan keeps whirring. Jessa's mouth opens, and nothing comes out.)			J4-01.5		
+NODE	J4-01.5	J4-01	CHOICE	You	What do you do?			J4-01.6		
+OPTION	J4-01.5	Step closer	set:jessa_sincere_message=true;aff:+2
+OPTION	J4-01.5	Cover with a joke about the projector	
+OPTION	J4-01.5	Take over the slide yourself	set:jessa_boundary_respected=false;aff:-1
+NODE	J4-01.6	J4-01	LINE	MC	We have the whole slot. Take your time.	pick_J4-01=A		J4-01.7		
+NODE	J4-01.7	J4-01	LINE	MC	Hinay-hinay lang. (very softly) One word at a time.	pick_J4-01=A&learned_hinay		J4-01.8		
+NODE	J4-01.8	J4-01	LINE	Jessa	(a breath she didn't know she was holding) ...Hinay-hinay. Okay.	pick_J4-01=A&learned_hinay		J4-01.9		
+NODE	J4-01.9	J4-01	AUTO			pick_J4-01=A&learned_hinay	variant:+1	J4-01.10		
+NODE	J4-01.10	J4-01	LINE	Jessa	(the clicker shaking once) This is my Lola. She runs a food stall in Cebu where I live. She taught me that… a word isn't only what it means but it's who's waiting to hear it.	pick_J4-01=A		J4-01.11		
+NODE	J4-01.11	J4-01	LINE	Jessa	Gimingaw ko nimo, La. (to the room) That means I miss you. Because I really do, even if she’s not here to hear it.	pick_J4-01=A&learned_gimingaw		J4-01.12		
+NODE	J4-01.12	J4-01	LINE	Narration	(She looks at you for half a second. You nod, because you know.)	pick_J4-01=A&learned_gimingaw		J4-01.13		
+NODE	J4-01.13	J4-01	AUTO			pick_J4-01=A&learned_gimingaw	variant:+1	J4-01.14		
+NODE	J4-01.14	J4-01	LINE	Jessa	Sometimes the real word is one you say in a quiet voice. I'll say it to her one day.	pick_J4-01=A&!learned_gimingaw		J4-01.15		
+NODE	J4-01.15	J4-01	LINE	Narration	(A beat of silence. Then the professor nods. The class, unprompted, claps.)	pick_J4-01=A		J4-01.16		
+NODE	J4-01.16	J4-01	LINE	Narration	(The class laughs. Jessa laughs too, relief and something else.)	pick_J4-01=B		J4-01.17		
+NODE	J4-01.17	J4-01	LINE	Jessa	Thanks. (quieter) I thought I was ready but I guess not today.	pick_J4-01=B		J4-01.18		
+NODE	J4-01.18	J4-01	LINE	Narration	(You finish the sentence. Jessa nods too fast.)	pick_J4-01=C		J4-01.19		
+NODE	J4-01.19	J4-01	LINE	Jessa	...Thanks. You shouldn’t have. Really.	pick_J4-01=C		J4-02.0		
+NODE	J4-02.0	J4-02	LINE	Narration	Balcony of Building A, night. Campus lights glow in the distance. Jessa leans on the rail with her sleeves over her hands.			J4-02.1		
+NODE	J4-02.1	J4-02	LINE	Jessa	You know, whenever I stop talking, somebody would fill in the gap immediately after.			J4-02.2		
+NODE	J4-02.2	J4-02	LINE	MC	I can keep that gap open for you. So we can take a breather or let that silence settle.			J4-02.3		
+NODE	J4-02.3	J4-02	LINE	Jessa	You say like it’s easy.			J4-02.4		
+NODE	J4-02.4	J4-02	LINE	MC	It’s not easy at all, especially if you’ve done nothing but keep it closed. We can take it slowly.			J4-02.5		
+NODE	J4-02.5	J4-02	LINE	Jessa	I’m just… used to being the person that needs to be optimistic, someone who lights up the room, y’know?			J4-02.6		
+NODE	J4-02.6	J4-02	LINE	MC	You don’t have to give yourself a role to fit in with people, especially with us— the club— or… me.			J4-02.7		
+NODE	J4-02.7	J4-02	LINE	Jessa	But if I don't know what to say?			J4-02.8		
+NODE	J4-02.8	J4-02	LINE	MC	We don’t have to say everything that needs to be said. Sometimes silence is enough to be understood.			J4-02.9		
+NODE	J4-02.9	J4-02	LINE	Jessa	[PLAYER NAME]... Thank you, you understand my feelings better than how I understand it myself. You show me that I shouldn’t lie about my feelings.			J4-02.10		
+NODE	J4-02.10	J4-02	TYPED	Jessa	Tell Jessa thank you for telling you that.		aff:+1	J4-02.11		Salamat kaayo sa imong pagsulti|Salamat kaayo sa pagsulti
+NODE	J4-02.11	J4-02	CHOICE	You	What do you tell her?			@ending		
+OPTION	J4-02.11	"I think I'm falling for you. Would you like to try dating?"	set:confessionChoice=CONFESS
+OPTION	J4-02.11	"I care about you, and I'd be happy staying friends."	set:confessionChoice=FRIENDSHIP
+OPTION	J4-02.11	"You don't have to answer tonight. I just wanted to be honest."	set:confessionChoice=WITHDRAW
+NODE	J-R.0	J-R	LINE	Narration	Balcony of Building A, night. The wind has dropped.			J-R.1		
+NODE	J-R.1	J-R	LINE	Jessa	(breathing out) Woah. I… Uhm… (very softly) Ganahan ko nimo.			J-R.2		
+NODE	J-R.2	J-R	LINE	MC	"Ganahan ko nimo." I like you. (a smile) I know that one.	learned_ganahan		J-R.3		
+NODE	J-R.3	J-R	LINE	Jessa	(a startled laugh, then tearful) You learned that on purpose. That’s cheating! That's... I'm not okay— In a good way, of course!	learned_ganahan		J-R.4		
+NODE	J-R.4	J-R	LINE	Jessa	Let me say it again, you’ve messed me up! Uhm…	learned_ganahan		J-R.5		
+NODE	J-R.5	J-R	LINE	Jessa	Ganahan ko nimo, or In other words, Mahal Kita.	learned_ganahan		J-R.6		
+NODE	J-R.6	J-R	LINE	Jessa	It means I like you… [PLAYER]. It feels more honest when I say it like that.	!learned_ganahan		J-R.7		
+NODE	J-R.7	J-R	LINE	MC	I like you too, Jessa.			J-R.8		
+NODE	J-R.8	J-R	LINE	Jessa	Good. I want to try… Us, dating. Not because you always know what to say, but because you help me find the words			J-R.9		
+NODE	J-R.9	J-R	LINE	MC	You help me find the words too! That’s how we first got to know each other after all.			J-R.10		
+NODE	J-R.10	J-R	LINE	Jessa	I reserve the right to make terrible jokes.			J-R.11		
+NODE	J-R.11	J-R	LINE	MC	I'd be concerned if you didn't.			J-R.12		
+NODE	J-R.12	J-R	LINE	Epilogue	Weeks later. The library table again, but with two cups, and a new sticky note on the notebook: "Ask before assuming. Then ask again."			J-R.13		
+NODE	J-R.13	J-R	END	Ending	BEYOND THE LAUGHTER (ROMANTIC)					
+NODE	J-F.0	J-F	LINE	Narration	Room 401, a week later. Rain on the window.			J-F.1		
+NODE	J-F.1	J-F	LINE	Jessa	It’s been a week since we finished our project. It's just you and I, and a finished project.			J-F.2		
+NODE	J-F.2	J-F	LINE	MC	I value what we have. I don't want to turn it into something you didn't ask for.			J-F.3		
+NODE	J-F.3	J-F	LINE	Jessa	Thanks for saying it like that. I like that we can be honest without making it weird.			J-F.4		
+NODE	J-F.4	J-F	CHOICE	You	A last word			J-F.5		
+OPTION	J-F.4	"Still teammates?"	
+OPTION	J-F.4	"If you ever want a stage, I'll be in the front row."	
+NODE	J-F.5	J-F	LINE	Jessa	Obviously. You better apply into the club again, alright? You’re the perfect secretary!	pick_J-F=A		J-F.6		
+NODE	J-F.6	J-F	LINE	Jessa	(grinning, a little wet around the eyes) What a tease! Don’t worry, Yani misses you more than me now!	pick_J-F=B		J-F.7		
+NODE	J-F.7	J-F	END	Ending	STILL HERE (CLASSMATES ONLY)					
+NODE	J-N.0	J-N	LINE	Narration	Balcony of Building A, night. A respectful distance between you.			J-N.1		
+NODE	J-N.1	J-N	LINE	MC	I think I’ve fallen in love with you, Jessa. Can we start dating?			J-N.2		
+NODE	J-N.2	J-N	LINE	Jessa	(not joking, eyes steady) I care about you. A lot. But I don't feel the same way. I'm sorry.			J-N.3		
+NODE	J-N.3	J-N	LINE	MC	Thank you for telling me honestly.			J-N.4		
+NODE	J-N.4	J-N	LINE	Jessa	You’ve best taught me to say things as what they really are. Thank you, [LAST NAME].			J-N.5		
+NODE	J-N.5	J-N	CHOICE	You	A last word			J-N.6		
+OPTION	J-N.5	"I'd like to keep working on the project with you."	
+OPTION	J-N.5	"Take whatever space you need."	
+NODE	J-N.6	J-N	LINE	Jessa	Yes, of course, just give me a week. I hope that’s alright?	pick_J-N=A		J-N.7		
+NODE	J-N.7	J-N	LINE	Jessa	Thank you. I'll send you a meme in a week and you'll know I'm okay.	pick_J-N=B		J-N.8		
+NODE	J-N.8	J-N	END	Ending	NO PUNCHLINE (REJECTION)					
+NODE	I2-01.0	I2-01	LINE	Narration	Library, afternoon. Section C, third table. A planner lies open to a color-coded week. Inna caps each highlighter before choosing the next.			I2-01.1		
+NODE	I2-01.1	I2-01	LINE	Inna	Here. The task assignment. I printed two copies, in case you lost the first one.			I2-01.2		
+NODE	I2-01.2	I2-01	LINE	MC	Why would I lose it in the first ten minutes?			I2-01.3		
+NODE	I2-01.3	I2-01	LINE	Inna	You've known Jessa for a week, [FIRST NAME]. Objects tend to disappear around her.			I2-01.4		
+NODE	I2-01.4	I2-01	LINE	Inna	I've divided the project into tasks. If we follow this, we'll finish with two days to spare.			I2-01.5		
+NODE	I2-01.5	I2-01	LINE	MC	Two days is rather generous. What makes you think we won’t be stuck cramming?			I2-01.6		
+NODE	I2-01.6	I2-01	LINE	Inna	Three, then. I said only two so it would sound less excessive.			I2-01.7		
+NODE	I2-01.7	I2-01	LINE	MC	I'm choosing to be flattered.			I2-01.8		
+NODE	I2-01.8	I2-01	LINE	Inna	Ahem. Our focus could be expressions across generations. What changes, what stays, the present kumbaga. (a pause) You don't have to agree just because I made a plan. I suppose I can be a little... much.			I2-01.9		
+NODE	I2-01.9	I2-01	LINE	MC	I agree because I think it's a good idea.			I2-01.10		
+NODE	I2-01.10	I2-01	LINE	Inna	(a quick blink) Oh. Okay. Good then. It’s good we can start immediately.			I2-01.11		
+NODE	I2-01.11	I2-01	LINE	Inna	Before we start, a small language fact to ease us in. Ilokano has two kinds of "we." Datayo includes you. Dakami doesn't.		hear:learned_datayo	I2-01.12		
+NODE	I2-01.12	I2-01	LINE	MC	Like Jessa's kita and kami?			I2-01.13		
+NODE	I2-01.13	I2-01	LINE	Inna	(a very faint smile) Cebuano does something similar. Please don't tell her I said so. She'll never stop.			I2-01.14		
+NODE	I2-01.14	I2-01	LINE	Inna	I made a table.			I2-01.15		
+NODE	I2-01.15	I2-01	LINE	Narration	(She slides it across. It has a color key.)			I2-01.16		
+NODE	I2-01.16	I2-01	TYPED	Inna	Which "we" includes you and Inna? Type the Ilokano word.		learn:learned_datayo;aff:+1	I2-01.17	it starts with the same sound as "dakami."	Datayo|datayo
+NODE	I2-01.17	I2-01	LINE	Inna	Correct. Use it like that and people will know you mean them.	ok_I2-01.16		I2-01.18		
+NODE	I2-01.18	I2-01	LINE	Inna	That would leave me standing outside the sentence. Try the other one.	!ok_I2-01.16		I2-01.19		
+NODE	I2-01.19	I2-01	LINE	Inna	(packing up) Intayon. Let's go. It's what you say when the group already includes you.		hear:learned_intayon	I2-02.0		
+NODE	I2-02.0	I2-02	LINE	Narration	Room 401, afternoon. Jessa is waving a cup of milk tea around while telling a story. The cup tips. It heads straight for Inna's planner.			I2-02.1		
+NODE	I2-02.1	I2-02	LINE	Jessa	—and then the guard said, "Ma'am, that's not a bird, that's a— OH NO.			I2-02.2		
+NODE	I2-02.2	I2-02	LINE	Narration	(Brown spreads across the Thursday column. Inna snatches the planner up too late.)			I2-02.3		
+NODE	I2-02.3	I2-02	LINE	Inna	Ay, apay a kasta?! Haan, haan, haan.		hear:learned_apay;hear:learned_haan	I2-02.4		
+NODE	I2-02.4	I2-02	LINE	Narration	(The room freezes. Inna breathes, counts something silently, and squares the planner on the desk.)			I2-02.5		
+NODE	I2-02.5	I2-02	LINE	Jessa	Hala hala hala sorry vice prezi!!! I'll replace it! I'll buy you a new one! I'll buy you ten!			I2-02.6		
+NODE	I2-02.6	I2-02	LINE	Inna	...It wasn't for you. I'm not angry. (a pause) I'm... processing.			I2-02.7		
+NODE	I2-02.7	I2-02	LINE	MC	Was that Ilokano?	!learned_apay		I2-02.8		
+NODE	I2-02.8	I2-02	LINE	Inna	Yes. It means something like "why does it have to be like this." (dry) It's very effective.	!learned_apay		I2-02.9		
+NODE	I2-02.9	I2-02	LINE	Nikka	(from across the room) She says that when Jessa does something unforgivable.	!learned_apay		I2-02.10		
+NODE	I2-02.10	I2-02	LINE	Jessa	I’m sorry !!!!!	!learned_apay		I2-02.11		
+NODE	I2-02.11	I2-02	LINE	MC	"Apay a kasta." Why does it have to be like this? (gently) It happens to everyone.	learned_apay		I2-02.12		
+NODE	I2-02.12	I2-02	LINE	Inna	(a pause) You understood that. (a small, surprised exhale) It's strange. I feel less embarrassed, not more.	learned_apay		I2-02.13		
+NODE	I2-02.13	I2-02	AUTO			learned_apay	set:inna_heard_apay=true;variant:+1	I2-02.14		
+NODE	I2-02.14	I2-02	CHOICE	You	What do you do?			I2-02.15		
+OPTION	I2-02.14	Help blot the planner and say nothing about it	aff:+1
+OPTION	I2-02.14	"I can print another copy."	
+OPTION	I2-02.14	"It's just a planner."	set:inna_minimized=true
+NODE	I2-02.15	I2-02	LINE	Inna	Thank you. It's only paper. (a breath) Well, it’s a notebook of paper.	pick_I2-02=A		I2-02.16		
+NODE	I2-02.16	I2-02	LINE	Inna	Thank you, but the notes were in the margins. (a small smile) Those I can't print.	pick_I2-02=B		I2-02.17		
+NODE	I2-02.17	I2-02	LINE	Inna	(evenly) I suppose it is just.	pick_I2-02=C		I2-03.0		
+NODE	I2-03.0	I2-03	LINE	Narration	Library, late afternoon. A free hour, a window seat, and a quiet reading room.			I2-03.1		
+NODE	I2-03.1	I2-03	LINE	System	STUDY BREAK — Ilokano: Question Words. Five items.			I2-03.2		
+NODE	I2-03.2	I2-03	QUIZ	Study Break	"Ania" means...		learn:learned_ania	I2-03.3		0
+OPTION	I2-03.2	what	
+OPTION	I2-03.2	where	
+OPTION	I2-03.2	when	
+NODE	I2-03.3	I2-03	QUIZ	Study Break	"Apay" asks...		learn:learned_apay	I2-03.4		0
+OPTION	I2-03.3	why	
+OPTION	I2-03.3	who	
+OPTION	I2-03.3	how many	
+NODE	I2-03.4	I2-03	QUIZ	Study Break	Which word means "three"?		learn:learned_maysa	I2-03.5		1
+OPTION	I2-03.4	Dua	
+OPTION	I2-03.4	Tallo	
+OPTION	I2-03.4	Lima	
+NODE	I2-03.5	I2-03	TYPED	Study Break	Write "What do you want?"		learn:learned_kayat	I2-03.6		Ania ti kayat mo?|Ania ti kayat mo nga aramiden?
+NODE	I2-03.6	I2-03	QUIZ	Study Break	"Pangngaasim" is used when you want to say...		learn:learned_pangngaasim	I2-03.7		0
+OPTION	I2-03.6	please	
+OPTION	I2-03.6	sorry	
+OPTION	I2-03.6	congratulations	
+NODE	I2-03.7	I2-03	LINE	System	Study Break complete. New: Ania, Apay, Tallo (numbers), Ania ti kayat mo?, Pangngaasim.			I2-03.8		
+NODE	I2-03.8	I2-03	LINE	Narration	A librarian looks over her glasses, nods once, and returns to the stacks.			I2-04.0		
+NODE	I2-04.0	I2-04	LINE	Narration	Library, evening. The reading room is almost empty. Inna is tallying the club's funds on the back of a flyer, lips moving.			I2-04.1		
+NODE	I2-04.1	I2-04	LINE	Narration	(She doesn't notice you sit across from her.)			I2-04.2		
+NODE	I2-04.2	I2-04	LINE	Inna	Maysa, dua, tallo, uppat... (writing) ...lima. Lima. Narigat. (she presses her pen to the page) Too much. It's too much.		hear:learned_narigat	I2-04.3		
+NODE	I2-04.3	I2-04	LINE	Inna	Nikka said we don't have the funds, and Nikka is right, and I hate it. (to the paper) Maysa, dua, tallo. Okay.			I2-04.4		
+NODE	I2-04.4	I2-04	LINE	Narration	(She looks up.)			I2-04.5		
+NODE	I2-04.5	I2-04	LINE	Inna	Oh. I didn't see you. How long have you been there?			I2-04.6		
+NODE	I2-04.6	I2-04	LINE	MC	Maysa, dua, tallo, uppat, lima. Five. (smiling) Five what?	learned_maysa		I2-04.7		
+NODE	I2-04.7	I2-04	LINE	Inna	(stunned, a laugh breaking out) It’s a list of five things I need to achieve this week. (a beat, softer) It’s a lot, so can you join me for a while? I’ll be out after	learned_maysa		I2-04.8		
+NODE	I2-04.8	I2-04	AUTO			learned_maysa	set:inna_noticed_overload=true;variant:+1	I2-04.9		
+NODE	I2-04.9	I2-04	LINE	MC	Counting?	!learned_maysa		I2-04.10		
+NODE	I2-04.10	I2-04	LINE	Inna	(neatly) Numbers. I count when I plan. It helps. (a pause) In Ilokano. I don't know why. It feels more... complete.	!learned_maysa		I2-05.0		
+NODE	I2-05.0	I2-05	LINE	Narration	Room 401, after rehearsal. You ask Inna to explain a slide a second time.			I2-05.1		
+NODE	I2-05.1	I2-05	LINE	Inna	(patiently) Again. Slowly. Like this.			I2-05.2		
+NODE	I2-05.2	I2-05	LINE	Narration	(You get it wrong. Inna's mouth twitches.)			I2-05.3		
+NODE	I2-05.3	I2-05	LINE	Inna	Ay, ading. (a very small, very dry smile)		hear:learned_ading	I2-05.4		
+NODE	I2-05.4	I2-05	LINE	MC	What does that mean?	!learned_ading		I2-05.5		
+NODE	I2-05.5	I2-05	LINE	Inna	It means I have a lot of patience for you. (a beat) Look it up.	!learned_ading		I2-05.6		
+NODE	I2-05.6	I2-05	LINE	MC	"Ading." Little sibling. (raising an eyebrow) Then you must be... Manang Inna.	learned_ading		I2-05.7		
+NODE	I2-05.7	I2-05	LINE	Inna	(a short, helpless laugh) I feel like you’ve aged me ten years all of a sudden. Don’t call me Manang, [FIRST NAME].	learned_ading		I2-05.8		
+NODE	I2-05.8	I2-05	AUTO			learned_ading	set:inna_teased_back=true;variant:+1	I2-05.9		
+NODE	I2-05.9	I2-05	LINE	Nikka	She says "ading" to anyone she's decided to look after.			I2-05.10		
+NODE	I2-05.10	I2-05	LINE	Inna	Nikka.			I2-05.11		
+NODE	I2-05.11	I2-05	LINE	Nikka	I'm only helping with the research.			I2-05.12		
+NODE	I2-05.12	I2-05	LINE	Jessa	(from the doorway) What did I miss? Why is everyone being soft without me?			I2-06.0		
+NODE	I2-06.0	I2-06	LINE	Narration	Library, afternoon. Section C is crowded. Jessa and Nikka both want the corner table. They're pretending they don't.			I2-06.1		
+NODE	I2-06.1	I2-06	LINE	Jessa	I saw it first.			I2-06.2		
+NODE	I2-06.2	I2-06	LINE	Nikka	You saw it after you saw me sit down.			I2-06.3		
+NODE	I2-06.3	I2-06	LINE	Jessa	That's called seeing it first.			I2-06.4		
+NODE	I2-06.4	I2-06	LINE	Nikka	That's called a heist.			I2-06.5		
+NODE	I2-06.5	I2-06	LINE	Jessa	You keep saying that word!			I2-06.6		
+NODE	I2-06.6	I2-06	LINE	Narration	(Inna looks up from her planner, closes it very gently, and says one word:)			I2-06.7		
+NODE	I2-06.7	I2-06	LINE	Inna	Bay-am.			I2-06.8		
+NODE	I2-06.8	I2-06	LINE	Narration	(Silence. Jessa and Nikka both stop. They sit at opposite ends of the table.)			I2-06.9		
+NODE	I2-06.9	I2-06	LINE	MC	What did you say?			I2-06.10		
+NODE	I2-06.10	I2-06	LINE	Inna	"Bay-am." It means "leave it," or "let it be." It isn't rude, but it ends the conversation. (a beat) My mother uses it. It works on me too.			I2-06.11		
+NODE	I2-06.11	I2-06	TYPED	Inna	Tell Inna to let it go.		learn:learned_bayam	I2-06.12	it has a hyphen, like a pause in the middle of the word.	Bay-am|Bay-am lattan
+NODE	I2-06.12	I2-06	LINE	Inna	(a tiny, pleased nod) That was the right amount of firm.	ok_I2-06.11		I2-06.13		
+NODE	I2-06.13	I2-06	LINE	Inna	Close. Say it like you're setting a cup down gently.	!ok_I2-06.11		I2-06.14		
+NODE	I2-06.14	I2-06	LINE	Jessa	Wait, can I say bay-am to Nikka?			I2-06.15		
+NODE	I2-06.15	I2-06	LINE	Nikka	You can say it, but I won't listen.			I2-L.0		
+NODE	I2-L.0	I2-L	CHOICE	Library	Would you like a tutor session with Inna?			I2-L.1		
+OPTION	I2-L.0	Learn together	
+OPTION	I2-L.0	Continue the story	set:skip_I2-L=true
+NODE	I2-L.1	I2-L	LINE	Narration	Library, evening. The same study table. Inna has color-coded flashcards and a small, nervous kind of excitement.	!skip_I2-L		I2-L.2		
+NODE	I2-L.2	I2-L	LINE	Inna	I’ve made a lesson play for you to follow along. Just read it through and… [PLAYER NAME].	!skip_I2-L		I2-L.3		
+NODE	I2-L.3	I2-L	LINE	MC	Manang Inna.	!skip_I2-L		I2-L.4		
+NODE	I2-L.4	I2-L	LINE	Inna	In what way do I look like a Manang to you?	!skip_I2-L		I2-L.5		
+NODE	I2-L.5	I2-L	LINE	MC	Just the fact you’ve made me all this makes it seem like you’re my elder!	!skip_I2-L		I2-L.6		
+NODE	I2-L.6	I2-L	LINE	Inna	(a beat) ...Oh, whatever. Anyways… Lesson one: numbers. Maysa, dua, tallo, uppat, lima. One to five.	!skip_I2-L		I2-L.7		
+NODE	I2-L.7	I2-L	LINE	Inna	Lesson two: Pangngaasim. "Please." You use it before a request. It makes the request softer.	!skip_I2-L		I2-L.8		
+NODE	I2-L.8	I2-L	LINE	Inna	And lesson three: Kayat ko. "I want," or "I like." You'll need it more than you think.	!skip_I2-L	hear:learned_kayat_ko	I2-L.9		
+NODE	I2-L.9	I2-L	LINE	Inna	Lesson four, which Nikka insists I include: ading is a younger sibling, manang is an older sister. Ilokano pays attention to who is older. (dry) It's very organized.	!skip_I2-L		I2-L.10		
+NODE	I2-L.10	I2-L	TYPED	Inna	Ask Inna "What do you want?"	!skip_I2-L	learn:learned_kayat;library:+1	I2-L.11		Ania ti kayat mo?
+NODE	I2-L.11	I2-L	LINE	Inna	(a pause) You asked me what I want. (quietly) I don't usually have an answer ready. I'll think about it.	!skip_I2-L&ok_I2-L.10		I2-L.12		
+NODE	I2-L.12	I2-L	LINE	Inna	Almost. "Ania" is the "what." Start there.	!skip_I2-L&!ok_I2-L.10		I2-L.13		
+NODE	I2-L.13	I2-L	LINE	Inna	(while packing the cards) Pangngaasim. (quietly, to herself, for no reason)	!skip_I2-L		I2-L.14		
+NODE	I2-L.14	I2-L	AUTO			!skip_I2-L	library:1;learn:learned_maysa;learn:learned_ading;learn:learned_pangngaasim	I3-00.0		
+NODE	I3-00.0	I3-00	LINE	Narration	Room 401, afternoon. Inna has made a spreadsheet and a backup spreadsheet. Nikka is auditing both. Jessa is eating chips.			I3-00.1		
+NODE	I3-00.1	I3-00	LINE	Inna	I've listed the costs for Vigan. Bus, jeepney, lodging at my relatives', and a "contingency."			I3-00.2		
+NODE	I3-00.2	I3-00	LINE	Nikka	What's contingency?			I3-00.3		
+NODE	I3-00.3	I3-00	LINE	Inna	Jessa.			I3-00.4		
+NODE	I3-00.4	I3-00	LINE	Jessa	Hey! (chewing) ...Fair.			I3-00.5		
+NODE	I3-00.5	I3-00	LINE	Nikka	Total per person, three thousand and fifty. Extra credit applies for in-person research, but it's out of our pockets, so don't come to me for refunds, alright?			I3-00.6		
+NODE	I3-00.6	I3-00	LINE	Inna	(to you, a little too carefully) You don't have to come. I'd understand. But, ahem. If you do, I would be... (a pause) glad.			I3-00.7		
+NODE	I3-00.7	I3-00	CHOICE	You	How do you answer?			I3-00.8		
+OPTION	I3-00.7	"I'll go. I want to meet your family."	aff:+1
+OPTION	I3-00.7	"I'm worried about the cost."	
+OPTION	I3-00.7	"Can I decide tomorrow?"	
+NODE	I3-00.8	I3-00	LINE	Inna	(a small, startled smile) Then I'll make you a packing list.	pick_I3-00=A		I3-00.9		
+NODE	I3-00.9	I3-00	LINE	Jessa	Of course she will.	pick_I3-00=A		I3-00.10		
+NODE	I3-00.10	I3-00	LINE	Inna	I've already budgeted a sliding scale for the club. Nikka approved it.	pick_I3-00=B		I3-00.11		
+NODE	I3-00.11	I3-00	LINE	Nikka	I did not approve of it. I’ve acknowledged it.	pick_I3-00=B		I3-00.12		
+NODE	I3-00.12	I3-00	LINE	Inna	You’ve just paraphrased it.	pick_I3-00=B		I3-00.13		
+NODE	I3-00.13	I3-00	LINE	Inna	Of course. Take the time. (writing in pencil) I've left the space.	pick_I3-00=C		I3-01.0		
+NODE	I3-01.0	I3-01	LINE	Narration	A narrow street in Vigan, morning. The family stall is half open; frying oil and calamansi in the air. Apong Pasing sits on a stool; Migo, Inna's younger brother, reads a comic on an upturned crate.			I3-01.1		
+NODE	I3-01.1	I3-01	LINE	Nanang	Ay, ito ba 'yung project partner mo, anak? Kumain ka na ba? Sit, sit, I'll get you something.			I3-01.2		
+NODE	I3-01.2	I3-01	LINE	MC	Salamat po, ma'am. I just ate.			I3-01.3		
+NODE	I3-01.3	I3-01	LINE	Nanang	(to Inna, in a fast whisper) Mukha siyang mabait, ha.			I3-01.4		
+NODE	I3-01.4	I3-01	LINE	Inna	Nanang!			I3-01.5		
+NODE	I3-01.5	I3-01	LINE	Migo	(grinning) She said you look polite. Don't get used to it.			I3-01.6		
+NODE	I3-01.6	I3-01	LINE	Narration	(Inna crouches by Apong Pasing.)			I3-01.7		
+NODE	I3-01.7	I3-01	LINE	MC	Agyamanak, apo. (a small bow) Thank you for letting us visit.	learned_agyamanak		I3-01.8		
+NODE	I3-01.8	I3-01	LINE	Apong Pasing	(surprised, delighted) Aaay. (to Inna) This one has manners.	learned_agyamanak		I3-01.9		
+NODE	I3-01.9	I3-01	LINE	Inna	(a faint blush) They learned it in class.	learned_agyamanak		I3-01.10		
+NODE	I3-01.10	I3-01	LINE	Apong Pasing	In class! Hm. Good.	learned_agyamanak		I3-01.11		
+NODE	I3-01.11	I3-01	AUTO			learned_agyamanak	set:apong_impressed=true;variant:+1	I3-01.12		
+NODE	I3-01.12	I3-01	LINE	MC	Thank you for having us, Apong.	!learned_agyamanak		I3-01.13		
+NODE	I3-01.13	I3-01	LINE	Apong Pasing	(kindly) Sit. Eat.	!learned_agyamanak		I3-01.14		
+NODE	I3-01.14	I3-01	LINE	Apong Pasing	Are you also a people pleaser [PLAYER NAME]? (jokingly) You and Inna seem to get along well. Like birds of a feather!			I3-01.15		
+NODE	I3-01.15	I3-01	LINE	Inna	Apong.			I3-01.16		
+NODE	I3-01.16	I3-01	LINE	Apong Pasing	I'm just telling the truth. She says yes to all of us with no hesitation!			I3-01.17		
+NODE	I3-01.17	I3-01	LINE	Narration	(Inna goes very still. Migo glances at the comic and pretends to read.)			I3-01.18		
+NODE	I3-01.18	I3-01	TYPED	Inna	Write "Thank you very much, Apong."		learn:learned_agyamanak_unay;aff:+1	I3-01.19	you already know the first word.	Agyamanak unay, Apong|Agyamanak unay, apo
+NODE	I3-01.19	I3-01	LINE	Narration	(Nanang catches Inna's sleeve as she stands.)			I3-01.20		
+NODE	I3-01.20	I3-01	LINE	Nanang	Tomorrow, anak. Open the stall at five. Your tita is still sick. Wen?		hear:learned_wen	I3-01.21		
+NODE	I3-01.21	I3-01	LINE	Inna	Wen, Nanang.			I3-01.22		
+NODE	I3-01.22	I3-01	LINE	Narration	(She says it so fast she doesn't hear herself. The interview with Apong was scheduled for tomorrow at five.)			I3-02.0		
+NODE	I3-02.0	I3-02	LINE	Narration	Inna's family house. A small back room with boxes and a table half-covered in notes. Inna folds the same cardboard box three times.			I3-02.1		
+NODE	I3-02.1	I3-02	LINE	Inna	I should cancel the interview. Apong won't mind.			I3-02.2		
+NODE	I3-02.2	I3-02	LINE	MC	Would you mind?			I3-02.3		
+NODE	I3-02.3	I3-02	LINE	Inna	(carefully) I want to finish this project. I also want to be here for them. I don't know how to fit both into one schedule.			I3-02.4		
+NODE	I3-02.4	I3-02	LINE	MC	Maybe we don't have to solve everything today.			I3-02.5		
+NODE	I3-02.5	I3-02	LINE	Inna	It’s just that I think I need to make a decision now. That I have no choice to appease to one and disappoint another.			I3-02.6		
+NODE	I3-02.6	I3-02	CHOICE	You	What do you say?			I3-02.7		
+OPTION	I3-02.6	"Let’s move the interview then, when would you like?"	set:keySceneResolved=true;set:inna_boundary_respected=true;set:inna_autonomy_respected=true;aff:+2
+OPTION	I3-02.6	"Don't worry about your family. Just put the project first."	set:keySceneResolved=false;aff:-1
+OPTION	I3-02.6	Walk out and tell Nanang yourself	set:keySceneResolved=false
+NODE	I3-02.7	I3-02	LINE	Inna	Six-thirty, after closing. I'll explain it to Nanang myself.	pick_I3-02=A		I3-02.8		
+NODE	I3-02.8	I3-02	LINE	MC	Do you want me there?	pick_I3-02=A		I3-02.9		
+NODE	I3-02.9	I3-02	LINE	Inna	Just be by my side, that’s enough. (a breath) Thank you for asking.	pick_I3-02=A		I3-02.10		
+NODE	I3-02.10	I3-02	LINE	MC	Ania ti kayat mo? What do you want?	pick_I3-02=A&learned_kayat		I3-02.11		
+NODE	I3-02.11	I3-02	LINE	Inna	(a long pause) Kayat ko… (she says it as if testing it) I want to do both. I want to try.	pick_I3-02=A&learned_kayat		I3-02.12		
+NODE	I3-02.12	I3-02	AUTO			pick_I3-02=A&learned_kayat	variant:+1	I3-02.13		
+NODE	I3-02.13	I3-02	LINE	Narration	(She stands taller. For the first time all day she doesn't apologize for the space she takes.)	pick_I3-02=A		I3-02.14		
+NODE	I3-02.14	I3-02	LINE	Inna	(very still) You act like they’re some kind of inconvenience. Don’t say that.	pick_I3-02=B		I3-02.15		
+NODE	I3-02.15	I3-02	LINE	MC	I didn't mean...	pick_I3-02=B		I3-02.16		
+NODE	I3-02.16	I3-02	LINE	Inna	I know. (she folds the box again) I'll finish this.	pick_I3-02=B		I3-02.17		
+NODE	I3-02.17	I3-02	LINE	Narration	(You step into the stall. Inna catches your elbow.)	pick_I3-02=C		I3-02.18		
+NODE	I3-02.18	I3-02	LINE	Inna	I wanted to do that myself.	pick_I3-02=C		I3-02.19		
+NODE	I3-02.19	I3-02	LINE	MC	I'm sorry. I thought it would help.	pick_I3-02=C		I3-02.20		
+NODE	I3-02.20	I3-02	LINE	Inna	I know you did. (softly) But please ask next time.	pick_I3-02=C		I3-03.0		
+NODE	I3-03.0	I3-03	LINE	Narration	Inna's family house, late afternoon, after the interview. Inna slips between languages as she goes: Ilokano with Migo, Taglish with you, careful English for her planner.			I3-03.1		
+NODE	I3-03.1	I3-03	LINE	Migo	Manang, where's the rice?			I3-03.2		
+NODE	I3-03.2	I3-03	LINE	Inna	Adda iti kusina. (to you) He needs to ask me for everything.		hear:learned_kusina	I3-03.3		
+NODE	I3-03.3	I3-03	LINE	MC	You're Manang to him.			I3-03.4		
+NODE	I3-03.4	I3-03	LINE	Inna	And Ate to my cousins. (a pause) In English I'm just Inna. I’m all different persons in different contexts.			I3-03.5		
+NODE	I3-03.5	I3-03	LINE	Narration	(Her hand drifts toward her planner again.)			I3-03.6		
+NODE	I3-03.6	I3-03	LINE	MC	Bay-am. (gently) Not yet.	learned_bayam		I3-03.7		
+NODE	I3-03.7	I3-03	LINE	Inna	(stopping, surprised, then a small laugh) You used it on me. That's... allowed. This time.	learned_bayam		I3-03.8		
+NODE	I3-03.8	I3-03	AUTO			learned_bayam	set:inna_heard_bayam=true;variant:+1	I3-03.9		
+NODE	I3-03.9	I3-03	LINE	Narration	Let her choose what to do with the afternoon	pick_I3-02=A	aff:+1	I3-03.10		
+NODE	I3-03.10	I3-03	LINE	Inna	I left Thursday afternoon empty. On purpose. (looking at her planner like a stranger) I want to see if I can do nothing without feeling like I've forgotten something.	pick_I3-02=A		I3-03.11		
+NODE	I3-03.11	I3-03	LINE	MC	What do you want to do?	pick_I3-02=A		I3-03.12		
+NODE	I3-03.12	I3-03	LINE	Inna	Sit on the step with you. And not plan.	pick_I3-02=A		I3-03.13		
+NODE	I3-03.13	I3-03	TYPED	Inna	Write "Let's go."	pick_I3-02=A	learn:learned_intayon	I3-03.14	Inna says it when she packs up.	Intayon|Intayon!
+NODE	I3-03.14	I3-03	LINE	Narration	(She smiles with her whole face. It's a surprise to both of you.)	pick_I3-02=A		I3-03.15		
+NODE	I3-03.15	I3-03	LINE	Narration	Repair: say sorry and listen	!pick_I3-02=A	set:keySceneResolved=true;set:inna_boundary_respected=true	I3-03.16		
+NODE	I3-03.16	I3-03	LINE	MC	I'm sorry I made that harder. Pakawanen mo ak.	!pick_I3-02=A		I3-03.17		
+NODE	I3-03.17	I3-03	LINE	Inna	You learned that quickly.	!pick_I3-02=A		I3-03.18		
+NODE	I3-03.18	I3-03	LINE	MC	I asked Migo. He charged me a snack.	!pick_I3-02=A		I3-03.19		
+NODE	I3-03.19	I3-03	LINE	Inna	(a short, helpless laugh) That's not unreasonable. (more quietly) Thank you. It matters that you came back to apologize.	!pick_I3-02=A		I3-03.20		
+NODE	I3-03.20	I3-03	AUTO			!pick_I3-02=A	learn:learned_pakawanen	I3-03.21		
+NODE	I3-03.21	I3-03	LINE	Narration	Inna opens her planner; in the empty Thursday square she writes: "step."	!pick_I3-02=A		I3-S.0		
+NODE	I3-S.0	I3-S	LINE	Narration	Library, afternoon. Back on campus. A square of sun sits on the carrel.			I3-S.1		
+NODE	I3-S.1	I3-S	LINE	System	STUDY BREAK — Ilokano: Apology and Warmth. Five items.			I3-S.2		
+NODE	I3-S.2	I3-S	QUIZ	Study Break	"Pakawanen mo ak" means...		learn:learned_pakawanen	I3-S.3		0
+OPTION	I3-S.2	forgive me	
+OPTION	I3-S.2	thank you	
+OPTION	I3-S.2	wait for me	
+NODE	I3-S.3	I3-S	QUIZ	Study Break	"Agyamanak unay" means...		learn:learned_agyamanak_unay	I3-S.4		0
+OPTION	I3-S.3	thank you very much	
+OPTION	I3-S.3	good morning	
+OPTION	I3-S.3	I'm hungry	
+NODE	I3-S.4	I3-S	QUIZ	Study Break	"Haan a nalaka" most closely means...		learn:learned_haan_nalaka	I3-S.5		0
+OPTION	I3-S.4	it's not easy	
+OPTION	I3-S.4	it's delicious	
+OPTION	I3-S.4	it's morning	
+NODE	I3-S.5	I3-S	TYPED	Study Break	Write "I want to choose."		learn:learned_kayat_agpili	I3-S.6		Kayat ko ti agpili
+NODE	I3-S.6	I3-S	QUIZ	Study Break	"Ay-ayaten ka" means...		learn:learned_ayayaten	I3-S.7		0
+OPTION	I3-S.6	I love you	
+OPTION	I3-S.6	I'm tired	
+OPTION	I3-S.6	Come here	
+NODE	I3-S.7	I3-S	LINE	Narration	The page of notes smells faintly of cardboard and frying oil.			I4-00.0		
+NODE	I4-00.0	I4-00	LINE	Narration	Room 401, presentation morning. Chairs in rows. Inna is rereading her script for the ninth time. The corner of the page is soft from handling.			I4-00.1		
+NODE	I4-00.1	I4-00	LINE	Jessa	Vice prezi. It's fine! You rehearsed this multiple times.			I4-00.2		
+NODE	I4-00.2	I4-00	LINE	Inna	I rehearsed it twelve times. It's the thirteenth that frightens me.			I4-00.3		
+NODE	I4-00.3	I4-00	LINE	Nikka	Superstitious?			I4-00.4		
+NODE	I4-00.4	I4-00	LINE	Inna	No, just statistics...			I4-00.5		
+NODE	I4-00.5	I4-00	LINE	MC	Do you want to run through the last slide?			I4-00.6		
+NODE	I4-00.6	I4-00	LINE	Inna	...No. (a pause) I added a slide. It wasn’t in the plan I’ve drafted at all.			I4-00.7		
+NODE	I4-00.7	I4-00	LINE	Jessa	Ooh, a secret slide!			I4-00.8		
+NODE	I4-00.8	I4-00	LINE	Nikka	(flatly) Jessa.			I4-00.9		
+NODE	I4-00.9	I4-00	LINE	Jessa	I'm being supportive!			I4-00.10		
+NODE	I4-00.10	I4-00	LINE	Inna	I'm not showing you. I'm just saying it exists. Mostly so I can't take it back.			I4-00.11		
+NODE	I4-00.11	I4-00	CHOICE	You	What do you say?			I4-00.12		
+OPTION	I4-00.11	"Whatever you added, it's all yours. I'm here."	aff:+1
+OPTION	I4-00.11	"Can you show me? I can help you fix it."	
+OPTION	I4-00.11	Squeeze her hand once and let go	set:inna_trust=true;aff:+1
+NODE	I4-00.12	I4-00	LINE	Inna	(quietly) Thank you. That's... exactly what I needed to hear.	pick_I4-00=A		I4-00.13		
+NODE	I4-00.13	I4-00	LINE	Inna	(stiffly) I'd rather not. But thank you for offering.	pick_I4-00=B		I4-00.14		
+NODE	I4-00.14	I4-00	LINE	Inna	...(she looks at her hand, then at you, then at her script) Ahem. Okay.	pick_I4-00=C		I4-01.0		
+NODE	I4-01.0	I4-01	LINE	Narration	Room 401, presentation day. Inna stands at the lectern with a printed script and the planner under her arm.			I4-01.1		
+NODE	I4-01.1	I4-01	LINE	Inna	Our project looks at expressions across generations. Here are two columns that display: what changed, and what stayed.			I4-01.2		
+NODE	I4-01.2	I4-01	LINE	Narration	(Her delivery is precise. She doesn't hurry. At the last slide her voice gets smaller.)			I4-01.3		
+NODE	I4-01.3	I4-01	LINE	Inna	My planner usually has three columns. Task. A deadline. The person responsible. But recently, I’ve found myself adding a fourth column.			I4-01.4		
+NODE	I4-01.4	I4-01	LINE	Narration	(She clicks. One word on the screen: WANT.)			I4-01.5		
+NODE	I4-01.5	I4-01	LINE	Inna	Kayat ko. I want to apply for the exchange program. I haven't told my family. I'm saying it here first so it feels realer, and set in stone.			I4-01.6		
+NODE	I4-01.6	I4-01	LINE	Narration	(You understand "Kayat ko" before the translation lands. She sees you, and her shoulders drop a little.)	learned_kayat		I4-01.7		
+NODE	I4-01.7	I4-01	AUTO			learned_kayat	variant:+1	I4-01.8		
+NODE	I4-01.8	I4-01	LINE	Narration	(The room is silent. Her hand trembles very slightly.)			I4-01.9		
+NODE	I4-01.9	I4-01	LINE	Inna	What changed in that moment was me learning to take a step forward for myself, and what stayed is still myself. The me who learned to balance myself and others.			I4-01.10		
+NODE	I4-01.10	I4-01	CHOICE	You	What do you do?			I4-01.11		
+OPTION	I4-01.10	Stay quiet, hold eye contact, and let her finish	set:inna_autonomy_respected=true;aff:+2
+OPTION	I4-01.10	Mouth "you've got this" from the front row	aff:+1
+OPTION	I4-01.10	Whisper, "Maybe remove that slide. It's personal."	set:inna_boundary_respected=false;aff:-1
+NODE	I4-01.11	I4-01	LINE	Narration	(She looks at you once, steadies, and goes on.)	pick_I4-01=A		I4-01.12		
+NODE	I4-01.12	I4-01	LINE	Inna	I'm still working out how. But I'd like it to be my plan.	pick_I4-01=A		I4-01.13		
+NODE	I4-01.13	I4-01	LINE	Narration	(After a pause the professor nods. A few classmates clap.)	pick_I4-01=A		I4-01.14		
+NODE	I4-01.14	I4-01	LINE	Narration	(She sees it. The corner of her mouth moves.)	pick_I4-01=B		I4-01.15		
+NODE	I4-01.15	I4-01	LINE	Inna	...Thank you.	pick_I4-01=B		I4-01.16		
+NODE	I4-01.16	I4-01	LINE	Inna	(so quietly only you hear) It’s a decision I’ve made for myself.	pick_I4-01=C		I4-01.17		
+NODE	I4-01.17	I4-01	LINE	Narration	(She presents it anyway, but her voice is flat afterward.)	pick_I4-01=C		I4-02.0		
+NODE	I4-02.0	I4-02	LINE	Narration	Library, closing time. Section C, third table. Rain on the window. Inna's planner is open between two cups of tea; the fourth column is no longer blank.			I4-02.1		
+NODE	I4-02.1	I4-02	LINE	Inna	I have spent so long trying to be the person everyone can count on.			I4-02.2		
+NODE	I4-02.2	I4-02	LINE	Inna	I thought wanting something for myself meant I was taking something away from somebody else. It’s kind of like a trade, or a sacrifice of myself or others for my benefit.			I4-02.3		
+NODE	I4-02.3	I4-02	LINE	MC	I can't choose your priorities… But I can listen while you work them out.			I4-02.4		
+NODE	I4-02.4	I4-02	LINE	Inna	That's what I needed. Not someone to dictate my actions and words, but to allow me to write it out. As a way to whisper it to the wind first before to myself			I4-02.5		
+NODE	I4-02.5	I4-02	LINE	MC	You deserve to be part of the plans you make.			I4-02.6		
+NODE	I4-02.6	I4-02	LINE	Inna	I'm still learning how to say that out loud. (a beat) I told Nanang last night.			I4-02.7		
+NODE	I4-02.7	I4-02	LINE	MC	How did she take it?			I4-02.8		
+NODE	I4-02.8	I4-02	LINE	Inna	She said, "Haan a nalaka." But then she said, "Do what you wish." In that order. I never thought it would be that simple.			I4-02.9		
+NODE	I4-02.9	I4-02	LINE	MC	"Haan a nalaka." It's not easy but still, go.. (gently) She must be proud you’ve followed your dreams.	learned_haan_nalaka		I4-02.10		
+NODE	I4-02.10	I4-02	LINE	Inna	(laughing, wet-eyed) She must be. I misunderstood her.	learned_haan_nalaka		I4-02.11		
+NODE	I4-02.11	I4-02	AUTO			learned_haan_nalaka	variant:+1	I4-02.12		
+NODE	I4-02.12	I4-02	TYPED	Inna	Write "I want to choose."		aff:+1	I4-02.13		Kayat ko ti agpili
+NODE	I4-02.13	I4-02	CHOICE	You	What do you tell her?			@ending		
+OPTION	I4-02.13	"I have feelings for you. I'd like to explore dating if you want that too."	set:confessionChoice=CONFESS
+OPTION	I4-02.13	"I value you, whether this stays friendship or becomes more."	set:confessionChoice=FRIENDSHIP
+OPTION	I4-02.13	"You should make room for me in your schedule."	set:inna_boundary_respected=false;set:confessionChoice=REJECTION
+NODE	I-R.0	I-R	LINE	Narration	Library, closing time. Same table, same rain. The tea has gone lukewarm.			I-R.1		
+NODE	I-R.1	I-R	LINE	Inna	You really are the person responsible for this change. (a short, nervous laugh) I’ll list you down later, but for now… Ay-ayaten ka.			I-R.2		
+NODE	I-R.2	I-R	LINE	MC	I know that one. (a smile) I like you too.	learned_ayayaten		I-R.3		
+NODE	I-R.3	I-R	LINE	Inna	(very quiet) You learned that. (she closes her eyes) I wasn’t expecting you to keep note. (she giggles)	learned_ayayaten		I-R.4		
+NODE	I-R.4	I-R	LINE	Inna	Ay-ayaten ka, [PLAYER NAME], or In Other Words, Mahal Kita.	learned_ayayaten		I-R.5		
+NODE	I-R.5	I-R	LINE	Inna	It means "I love you." I wanted to say it in my own language. Is that okay?	!learned_ayayaten		I-R.6		
+NODE	I-R.6	I-R	LINE	MC	It's perfect. I like you too.			I-R.7		
+NODE	I-R.7	I-R	LINE	Inna	I want to choose this. I want to choose you. I want it to be a choice I’ve made on my own and not something I'm swept into.			I-R.8		
+NODE	I-R.8	I-R	LINE	MC	That’s the only thing I want— You choosing me because of your own heart and not mine.			I-R.9		
+NODE	I-R.9	I-R	LINE	Inna	Good. (turning the planner toward you) Write something in the margin. Anything. To remember this day.			I-R.10		
+NODE	I-R.10	I-R	LINE	Narration	(You write: "Thursday afternoon. Step. Intayon.")			I-R.11		
+NODE	I-R.11	I-R	LINE	Epilogue	Weeks later. Her planner has a blank square every week. The squares aren't empty. They just aren't assigned.			I-R.12		
+NODE	I-R.12	I-R	END	Ending	THE THINGS WE CHOOSE (ROMANTIC)					
+NODE	I-F.0	I-F	LINE	Narration	Room 401, a few days later. Students drift in for the next meeting.			I-F.1		
+NODE	I-F.1	I-F	LINE	Inna	I thought about what you said. I appreciate that you didn't need an answer.			I-F.2		
+NODE	I-F.2	I-F	LINE	MC	I mean it. I'm just glad to know you, from a clubmate to now a friend. This is the best choice.			I-F.3		
+NODE	I-F.3	I-F	LINE	Inna	You’ll see your name in my planner often. The project may have ended but you’re still my friend, we should plan the next hangout.			I-F.4		
+NODE	I-F.4	I-F	CHOICE	You	A last word			I-F.5		
+OPTION	I-F.4	"I'd like that."	
+OPTION	I-F.4	"Save me a seat in the library then."	
+NODE	I-F.5	I-F	LINE	Inna	Thursday afternoon is open, if you want it.	pick_I-F=A		I-F.6		
+NODE	I-F.6	I-F	LINE	Inna	Section C, third table. It's already reserve.	pick_I-F=B		I-F.7		
+NODE	I-F.7	I-F	END	Ending	A PLACE BESIDE ME (CLASSMATES ONLY)					
+NODE	I-N.0	I-N	LINE	Narration	Library, closing time. The two of you stand a polite distance apart.			I-N.1		
+NODE	I-N.1	I-N	LINE	Inna	(very gently) I need to be honest. I don't feel the same way, and I don't want to answer out of obligation.			I-N.2		
+NODE	I-N.2	I-N	LINE	MC	Thank you for telling me honestly.			I-N.3		
+NODE	I-N.3	I-N	LINE	Inna	I'm learning that a clear no is kinder than a polite maybe. I don’t want to lead you on, I’m sorry.			I-N.4		
+NODE	I-N.4	I-N	CHOICE	You	A last word			I-N.5		
+OPTION	I-N.4	"It's okay. Thank you for choosing your own answer."	
+OPTION	I-N.4	"I'd still like to be your clubmate."	
+NODE	I-N.5	I-N	LINE	Inna	(soft) That's the nicest thing anyone's said to me this month.	pick_I-N=A		I-N.6		
+NODE	I-N.6	I-N	LINE	Inna	I'd like that too. I'll save you the third table.	pick_I-N=B		I-N.7		
+NODE	I-N.7	I-N	END	Ending	MY OWN ANSWER (REJECTION)					
+NODE	N2-01.0	N2-01	LINE	Narration	Library, afternoon. A back table by the bookshelf. Nikka has a field notebook open and a sketch of the campus with three question marks drawn on it.			N2-01.1		
+NODE	N2-01.1	N2-01	LINE	Nikka	Okay, Mx. [LAST NAME]. Let’s start with five questions. One: what do you want this project to be about?			N2-01.2		
+NODE	N2-01.2	N2-01	LINE	MC	Everyday talk, maybe? How do people use a language without thinking about it in their daily life?			N2-01.3		
+NODE	N2-01.3	N2-01	LINE	Nikka	Two: who gets to decide what's "everyday"?			N2-01.4		
+NODE	N2-01.4	N2-01	LINE	MC	...Hold on. That’s a hypothetical—			N2-01.5		
+NODE	N2-01.5	N2-01	LINE	Nikka	Three: whose everyday? Four: how do we know we're not just hearing what they expect us to need? Five: are your legs not tired? Sit down. We’ll be here for a while.			N2-01.6		
+NODE	N2-01.6	N2-01	LINE	MC	You ask WAY too many questions.			N2-01.7		
+NODE	N2-01.7	N2-01	LINE	Nikka	Don’t we need a solid foundation before starting with the project? It helps us track down our work timeline without confusing ourselves about the delegated tasks. Clever, isn’t it?			N2-01.8		
+NODE	N2-01.8	N2-01	LINE	MC	Uh-huh…			N2-01.9		
+NODE	N2-01.9	N2-01	LINE	Nikka	Okay, you are NOT catching my drift. Alright then, let’s just start with something simple: Questions.			N2-01.10		
+NODE	N2-01.10	N2-01	LINE	Nikka	We have the 5 W’s and H questions in English and Tagalog. We also obviously have these in Bicolano too, the common ones are: Ano? is "what." Siisay? is "who." Sain? is "where." Taano? is "why."		hear:learned_taano	N2-01.11		
+NODE	N2-01.11	N2-01	LINE	Nikka	Taano is the best one for me though, as it questions everything, even a bad idea.			N2-01.12		
+NODE	N2-01.12	N2-01	LINE	MC	Taano?			N2-01.13		
+NODE	N2-01.13	N2-01	LINE	Nikka	(a flicker of pleasure) Why? Well why not? Nothing’s wrong with questioning more about the world.			N2-01.14		
+NODE	N2-01.14	N2-01	TYPED	Nikka	Ask "Why?" in Bikol.		learn:learned_taano;aff:+1	N2-01.15	it starts with the same sound as "tanong."	Taano?|Taano|Taano man
+NODE	N2-01.15	N2-01	LINE	Nikka	Yes. Use it sparingly though. People get nervous if you keep pushing them like that.	ok_N2-01.14		N2-01.16		
+NODE	N2-01.16	N2-01	LINE	Nikka	Why did you get it wrong?	!ok_N2-01.14		N2-02.0		
+NODE	N2-02.0	N2-02	LINE	Narration	Room 401, afternoon. Nikka has drawn a map of the building on the whiteboard in careful, colored marker. A classmate leans on the board while talking and smears half of it.			N2-02.1		
+NODE	N2-02.1	N2-02	LINE	Narration	(Nikka stares at the smear. A beat. Then:)			N2-02.2		
+NODE	N2-02.2	N2-02	LINE	Nikka	Ay, taano man?! Dai! Dai! (she grabs the eraser from his hand) Likot mo naman!		hear:learned_dai	N2-02.3		
+NODE	N2-02.3	N2-02	LINE	Narration	(The classmate retreats, hands up. Nikka exhales through her nose.)			N2-02.4		
+NODE	N2-02.4	N2-02	LINE	Jessa	(whispering to you) Don't worry about her. She’s not really angry, but also is? She’s very particular I suppose.			N2-02.5		
+NODE	N2-02.5	N2-02	LINE	Nikka	...Sorry. That was a lot.			N2-02.6		
+NODE	N2-02.6	N2-02	LINE	MC	What did you say?	!learned_taano		N2-02.7		
+NODE	N2-02.7	N2-02	LINE	Jessa	She said "why" and "no," and that was the polite version.	!learned_taano		N2-02.8		
+NODE	N2-02.8	N2-02	LINE	Nikka	A rather sparingly polite version if anything.	!learned_taano		N2-02.9		
+NODE	N2-02.9	N2-02	LINE	MC	"Taano man." Why, though? (gently) Don’t accidentally throw the eraser, Nikka. The poor guy retreated already.	learned_taano		N2-02.10		
+NODE	N2-02.10	N2-02	LINE	Nikka	(a short pause, then a quick, surprised laugh) Hah! Flaunting your knowledge with only a couple of words known? I see what you’re doing.	learned_taano		N2-02.11		
+NODE	N2-02.11	N2-02	AUTO			learned_taano	set:nikka_heard_taano=true;variant:+1	N2-02.12		
+NODE	N2-02.12	N2-02	CHOICE	You	What do you do?			N2-02.13		
+OPTION	N2-02.12	Help her redraw it	aff:+1
+OPTION	N2-02.12	"It's just a whiteboard."	set:nikka_minimized=true
+OPTION	N2-02.12	Redraw it with her in silence	aff:+1
+NODE	N2-02.13	N2-02	LINE	Nikka	Thanks but no worries. The map is still fresh in my mind.	pick_N2-02=A		N2-02.14		
+NODE	N2-02.14	N2-02	LINE	Nikka	Appreciate it though so don’t beat yourself up.	pick_N2-02=A		N2-02.15		
+NODE	N2-02.15	N2-02	LINE	Nikka	Well aren’t you a free bird to think 40 minutes lost is nothing of importance?	pick_N2-02=B		N2-02.16		
+NODE	N2-02.16	N2-02	LINE	Nikka	… Oh. Thank you, I wasn’t expecting that. How nice.	pick_N2-02=C		N2-03.0		
+NODE	N2-03.0	N2-03	LINE	Narration	Library, evening. A study carrel by the window; a green lamp; a drawing of a bear in the margin of your notes.			N2-03.1		
+NODE	N2-03.1	N2-03	LINE	System	STUDY BREAK — Central Bikol: Yes, No, Have, Have Not. Five items.			N2-03.2		
+NODE	N2-03.2	N2-03	QUIZ	Study Break	"Oon" means...		learn:learned_oon	N2-03.3		0
+OPTION	N2-03.2	yes	
+OPTION	N2-03.2	no	
+OPTION	N2-03.2	maybe	
+NODE	N2-03.3	N2-03	QUIZ	Study Break	"Dai" means...		learn:learned_dai	N2-03.4		0
+OPTION	N2-03.3	not; no	
+OPTION	N2-03.3	yes	
+OPTION	N2-03.3	here	
+NODE	N2-03.4	N2-03	QUIZ	Study Break	Which word means "there is / have"?		learn:learned_igwa	N2-03.5		0
+OPTION	N2-03.4	Igwa	
+OPTION	N2-03.4	Mayo	
+OPTION	N2-03.4	Dai	
+NODE	N2-03.5	N2-03	QUIZ	Study Break	"Mayo" means...		learn:learned_mayo	N2-03.6		0
+OPTION	N2-03.5	none; nothing	
+OPTION	N2-03.5	a lot	
+OPTION	N2-03.5	yes	
+NODE	N2-03.6	N2-03	TYPED	Study Break	Write "I don't know."		learn:learned_aram	N2-03.7		Dai ko aram
+NODE	N2-03.7	N2-03	LINE	System	Study Break complete. New: Oon, Dai, Igwa, Mayo, Dai ko aram.		hear:learned_igwa;hear:learned_aram	N2-03.8		
+NODE	N2-03.8	N2-03	LINE	Narration	The bear in the margin looks thoughtful. You decide it's a question mark.			N2-04.0		
+NODE	N2-04.0	N2-04	LINE	Narration	Library, night. The reading room is quiet. Nikka is mapping the group's schedule on a blank sheet, murmuring with the pen.			N2-04.1		
+NODE	N2-04.1	N2-04	LINE	Nikka	Sain na... sain na ito... Aram ko. Dai ko aram. (frowning) Aram ko... (she crosses out a line) ...Teka.			N2-04.2		
+NODE	N2-04.2	N2-04	LINE	Nikka	Ano na naman ito...			N2-04.3		
+NODE	N2-04.3	N2-04	LINE	Narration	(She looks up and notices you.)			N2-04.4		
+NODE	N2-04.4	N2-04	LINE	Nikka	Oh. How long were you there?			N2-04.5		
+NODE	N2-04.5	N2-04	LINE	MC	Dai ko aram. (a small shrug) I think I know the second part. What don't you know?	learned_aram		N2-04.6		
+NODE	N2-04.6	N2-04	LINE	Nikka	(very still, then a short exhale) You caught that. (a beat) I just don’t know when I’m free to decide on something. I’ve never been stumped on something before.	learned_aram		N2-04.7		
+NODE	N2-04.7	N2-04	AUTO			learned_aram	set:nikka_noticed_decision=true;variant:+1	N2-04.8		
+NODE	N2-04.8	N2-04	LINE	MC	Not long. You were talking to the map.	!learned_aram		N2-04.9		
+NODE	N2-04.9	N2-04	LINE	Nikka	Ah. You saw that. Sorry, I was trying to organize my thoughts there.	!learned_aram		N2-05.0		
+NODE	N2-05.0	N2-05	LINE	Narration	Room 401, after rehearsal. You ask Nikka a string of simple questions about the schedule. She decides to answer in the shortest possible way.			N2-05.1		
+NODE	N2-05.1	N2-05	LINE	MC	Do you have the printouts?			N2-05.2		
+NODE	N2-05.2	N2-05	LINE	Nikka	Oon.			N2-05.3		
+NODE	N2-05.3	N2-05	LINE	MC	Are they in your bag?			N2-05.4		
+NODE	N2-05.4	N2-05	LINE	Nikka	Dai.			N2-05.5		
+NODE	N2-05.5	N2-05	LINE	MC	Then... where?			N2-05.6		
+NODE	N2-05.6	N2-05	LINE	Nikka	Oon.			N2-05.7		
+NODE	N2-05.7	N2-05	LINE	Narration	(She isn't smiling. Her eyes are.)			N2-05.8		
+NODE	N2-05.8	N2-05	LINE	MC	Oon is yes. Dai is no. Correct? (squinting) So I asked "where" and you said "yes." You were messing with me, aren’t you?	learned_oon&learned_dai		N2-05.9		
+NODE	N2-05.9	N2-05	LINE	Nikka	(finally laughing) You were supposed to suffer longer.	learned_oon&learned_dai		N2-05.10		
+NODE	N2-05.10	N2-05	AUTO			learned_oon&learned_dai	set:nikka_teased_back=true;variant:+1	N2-05.11		
+NODE	N2-05.11	N2-05	LINE	MC	I need a translator.	!learned_oon|!learned_dai		N2-05.12		
+NODE	N2-05.12	N2-05	LINE	Nikka	(a smile at last) Dai. Finally you finally said something true. Tonight, you better check your Study Notes. It seems to me you’re slacking off of your assignments.	!learned_oon|!learned_dai		N2-05.13		
+NODE	N2-05.13	N2-05	LINE	Jessa	(from her desk) Why is she having fun and I'm not invited?			N2-05.14		
+NODE	N2-05.14	N2-05	LINE	Inna	It seems to me that Nikka finally found her match.			N2-06.0		
+NODE	N2-06.0	N2-06	LINE	Narration	Library, afternoon. Nikka's ledger is open on the table with a calculator, two highlighters, and a receipt for chairs that were never bought.			N2-06.1		
+NODE	N2-06.1	N2-06	LINE	Nikka	Jessa. Explain this line item.			N2-06.2		
+NODE	N2-06.2	N2-06	LINE	Jessa	It says "motivation money."			N2-06.3		
+NODE	N2-06.3	N2-06	LINE	Nikka	It says "motivation money, one thousand pesos."			N2-06.4		
+NODE	N2-06.4	N2-06	LINE	Jessa	Inflation!			N2-06.5		
+NODE	N2-06.5	N2-06	LINE	Inna	(not looking up) Jessa, please stop. Nikka has a vein that’s about to burst.			N2-06.6		
+NODE	N2-06.6	N2-06	LINE	Nikka	You jest. I am perfectly calm right now.			N2-06.7		
+NODE	N2-06.7	N2-06	LINE	Narration	(She turns to you.)			N2-06.8		
+NODE	N2-06.8	N2-06	LINE	Nikka	Secretary. Quick lesson, since you'll be reading receipts for the rest of the semester. Pira? means "how much?" You'll use it at the market. A lot.		hear:learned_pira	N2-06.9		
+NODE	N2-06.9	N2-06	LINE	MC	Pira.			N2-06.10		
+NODE	N2-06.10	N2-06	LINE	Nikka	With a question-like tone. (she lifts her voice at the end) Pira? And if it's an item: Pira ini? How much is this?			N2-06.11		
+NODE	N2-06.11	N2-06	LINE	Jessa	(whispering) She gets so alive when it's about money.			N2-06.12		
+NODE	N2-06.12	N2-06	LINE	Nikka	I can hear you.			N2-06.13		
+NODE	N2-06.13	N2-06	LINE	Inna	She can hear clearer about money too.			N2-06.14		
+NODE	N2-06.14	N2-06	TYPED	Nikka	Ask "How much is this?" in Bikol.		learn:learned_pira	N2-06.15	the question word comes first.	Pira ini?|Pira ini|Pira man ini
+NODE	N2-06.15	N2-06	LINE	Nikka	Good. In Naga, you would typically say it with a smile and if you’re lucky, they'll lower it by ten pesos. If you’re lucky.	ok_N2-06.14		N2-06.16		
+NODE	N2-06.16	N2-06	LINE	Nikka	Wrong. It’s Pira ini. You’ll be doomed if you’re in the treasury department.	!ok_N2-06.14		N2-L.0		
+NODE	N2-L.0	N2-L	CHOICE	Library	Would you like a tutor session with Nikka?			N2-L.1		
+OPTION	N2-L.0	Learn together	
+OPTION	N2-L.0	Continue the story	set:skip_N2-L=true
+NODE	N2-L.1	N2-L	LINE	Narration	Library, evening. The bookshelf. Nikka has laid out a worn street map and three colored pencils.	!skip_N2-L		N2-L.2		
+NODE	N2-L.2	N2-L	LINE	Nikka	Now for a professionally run tutoring session. Rule one: I ask questions. Rule two: you may ask me questions back. Rule three: no leading questions. Alright?	!skip_N2-L		N2-L.3		
+NODE	N2-L.3	N2-L	LINE	Nikka	Your words for today are as follows: Magayon: beautiful. Igwa: there is or we have. Mayo: none, nothing. They are your Bikolano words for today.	!skip_N2-L	hear:learned_magayon	N2-L.4		
+NODE	N2-L.4	N2-L	LINE	Nikka	Going back to a previous conversation, another question is “Where” which is Taga-sain.	!skip_N2-L		N2-L.5		
+NODE	N2-L.5	N2-L	LINE	Nikka	Let’s apply Where to a sentence. I know where you’re from but what about me?	!skip_N2-L		N2-L.6		
+NODE	N2-L.6	N2-L	TYPED	Nikka	Ask Nikka where she is from.	!skip_N2-L	learn:learned_taga_sain;library:+1	N2-L.7		Taga-sain ka?
+NODE	N2-L.7	N2-L	LINE	Nikka	Taga-Naga ako. (a smile) You really are a quick learner, aren’t you?	!skip_N2-L&ok_N2-L.6	hear:learned_taga_sain	N2-L.8		
+NODE	N2-L.8	N2-L	LINE	Nikka	Eh, close. It’s Taga-sain ka? I know you’ll learn it some day.	!skip_N2-L&!ok_N2-L.6		N2-L.9		
+NODE	N2-L.9	N2-L	AUTO			!skip_N2-L	library:1;learn:learned_magayon;learn:learned_igwa;learn:learned_mayo	N3-00.0		
+NODE	N3-00.0	N3-00	LINE	Narration	Room 401, afternoon. Nikka is behind the club table with a ledger, Jessa's receipts, and a face like an auditor's. Inna is annotating a map. Jessa is eating a rice cake that is not hers.			N3-00.1		
+NODE	N3-00.1	N3-00	LINE	Nikka	Okay. I can’t believe we’re actually doing a Naga trip just for a project. We don’t have enough funds for such a thing considering the different transportations and the weak tolerance for Jessa's impulsive, so-called club expenses.			N3-00.2		
+NODE	N3-00.2	N3-00	LINE	Nikka	Totalling it per person, expenses will be around two thousand nine hundred. It’ll be expensive so nobody should treat it as some kind of vacation. Extra credit will not be awarded to those who only take pictures.			N3-00.3		
+NODE	N3-00.3	N3-00	LINE	Jessa	But aren’t pictures THE definitive proof we were actually there?			N3-00.4		
+NODE	N3-00.4	N3-00	LINE	Nikka	Well, can you speak in pictures then?			N3-00.5		
+NODE	N3-00.5	N3-00	LINE	Narration	(She turns to you.)			N3-00.6		
+NODE	N3-00.6	N3-00	LINE	Jessa	Touche.			N3-00.7		
+NODE	N3-00.7	N3-00	LINE	Nikka	You don't have to come. I'm not asking you to be... (a beat, a little defensive) pabigat. But you said you'd pull your weight. So.			N3-00.8		
+NODE	N3-00.8	N3-00	CHOICE	You	How do you answer?			N3-00.9		
+OPTION	N3-00.8	"I'll go. I'd like to see where you're from."	aff:+1
+OPTION	N3-00.8	"I'm worried about the cost."	
+OPTION	N3-00.8	"Can I decide tomorrow?"	
+NODE	N3-00.9	N3-00	LINE	Nikka	(a short blink) You better keep your word. (a half smile) My mom will probably feed you until you beg to stop.	pick_N3-00=A		N3-00.10		
+NODE	N3-00.10	N3-00	LINE	Jessa	That's an honor.	pick_N3-00=A		N3-00.11		
+NODE	N3-00.11	N3-00	LINE	Nikka	Mm. (she writes something, then crosses it out) I'll cover the some of the transportation. Don't thank me, it's for the project.	pick_N3-00=B		N3-00.12		
+NODE	N3-00.12	N3-00	LINE	Inna	It's kind.	pick_N3-00=B		N3-00.13		
+NODE	N3-00.13	N3-00	LINE	Nikka	It's for academic purposes.	pick_N3-00=B		N3-00.14		
+NODE	N3-00.14	N3-00	LINE	Nikka	Sure. But update me ASAP about your decision. I don't like open entries in my ledger.	pick_N3-00=C		N3-01.0		
+NODE	N3-01.0	N3-01	LINE	Narration	A riverside market in Naga, morning. Stalls under blue tarps, wet cobbles, a shouting jeepney. Nikka carries a notebook; you carry the recorder.			N3-01.1		
+NODE	N3-01.1	N3-01	LINE	Nikka	Before you make a mess of yourself, remember rule one: say tabi before we ask anyone anything. It's how you ask permission and show respect. Say it first.		hear:learned_tabi	N3-01.2		
+NODE	N3-01.2	N3-01	LINE	MC	Tabi po. May we ask a few questions?	learned_tabi		N3-01.3		
+NODE	N3-01.3	N3-01	LINE	Manang Lita	(grinning) Aaay, ang polite! Sige, ano yun?	learned_tabi		N3-01.4		
+NODE	N3-01.4	N3-01	AUTO			learned_tabi	variant:+1	N3-01.5		
+NODE	N3-01.5	N3-01	LINE	MC	Excuse me po, may we ask a few questions?	!learned_tabi		N3-01.6		
+NODE	N3-01.6	N3-01	LINE	Manang Lita	Sige, what is it?	!learned_tabi		N3-01.7		
+NODE	N3-01.7	N3-01	LINE	MC	Pira ini? (pointing to a bundle of greens)	learned_pira		N3-01.8		
+NODE	N3-01.8	N3-01	LINE	Manang Lita	(delighted) Aaay, talino! (to Nikka) Who is this?	learned_pira		N3-01.9		
+NODE	N3-01.9	N3-01	LINE	Nikka	(a little proud, a little embarrassed) The secretary of the club.	learned_pira		N3-01.10		
+NODE	N3-01.10	N3-01	LINE	Manang Lita	Then twenty. For the secretary.	learned_pira		N3-01.11		
+NODE	N3-01.11	N3-01	LINE	Manang Lita	The market is cleaner than it used to be. People still complain now, but I still remember the muddied streets.			N3-01.12		
+NODE	N3-01.12	N3-01	LINE	Narration	(Later, near the jeepney stop.)			N3-01.13		
+NODE	N3-01.13	N3-01	LINE	Kuya Dodong	Cleaner? It's more crowded! The vendors block the lane. Try driving here during rush hours!.			N3-01.14		
+NODE	N3-01.14	N3-01	LINE	Narration	(Later, on a bench under a tree. A thermos of tea passes between you.)			N3-01.15		
+NODE	N3-01.15	N3-01	LINE	Lola Pilar	I miss the old river. We used to wash clothes there but now, it’s nothing more but a memory.			N3-01.16		
+NODE	N3-01.16	N3-01	LINE	Narration	(She hands you a cup.)			N3-01.17		
+NODE	N3-01.17	N3-01	LINE	MC	Dios mabalos po.	learned_dios_mabalos		N3-01.18		
+NODE	N3-01.18	N3-01	LINE	Lola Pilar	(her whole face lights up) Aaay. You say it properly. Dios mabalos, apo.	learned_dios_mabalos		N3-01.19		
+NODE	N3-01.19	N3-01	LINE	Nikka	(aside) It's old-fashioned. People my age mostly say salamat. But Lola Pilar hears it as sincere.	learned_dios_mabalos		N3-01.20		
+NODE	N3-01.20	N3-01	LINE	MC	Thank you po.	!learned_dios_mabalos		N3-01.21		
+NODE	N3-01.21	N3-01	LINE	Lola Pilar	(kindly) Hm. Nice manners.	!learned_dios_mabalos		N3-01.22		
+NODE	N3-01.22	N3-01	LINE	MC	Three people with different opinions. It’s hard to apply daily life when all their lives are lived differently.			N3-01.23		
+NODE	N3-01.23	N3-01	CHOICE	You	How do we handle three accounts?			N3-01.24		
+OPTION	N3-01.23	"Include all three, say who said what, with permission."	set:nikka_respects_variation=true;aff:+1
+OPTION	N3-01.23	"Pick the most common view and use that."	
+OPTION	N3-01.23	"Average them into one summary."	
+NODE	N3-01.24	N3-01	LINE	Nikka	I agree with your idea. It still shows how people can live different lives and have different ideas, while still expressing with the same language	pick_N3-01=A		N3-01.25		
+NODE	N3-01.25	N3-01	LINE	Nikka	What we deem as common would add bias into the research, making the results skewed. That’s the wrong approach.	pick_N3-01=B		N3-01.26		
+NODE	N3-01.26	N3-01	LINE	Nikka	It would have been better if they’re separate summaries. Making an amalgamate of opinion would just dissolve the critical parts of their account.	pick_N3-01=C		N3-01.27		
+NODE	N3-01.27	N3-01	TYPED	Nikka	Write "I don't know yet."		learn:learned_dai_ko_pa_aram;aff:+1	N3-02.0	Dai = not; aram = know; pa = yet.	Dai ko pa aram
+NODE	N3-02.0	N3-02	LINE	Narration	Nikka's family house, early evening. A small table by a window that looks onto the river. Field notes are spread across it. Nikka's mother passes through with a tray and a look that says "eat something."			N3-02.1		
+NODE	N3-02.1	N3-02	LINE	MC	How do we answer a question with no specific answer? All the evidence we got were varied.			N3-02.2		
+NODE	N3-02.2	N3-02	LINE	Nikka	Our question is “How do people live with language in daily life?” We got our answer by seeing how different people express their lives in the same language. We may have gotten a variety of answers, but it still shows how language unites people’s everyday lives.			N3-02.3		
+NODE	N3-02.3	N3-02	LINE	MC	Then we’ve succeeded with the project?			N3-02.4		
+NODE	N3-02.4	N3-02	LINE	Nikka	Not yet. We’ve yet to reflect about what we learned and what we still don't know.			N3-02.5		
+NODE	N3-02.5	N3-02	LINE	Narration	(She looks at the river. Then, lower:)			N3-02.6		
+NODE	N3-02.6	N3-02	LINE	Nikka	Magayon.			N3-02.7		
+NODE	N3-02.7	N3-02	LINE	MC	Beautiful. (a beat) It really is.	learned_magayon		N3-02.8		
+NODE	N3-02.8	N3-02	LINE	Nikka	(looking at you for a second too long) My grandmother used the word for how a place feels when you stop trying to understand it and just look.	learned_magayon		N3-02.9		
+NODE	N3-02.9	N3-02	AUTO			learned_magayon	variant:+1	N3-02.10		
+NODE	N3-02.10	N3-02	LINE	Nikka	It means beautiful. My grandmother used it for how a place feels when you stop trying to understand it and just look.	!learned_magayon		N3-02.11		
+NODE	N3-02.11	N3-02	LINE	Nikka	Our original question was too simple. It doesn’t discuss the nuances that a language holds for its meaning.			N3-02.12		
+NODE	N3-02.12	N3-02	CHOICE	You	What do you say?			N3-02.13		
+OPTION	N3-02.12	"Let's revise it together. We can say what we found and what we still need."	set:keySceneResolved=true;set:nikka_research_integrity=true;aff:+2
+OPTION	N3-02.12	"Keep the original claim. It sounds stronger."	set:keySceneResolved=false;aff:-1
+OPTION	N3-02.12	"If there's no conclusion, what's the point?"	set:keySceneResolved=false
+NODE	N3-02.13	N3-02	LINE	Nikka	(a slow exhale) That’s a wonderful idea.	pick_N3-02=A		N3-02.14		
+NODE	N3-02.14	N3-02	LINE	Narration	(She crosses out a line in your draft and writes a new one. She turns the notebook so you can see.)	pick_N3-02=A		N3-02.15		
+NODE	N3-02.15	N3-02	LINE	Nikka	(very evenly) Sounds stronger but is it relevant? Is it correct?	pick_N3-02=B		N3-02.16		
+NODE	N3-02.16	N3-02	LINE	MC	I thought the presentation needs a clear answer.	pick_N3-02=B		N3-02.17		
+NODE	N3-02.17	N3-02	LINE	Nikka	Not everything should have a clear answer. That’s what life is.	pick_N3-02=B		N3-02.18		
+NODE	N3-02.18	N3-02	LINE	Nikka	(quieter) That's what I ask myself about my whole life.	pick_N3-02=C		N3-02.19		
+NODE	N3-02.19	N3-02	LINE	Narration	(She says nothing else. The moment hangs, unfinished.)	pick_N3-02=C		N3-03.0		
+NODE	N3-03.0	N3-03	LINE	Narration	Naga stalls, night. Stalls closing. A string of bulbs, a rolling shutter, a vendor humming. Nikka sits on an overturned crate with her phone face-down on her knee.			N3-03.1		
+NODE	N3-03.1	N3-03	LINE	Nikka	I got an email. Well, three days ago to be specific. I just haven’t opened it still.			N3-03.2		
+NODE	N3-03.2	N3-03	LINE	MC	What's it about?			N3-03.3		
+NODE	N3-03.3	N3-03	LINE	Nikka	It’s a research internship in Manila. I applied on impulse and forgot about it soon after. I wasn’t exxpecting a reply but here I am, faced with confirmation or rejection. I’m not sure what to do.			N3-03.4		
+NODE	N3-03.4	N3-03	LINE	Narration	You apologize with “Pasensya na” and say you were wrong to prefer a stronger-sounding answer.	!pick_N3-02=A	set:keySceneResolved=true;set:nikka_research_integrity=true	N3-03.5		
+NODE	N3-03.5	N3-03	LINE	Nikka	Thank you. That helps.	!pick_N3-02=A		N3-03.6		
+NODE	N3-03.6	N3-03	CHOICE	You	What do you do?			N3-03.7		
+OPTION	N3-03.6	"Do you want to open it now or later? I'll stay either way."	set:nikka_trust=true;aff:+1
+OPTION	N3-03.6	"Just open it! You'll feel better."	
+OPTION	N3-03.6	"Want me to read it first?"	set:nikka_boundary_crossed=true;aff:-1
+NODE	N3-03.7	N3-03	LINE	Nikka	(quiet for a while) ...Later. I think I need to know what I'm hoping for before I know what it says.	pick_N3-03=A		N3-03.8		
+NODE	N3-03.8	N3-03	LINE	MC	Want to figure that out together?	pick_N3-03=A		N3-03.9		
+NODE	N3-03.9	N3-03	LINE	Nikka	You're asking me a question again. (a small smile) Fine. That one I'll allow.	pick_N3-03=A		N3-03.10		
+NODE	N3-03.10	N3-03	LINE	Nikka	(flat) It doesn't work like that.	pick_N3-03=B		N3-03.11		
+NODE	N3-03.11	N3-03	LINE	Narration	(She opens it anyway, reads, closes the phone. Her face gives nothing.)	pick_N3-03=B		N3-03.12		
+NODE	N3-03.12	N3-03	LINE	Nikka	It's a yes. I don't know if I feel better.	pick_N3-03=B		N3-03.13		
+NODE	N3-03.13	N3-03	LINE	Nikka	No. It's mine. (firmly, not unkindly) I'll open it when I'm ready.	pick_N3-03=C		N3-03.14		
+NODE	N3-03.14	N3-03	LINE	Narration	The last jeepney arrives. The ride back is quiet. Nikka rests her head against the window.			N3-S.0		
+NODE	N3-S.0	N3-S	LINE	Narration	Library, afternoon. Back on campus. A rain-spotted window; the green lamp again.			N3-S.1		
+NODE	N3-S.1	N3-S	LINE	System	STUDY BREAK — Central Bikol: Feelings and Thanks. Five items.			N3-S.2		
+NODE	N3-S.2	N3-S	QUIZ	Study Break	"Magayon" means...		learn:learned_magayon	N3-S.3		0
+OPTION	N3-S.2	beautiful	
+OPTION	N3-S.2	tired	
+OPTION	N3-S.2	hungry	
+NODE	N3-S.3	N3-S	QUIZ	Study Break	"Dios mabalos" is used to say...		learn:learned_dios_mabalos	N3-S.4		0
+OPTION	N3-S.3	thank you	
+OPTION	N3-S.3	good morning	
+OPTION	N3-S.3	sorry	
+NODE	N3-S.4	N3-S	QUIZ	Study Break	"Maogma ako" means...		learn:learned_maogma	N3-S.5		0
+OPTION	N3-S.4	I'm happy	
+OPTION	N3-S.4	I'm lost	
+OPTION	N3-S.4	I'm hungry	
+NODE	N3-S.5	N3-S	TYPED	Study Break	Write "I don't know yet."		learn:learned_aram	N3-S.6		Dai ko pa aram
+NODE	N3-S.6	N3-S	QUIZ	Study Break	"Tabi" is used to...		learn:learned_tabi	N3-S.7		0
+OPTION	N3-S.6	ask permission; show respect	
+OPTION	N3-S.6	say goodbye	
+OPTION	N3-S.6	complain	
+NODE	N3-S.7	N3-S	LINE	Narration	You write a tiny question mark next to each word. It seems like the right punctuation.			N4-00.0		
+NODE	N4-00.0	N4-00	LINE	Narration	Room 401, presentation morning. Nikka has laid out her cue cards in an exact semicircle. Jessa is trying to rearrange them.			N4-00.1		
+NODE	N4-00.1	N4-00	LINE	Nikka	Hey. Don't touch those.			N4-00.2		
+NODE	N4-00.2	N4-00	LINE	Jessa	I'm decorating.			N4-00.3		
+NODE	N4-00.3	N4-00	LINE	Nikka	They aren't a cake.			N4-00.4		
+NODE	N4-00.4	N4-00	LINE	Inna	(calmly, without looking up) Jessa, bay-am.			N4-00.5		
+NODE	N4-00.5	N4-00	LINE	Jessa	(immediately sitting) Okay, okay.			N4-00.6		
+NODE	N4-00.6	N4-00	LINE	Narration	(Nikka holds a card, reads it, flips it over, reads the back, and puts it down.)			N4-00.7		
+NODE	N4-00.7	N4-00	LINE	MC	Nervous?			N4-00.8		
+NODE	N4-00.8	N4-00	LINE	Nikka	No. (a beat) I'm... calculating the likelihood of a bad outcome.			N4-00.9		
+NODE	N4-00.9	N4-00	LINE	MC	We call that nervousness here.			N4-00.10		
+NODE	N4-00.10	N4-00	LINE	Nikka	Well. It's a more accurate word to say the least. Don't tell the others though.			N4-00.11		
+NODE	N4-00.11	N4-00	CHOICE	You	What do you say?			N4-00.12		
+OPTION	N4-00.11	"Whatever happens, I'll be in the front row."	aff:+1
+OPTION	N4-00.11	"Just say what you know. That's enough."	
+OPTION	N4-00.11	Hand her your pen	set:nikka_trust=true;aff:+1
+NODE	N4-00.12	N4-00	LINE	Nikka	(a quick look away) That's not statistically useful.	pick_N4-00=A		N4-00.13		
+NODE	N4-00.13	N4-00	LINE	Narration	(But she nods.)	pick_N4-00=A		N4-00.14		
+NODE	N4-00.14	N4-00	LINE	Nikka	...It might be. Okay.	pick_N4-00=B		N4-00.15		
+NODE	N4-00.15	N4-00	LINE	Nikka	(looking at the pen) Your pen is jammed.	pick_N4-00=C		N4-00.16		
+NODE	N4-00.16	N4-00	LINE	MC	I know.	pick_N4-00=C		N4-00.17		
+NODE	N4-00.17	N4-00	LINE	Nikka	(a half smile) I'll use it.	pick_N4-00=C		N4-01.0		
+NODE	N4-01.0	N4-01	LINE	Narration	Room 401, presentation day. Nikka's notes are clean. The final slide reads: What We Know, What We Heard, What We Don't Yet Know.			N4-01.1		
+NODE	N4-01.1	N4-01	LINE	Nikka	Three people described the same market in three different ways. We don't think one of them is wrong.			N4-01.2		
+NODE	N4-01.2	N4-01	LINE	Nikka	After all, life is experienced through different means. Language unites us together, but even then, it won’t help us understand each other.			N4-01.3		
+NODE	N4-01.3	N4-01	LINE	Narration	(She walks through the accounts, with names and permission noted. Then the professor leans forward.)			N4-01.4		
+NODE	N4-01.4	N4-01	LINE	Professor	Your conclusion?			N4-01.5		
+NODE	N4-01.5	N4-01	LINE	Nikka	Dai ko pa aram. I don't know yet. Here's what we would need to learn it.			N4-01.6		
+NODE	N4-01.6	N4-01	LINE	Narration	(You catch the Bikol before she translates, and your shoulders loosen. You don't flinch. She sees that.)	learned_aram		N4-01.7		
+NODE	N4-01.7	N4-01	AUTO			learned_aram	variant:+1	N4-01.8		
+NODE	N4-01.8	N4-01	LINE	Narration	(A ripple through the class. The professor's face doesn't change.)			N4-01.9		
+NODE	N4-01.9	N4-01	CHOICE	You	What do you do?			N4-01.10		
+OPTION	N4-01.9	Step in: "We can say what we'd study next."	set:nikka_research_integrity=true;aff:+2
+OPTION	N4-01.9	Jump in with a tidy summary	aff:-1
+OPTION	N4-01.9	Stay quiet and let her answer	aff:+1
+NODE	N4-01.10	N4-01	LINE	Nikka	(grateful, steadying) Next: more interviews, a longer time frame, and people who weren't at the market at all. Context is important in interviews but especially in language.	pick_N4-01=A		N4-01.11		
+NODE	N4-01.11	N4-01	LINE	Professor	(nodding slowly) That's an honest answer. Better than a confident wrong one.	pick_N4-01=A		N4-01.12		
+NODE	N4-01.12	N4-01	LINE	MC	What we found is that the market has improved...	pick_N4-01=B		N4-01.13		
+NODE	N4-01.13	N4-01	LINE	Nikka	(softly) That isn't what we found.	pick_N4-01=B		N4-01.14		
+NODE	N4-01.14	N4-01	LINE	Narration	(You see it land. The professor raises a brow.)	pick_N4-01=B		N4-01.15		
+NODE	N4-01.15	N4-01	LINE	Narration	(She holds the silence longer than anyone expects. Then she finds the rest of the answer on her own.)	pick_N4-01=C		N4-02.0		
+NODE	N4-02.0	N4-02	LINE	Narration	Campus garden, evening. Rain has just stopped; leaves drip. Nikka's campus map is rolled under her arm. She sits on the bench with her back to the wall, as if she has chosen the least likely view.			N4-02.1		
+NODE	N4-02.1	N4-02	LINE	Nikka	People keep asking what I'm going to do after graduation, like I owe them a final answer. It’s not that easy to say when there’s a whole world waiting for me.			N4-02.2		
+NODE	N4-02.2	N4-02	LINE	MC	You can be moving even if you don't know the destination.			N4-02.3		
+NODE	N4-02.3	N4-02	LINE	Nikka	And if I change direction?			N4-02.4		
+NODE	N4-02.4	N4-02	LINE	MC	You choose to turn where your heart takes you. It’s not an aimless change but an exploratory decision.			N4-02.5		
+NODE	N4-02.5	N4-02	LINE	Nikka	You’ve turned into somebody clever these past few months. You know the best words to soothe me.			N4-02.6		
+NODE	N4-02.6	N4-02	LINE	MC	I don't have all the answers either. I’m not as knowledgeable as you.			N4-02.7		
+NODE	N4-02.7	N4-02	LINE	Nikka	Good. I'd be suspicious if you did.			N4-02.8		
+NODE	N4-02.8	N4-02	LINE	Nikka	After we left, I finally decided to open the email and… I managed to get in. I told my mom through a video call and she managed to cry harder than me. It was so odd.			N4-02.9		
+NODE	N4-02.9	N4-02	LINE	MC	That sounds like her.			N4-02.10		
+NODE	N4-02.10	N4-02	LINE	Nikka	(laughs, a real one) It really does.			N4-02.11		
+NODE	N4-02.11	N4-02	TYPED	Nikka	Write "I'm happy."		learn:learned_maogma;aff:+1	N4-02.12		Maogma ako
+NODE	N4-02.12	N4-02	CHOICE	You	What do you tell her?			@ending		
+OPTION	N4-02.12	"I have feelings for you. I'd like to see whether we want to take the next step together."	set:confessionChoice=CONFESS
+OPTION	N4-02.12	"I value what we've built, even as friends."	set:confessionChoice=FRIENDSHIP
+OPTION	N4-02.12	"Promise you won't change or move away."	set:nikka_boundary_crossed=true;set:confessionChoice=REJECTION
+NODE	N-R.0	N-R	LINE	Narration	Campus garden, evening. A drop of water falls from a leaf onto the notebook.			N-R.1		
+NODE	N-R.1	N-R	LINE	Nikka	(a long breath) Oh. For a person who questions a lot of things, I never even thought to think about those sorts of stuff. I thought I was beyond those.			N-R.2		
+NODE	N-R.2	N-R	LINE	MC	That's fine.			N-R.3		
+NODE	N-R.3	N-R	LINE	Nikka	But maybe it was because it felt so natural, that I didn’t realize it was something more.			N-R.4		
+NODE	N-R.4	N-R	LINE	MC	You mean to say…			N-R.5		
+NODE	N-R.5	N-R	LINE	Nikka	Must I spell it out for you, [PLAYER NAME]? Well, long story short, In Other Word, Mahal Kita, [FIRST NAME].	learned_maogma		N-R.6		
+NODE	N-R.6	N-R	LINE	MC	…Maogma ako. Me too. I'm so happy, I mean. (a half-laugh) I said it right, right?	learned_maogma		N-R.7		
+NODE	N-R.7	N-R	LINE	Nikka	(smiling, then shy) You said it right.	learned_maogma		N-R.8		
+NODE	N-R.8	N-R	LINE	MC	That’s good, because I like you too, Nikka.	learned_maogma		N-R.9		
+NODE	N-R.9	N-R	LINE	Nikka	Maogma ako. It means "I'm happy." (quieter) I can’t believe we’ve maybe it this far.	!learned_maogma		N-R.10		
+NODE	N-R.10	N-R	LINE	Nikka	Taano? (laughing at herself) Why did it have to be you? Honestly, I can't explain it. Maybe that's the point.			N-R.11		
+NODE	N-R.11	N-R	LINE	Narration	(She unrolls the map. There's a new line on it: from this bench to the edge of the paper.)			N-R.12		
+NODE	N-R.12	N-R	LINE	Epilogue	Weeks later. A shared photo of the bench in the rain. Caption: "Not finished. Don't fix it."			N-R.13		
+NODE	N-R.13	N-R	END	Ending	A MAP WITHOUT ANSWERS (ROMANTIC)					
+NODE	N-F.0	N-F	LINE	Narration	Room 401, a week later. They walk out together, the long way.			N-F.1		
+NODE	N-F.1	N-F	LINE	Nikka	I thought about it. I'm not saying no to knowing you. I’m just not sure I see myself in that shoes.			N-F.2		
+NODE	N-F.2	N-F	LINE	MC	Okay. I'm glad you told me.			N-F.3		
+NODE	N-F.3	N-F	LINE	Nikka	It's easier to tell the truth when you're not afraid of how the other person will take it.			N-F.4		
+NODE	N-F.4	N-F	CHOICE	You	A last word			N-F.5		
+OPTION	N-F.4	"I'll still walk the long way with you."	
+OPTION	N-F.4	"Can I ask you a question?"	
+NODE	N-F.5	N-F	LINE	Nikka	Obviously. You'd get lost otherwise.	pick_N-F=A		N-F.6		
+NODE	N-F.6	N-F	LINE	Nikka	(arched brow) Taano? (grins) Go on.	pick_N-F=B		N-F.7		
+NODE	N-F.7	N-F	END	Ending	THE ROADS WE SHARE (CLASSMATES ONLY)					
+NODE	N-N.0	N-N	LINE	Narration	Campus garden, evening. The same bench. This time Nikka stays standing.			N-N.1		
+NODE	N-N.1	N-N	LINE	Nikka	I'm going to be honest, because that's the only way I know. I care about you but I don't feel the same way.			N-N.2		
+NODE	N-N.2	N-N	LINE	MC	Thank you for telling me honestly.			N-N.3		
+NODE	N-N.3	N-N	LINE	Nikka	I’ve always seen us looking at each other eye to eye. But that’s it. Nothing more than equals.			N-N.4		
+NODE	N-N.4	N-N	LINE	Nikka	I'd rather give you a clear no than a vague maybe. (a pause) I'm sorry if that hurts.			N-N.5		
+NODE	N-N.5	N-N	CHOICE	You	A last word			N-N.6		
+OPTION	N-N.5	"It does a little. But I'm glad you said it."	
+OPTION	N-N.5	"Can we still finish the project?"	
+NODE	N-N.6	N-N	LINE	Nikka	(a soft breath) Thank you for not pretending it doesn't.	pick_N-N=A		N-N.7		
+NODE	N-N.7	N-N	LINE	Nikka	Yes. I'd like that. We make good group after all.	pick_N-N=B		N-N.8		
+NODE	N-N.8	N-N	END	Ending	MY OWN DIRECTION (REJECTION)					
