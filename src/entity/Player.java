@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 
 import main.GamePanel;
 import main.KeyHandler;
+import main.UtilityTool;
 
 public class Player extends Entity {
 
@@ -26,7 +27,7 @@ public class Player extends Entity {
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
-        solidArea = new Rectangle(24, 32, 48, 48);
+        solidArea = new Rectangle(32, 64, 64, 56);
 
         setDefaultValues();
         getPlayerImage();
@@ -35,31 +36,40 @@ public class Player extends Entity {
     public void setDefaultValues() {
         worldX = gp.tileSize * 10;
         worldY = gp.tileSize * 10;
-        speed = 4;
+        speed = 5;
         direction = "down";
     }
 
     public void getPlayerImage() {
-        try {
-            up1 = formatTransparency(ImageIO.read(getClass().getResourceAsStream("/assets/player/playerSprite01.png")));
-            up2 = formatTransparency(ImageIO.read(getClass().getResourceAsStream("/assets/player/playerSprite02.png")));
-            left1 = formatTransparency(ImageIO.read(getClass().getResourceAsStream("/assets/player/playerSprite03.png")));
-            left2 = formatTransparency(ImageIO.read(getClass().getResourceAsStream("/assets/player/playerSprite04.png")));
-            right1 = formatTransparency(ImageIO.read(getClass().getResourceAsStream("/assets/player/playerSprite05.png")));
-            right2 = formatTransparency(ImageIO.read(getClass().getResourceAsStream("/assets/player/playerSprite06.png")));
-            down1 = formatTransparency(ImageIO.read(getClass().getResourceAsStream("/assets/player/playerSprite07.png")));
-            down2 = formatTransparency(ImageIO.read(getClass().getResourceAsStream("/assets/player/playerSprite08.png")));
 
+        up1 = setup("playerSprite01");
+        up2 = setup("playerSprite02");
+        left1 = setup("playerSprite03");
+        left2 = setup("playerSprite04");
+        right1 = setup("playerSprite05");
+        right2 = setup("playerSprite06");
+        down1 = setup("playerSprite07");
+        down2 = setup("playerSprite08");
+    }
+
+    public BufferedImage setup(String imageName) {
+
+        UtilityTool uTool = new UtilityTool();
+        BufferedImage image = null;
+
+        try {
+            image = ImageIO.read(getClass().getResourceAsStream("/assets/player/" + imageName + ".png"));
+            image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
         } catch (IOException e) {
             e.printStackTrace();
-
         }
+        return image;
     }
 
     public void update() {
 
         if (keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true) {
-            
+
             // 1. Set the direction based on key pressed (DO NOT change worldX/worldY yet)
             if (keyH.upPressed == true) {
                 direction = "up";
@@ -73,7 +83,7 @@ public class Player extends Entity {
 
             // 2. Check for tile collision
             collisionOn = false;
-            gp.cChecker.checkTile(this); 
+            gp.cChecker.checkTile(this);
 
             // 3. If collision is false, player can move
             if (collisionOn == false) {
@@ -148,14 +158,14 @@ public class Player extends Entity {
                 }
                 break;
         }
-        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, screenX, screenY, null);
     }
 
     public BufferedImage formatTransparency(BufferedImage original) {
         if (original == null) return null;
         BufferedImage formatted = new BufferedImage(
-            original.getWidth(), 
-            original.getHeight(), 
+            original.getWidth(),
+            original.getHeight(),
             BufferedImage.TYPE_INT_ARGB
         );
 
@@ -163,7 +173,7 @@ public class Player extends Entity {
         g2.drawImage(original, 0, 0, null);
         g2.dispose();
         return formatted;
-    
+
 }
 }
 

@@ -81,6 +81,15 @@ public class EndingManager {
         return determineEnding();
     }
 
+    /** Authored route endings: friendship is a choice; romance also needs trust. */
+    public String determineStoryEnding(String choice, boolean keySceneResolved, boolean boundaryRespected) {
+        requireFinalStage();
+        if ("FRIENDSHIP".equals(choice) || "WITHDRAW".equals(choice)) return CLASSMATES_ONLY;
+        if ("CONFESS".equals(choice) && progress.getAffectionScore() >= 7
+                && keySceneResolved && boundaryRespected) return ROMANTIC;
+        return REJECTION;
+    }
+
     /** Clears the response and its answer configuration for a new character/playthrough. */
     public void resetEnding() {
         confessionResponse = null;
