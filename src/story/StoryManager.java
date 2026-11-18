@@ -1,5 +1,7 @@
 package story;
 
+import ai.AiVerdict;
+import ai.AnswerCheckRequest;
 import data.GameProgress;
 import mechanics.AffectionManager;
 import mechanics.AnswerValidator;
@@ -8,6 +10,7 @@ import mechanics.PartnerManager;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /** Runs authored scenes, including mixed input modes and exact save/resume positions. */
 public final class StoryManager {
@@ -112,21 +115,84 @@ public final class StoryManager {
             put("feedback." + node.id, "Recorded: " + reply);
             return;
         }
+        recordTypedAnswer(node, reply, matchesAccepted(node, reply), null);
+    }
+
+    /**
+     * Returns what to ask the AI tutor about this reply, or null when the AI is not needed:
+     * the node is not a TYPED question, the reply is blank, or it already matches an accepted answer.
+     */
+    public AnswerCheckRequest aiRequestFor(String text) {
+        if (!started() || !acceptsText() || !current().kind.equals("TYPED")) return null;
+        StoryScript.Node node = current();
+        String reply = text == null ? "" : text.strip();
+        if (reply.isBlank() || matchesAccepted(node, reply)) return null;
+        List<String> accepted = Arrays.stream(node.answers.split("\\|")).filter(a -> !a.isBlank()).toList();
+        try {
+            return new AnswerCheckRequest(format(node.text), reply, accepted, languageFor(node));
+        } catch (IllegalArgumentException error) {
+            return null; // Unusual story data: just use normal checking.
+        }
+    }
+
+    /**
+     * Applies the AI tutor's verdict for the question with this id. An empty verdict means
+     * the AI was unavailable, so normal checking is used. Ignored if the player has
+     * already moved on (for example loaded a save) while the AI was thinking.
+     */
+    public void submitWithAi(String nodeId, String text, Optional<AiVerdict> verdict) {
+        if (!started() || !acceptsText() || !current().id.equals(nodeId)) return;
+        if (verdict == null || verdict.isEmpty()) {
+            submit(text);
+            return;
+        }
+        String reply = text == null ? "" : text.strip();
+        if (reply.isBlank()) {
+            submit(text);
+            return;
+        }
+        // CORRECT gets full credit. CLOSE and WRONG count as an attempt, with the AI's hint.
+        recordTypedAnswer(current(), reply, verdict.get().isCorrect(), verdict.get().feedback());
+    }
+
+    private boolean matchesAccepted(StoryScript.Node node, String reply) {
         List<String> accepted = Arrays.stream(node.answers.split("\\|"))
                 .map(StoryManager::normalizeTyped).toList();
         validator.setAcceptedAnswers(accepted);
-        boolean correct = validator.checkTypedResponse(normalizeTyped(reply));
+        return validator.checkTypedResponse(normalizeTyped(reply));
+    }
+
+    /** aiFeedback is null for normal checking, or the AI tutor's sentence. */
+    private void recordTypedAnswer(StoryScript.Node node, String reply, boolean correct, String aiFeedback) {
         int attempts = number("attempt." + node.id) + 1;
         put("attempt." + node.id, Integer.toString(attempts));
         put("reply." + node.id, reply);
+        String modelAnswer = node.answers.split("\\|")[0];
         if (correct) {
             put("ok_" + node.id, "true");
             applyOnce(node.id + ".answer", node.effects);
             put("done." + node.id, "true");
-            put("feedback." + node.id, "Correct! " + node.answers.split("\\|")[0]);
+            put("feedback." + node.id, aiFeedback == null ? "Correct! " + modelAnswer
+                    : "Correct! AI tutor: " + aiFeedback + " (Model answer: " + modelAnswer + ")");
         } else if (attempts < 2) {
-            put("feedback." + node.id, "Try once more. " + hint());
+            put("feedback." + node.id, "Try once more. " + (aiFeedback == null ? hint() : "AI tutor: " + aiFeedback));
         } else revealAnswer();
+    }
+
+    /** The language a TYPED question practises, from the words it teaches, else from the partner's route. */
+    private String languageFor(StoryScript.Node node) {
+        for (String effect : node.effects.split(";")) {
+            if (effect.startsWith("learn:")) {
+                StoryScript.Word word = script.word(effect.substring("learn:".length()));
+                if (word != null && !word.dialect().isBlank()) return word.dialect();
+            }
+        }
+        return switch (node.scene.isEmpty() ? ' ' : node.scene.charAt(0)) {
+            case 'J' -> "Cebuano";
+            case 'I' -> "Ilokano";
+            case 'N' -> "Central Bikol";
+            default -> "the regional language";
+        };
     }
 
     public String hint() {

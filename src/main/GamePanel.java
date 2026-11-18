@@ -19,6 +19,7 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JOptionPane;
 
+import ai.TutorService;
 import data.FileManager;
 import data.GameProgress;
 import data.VocabularyEntry;
@@ -61,6 +62,8 @@ public class GamePanel extends JPanel {
     private int musicVolume = 70;
     private int soundVolume = 80;
     private boolean showHints = true;
+    /** AI tutor for typed answers: Gemini when GEMINI_API_KEY is set, otherwise offline. */
+    private final TutorService tutor = TutorService.fromEnvironment();
     private boolean skipUnseen = true;
     private boolean fullscreen;
     private boolean skipAfterChoices;
@@ -104,6 +107,7 @@ public class GamePanel extends JPanel {
         try {
             story = new StoryManager(StoryScript.load(), progress);
             storyView = new StoryView(story, progress, this::handleStoryAction);
+            storyView.setTutor(tutor);
             storyView.setVisible(false);
             add(storyView);
             java.util.LinkedHashMap<String, VocabularyEntry> entries = new java.util.LinkedHashMap<>();
@@ -425,8 +429,12 @@ public class GamePanel extends JPanel {
         drawSlider(g,left,340,colW,"Music volume",musicVolume);drawSlider(g,rightX,340,colW,"Sound volume",soundVolume);
         g.setColor(ink);g.setFont(new Font("SansSerif",Font.PLAIN,20));g.drawString("Learning",left,445);
         button(g,left,458,Math.min(220,colW),38,(showHints?"✓":"□")+" Show English hints",showHints?softYellow:cream);
+        boolean aiOn = tutor.isEnabled() && tutor.isAvailable();
+        button(g,left+228,458,Math.min(124,colW-228),38,(aiOn?"✓":"□")+" AI tutor",aiOn?softYellow:cream);
         button(g,rightX,458,Math.min(180,colW),38,(muteAll?"✓":"□")+" Mute all",muteAll?softYellow:cream);
-        g.setColor(ink);g.setFont(new Font("SansSerif",Font.PLAIN,12));g.drawString("Click sliders to adjust. Preferences apply to the dialogue UI.",left,h-22);
+        g.setColor(ink);g.setFont(new Font("SansSerif",Font.PLAIN,12));
+        g.drawString(tutor.isAvailable() ? "Click sliders to adjust. Preferences apply to the dialogue UI."
+                : "Click sliders to adjust. The AI tutor needs a GEMINI_API_KEY on this computer.",left,h-22);
     }
 
     private void drawSlider(Graphics2D g, int x, int y, int width, String label, int value) {
@@ -660,7 +668,11 @@ public class GamePanel extends JPanel {
             if (x < rightX) fullscreen = true;
             else skipAfterChoices = !skipAfterChoices;
         } else if (y >= 450 && y < 505) {
-            if (x < rightX) showHints = !showHints;
+            if (x < left + 224) showHints = !showHints;
+            else if (x < rightX) {
+                if (tutor.isAvailable()) tutor.setEnabled(!tutor.isEnabled());
+                else showNotice("The AI tutor needs a GEMINI_API_KEY on this computer.");
+            }
             else muteAll = !muteAll;
         } else if ((y >= 235 && y < 280) || (y >= 345 && y < 390)) {
             updateSlider(x, y, left, rightX, width);
