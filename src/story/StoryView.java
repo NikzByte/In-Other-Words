@@ -1,5 +1,9 @@
 package story;
 
+import ai.AiVerdict;
+import ai.AnswerCheckRequest;
+import ai.OfflineTutor;
+import ai.TutorService;
 import data.GameProgress;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -14,12 +18,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Consumer;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.SwingWorker;
 
 /** The existing pink/cream dialogue style, with real story text and paged choices. */
 public final class StoryView extends JPanel {
@@ -35,8 +42,12 @@ public final class StoryView extends JPanel {
     private String displayedNode = "";
     private int page;
     private boolean hintsEnabled = true;
+    private TutorService tutor = new TutorService(new OfflineTutor());
+    private boolean checking;
 
     public void setHintsEnabled(boolean enabled) { hintsEnabled = enabled; }
+    /** The AI tutor used for typed answers; without one, only exact matches are accepted. */
+    public void setTutor(TutorService tutor) { this.tutor = Objects.requireNonNull(tutor, "Tutor must not be null."); }
     public void resetPresentation() { displayedNode = ""; page = 0; reply.setText(""); }
 
     public StoryView(StoryManager story, GameProgress progress, Consumer<String> action) {
@@ -109,9 +120,34 @@ public final class StoryView extends JPanel {
             action.accept("Words");
     }
     private void submit() {
-        if (!reply.isVisible()) return;
-        story.submit(reply.getText()); refresh();
-        if (reply.isVisible()) reply.selectAll();
+        if (!reply.isVisible() || checking) return;
+        String text = reply.getText();
+        AnswerCheckRequest request = tutor.isReady() ? story.aiRequestFor(text) : null;
+        if (request == null) {
+            // No AI needed (exact match, blank, not a typed question) or AI off: normal checking.
+            story.submit(text); refresh();
+            if (reply.isVisible()) reply.selectAll();
+            return;
+        }
+        // Ask the AI on a background thread so the game never freezes.
+        String nodeId = story.current().id;
+        checking = true;
+        reply.setEnabled(false);
+        repaint();
+        new SwingWorker<Optional<AiVerdict>, Void>() {
+            @Override protected Optional<AiVerdict> doInBackground() {
+                return tutor.tryCheck(request);
+            }
+            @Override protected void done() {
+                Optional<AiVerdict> verdict;
+                try { verdict = get(); } catch (Exception error) { verdict = Optional.empty(); }
+                checking = false;
+                reply.setEnabled(true);
+                story.submitWithAi(nodeId, text, verdict); // empty verdict = normal checking
+                refresh();
+                if (reply.isVisible()) reply.selectAll();
+            }
+        }.execute();
     }
     private void next() {
         if (page + 1 < textPages().size()) page++;
@@ -185,7 +221,8 @@ public final class StoryView extends JPanel {
             }
         } else if (story.acceptsText()) {
             g.setFont(new Font("SansSerif", Font.PLAIN, 14));
-            g.drawString("Type your response, then press Enter or Send.", 390, 346);
+            g.drawString(checking ? "Checking your answer with the AI tutor…"
+                    : "Type your response, then press Enter or Send.", 390, 346);
             button(g, 796, 412, 124, 36, "Send", PINK, this::submit);
             if (node.kind.equals("TYPED")) {
                 if (hintsEnabled) button(g, 390, 412, 115, 36, "Hint", CREAM, () -> action.accept("Hint"));
