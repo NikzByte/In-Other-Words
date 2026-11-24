@@ -45,8 +45,13 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_R) {
             switch (gp.currentMap) {
-                case 0: gp.tileM.loadMap("/assets/maps/map01.txt", 0); break;
-                case 1: gp.tileM.loadMap("/assets/maps/courtyard.txt", 1); break;
+                case 0: gp.tileM.loadMap("/assets/maps/courtyard.txt", 0); break;
+                case 1: gp.tileM.loadMap("/assets/maps/hallway.txt", 1); break;
+                case 2: gp.tileM.loadMap("/assets/maps/classroom.txt", 2); break;
+                case 3: gp.tileM.loadMap("/assets/maps/library.txt", 3); break;
+                case 4: gp.tileM.loadMap("/assets/maps/garden.txt", 4); break;
+                case 5: gp.tileM.loadMap("/assets/maps/hometown.txt", 5); break;
+                case 6: gp.tileM.loadMap("/assets/maps/bedroom.txt", 6); break;
             }
         }
     }
