@@ -21,6 +21,12 @@ public class EventHandler {
     public void checkEvent() {
         int pCol = getPlayerCol();
         int pRow = getPlayerRow();
+
+        // Prevent ArrayIndexOutOfBoundsException freeze when touching map edges
+        if (pCol < 0 || pCol >= gp.maxWorldCol || pRow < 0 || pRow >= gp.maxWorldRow) {
+            return;
+        }
+
         int currentTile = gp.tileM.mapTileNum[gp.currentMap][pCol][pRow];
 
         // --- 1. DEFINE ALL EXIT / DOOR TILES ---
@@ -46,11 +52,13 @@ public class EventHandler {
         boolean onHallwayLibraryDoor   = isOnTile(MAP_HALLWAY, hallLeftBrownDoor[0], hallLeftBrownDoor[1]);
         boolean onHallwayClassroomDoor = isOnTile(MAP_HALLWAY, hallRightBrownDoor[0], hallRightBrownDoor[1]);
 
-        // Classroom (Map 2) - Exit door threshold tile 92 at (6, 14)
-        boolean onClassroomExit = isOnTile(MAP_CLASSROOM, 6, 14);
+        // Classroom (Map 2) - Dynamically finds door tile 92 (or 63 if shared), triggers when touching door tiles
+        int[] classroomDoor = findDoorTile(MAP_CLASSROOM, 92, 63);
+        boolean onClassroomExit = isTouchingDoorDown(MAP_CLASSROOM, classroomDoor[0], classroomDoor[1]);
 
-        // Library (Map 3) - Doorway trim tile 152 at (8, 13)
-        boolean onLibraryExit = isOnTile(MAP_LIBRARY, 8, 13);
+        // Library (Map 3) - Doorway tiles 63 (left) & 64 (right)
+        int[] libraryDoor = findSingleTile(MAP_LIBRARY, 63);
+        boolean onLibraryExit = isTouchingDoorDown(MAP_LIBRARY, libraryDoor[0], libraryDoor[1]);
 
         // Garden (Map 4) - Top concrete path (cols 8-10, row 6)
         boolean onGardenTopPath = isOnRowRange(MAP_GARDEN, 6, 8, 10);
@@ -60,8 +68,8 @@ public class EventHandler {
         boolean onHometownHouseDoor = isOnTile(MAP_HOMETOWN, hometownGate[0], hometownGate[1] + 1);
         boolean onHometownRightPath = isOnTile(MAP_HOMETOWN, 16, 7) || isOnTile(MAP_HOMETOWN, 16, 8);
 
-        // Bedroom (Map 6) - Doorway tile 272 at (7, 12)
-        boolean onBedroomExit = isOnTile(MAP_BEDROOM, 7, 12);
+        // Bedroom (Map 6) - Exact floor tiles in front of doorway (row 10, cols 7-8)
+        boolean onBedroomExit = isOnTile(MAP_BEDROOM, 7, 10) || isOnTile(MAP_BEDROOM, 8, 10);
 
         // Re-enable teleporting once player steps off all trigger tiles
         boolean onAnyTrigger = onCourtyardSchoolDoor || onCourtyardLeftPath || onCourtyardBottomPath
@@ -88,7 +96,7 @@ public class EventHandler {
 
             // HALLWAY <-> LIBRARY (Left Brown Door)
             else if (onHallwayLibraryDoor && gp.player.direction.equals("up")) {
-                teleport(MAP_LIBRARY, 8, 12, "up");
+                teleport(MAP_LIBRARY, libraryDoor[0], libraryDoor[1] - 1, "up");
             } 
             else if (onLibraryExit && gp.player.direction.equals("down")) {
                 teleport(MAP_HALLWAY, hallLeftBrownDoor[0], hallLeftBrownDoor[1] + 1, "down");
@@ -96,7 +104,7 @@ public class EventHandler {
 
             // HALLWAY <-> CLASSROOM (Right Brown Door)
             else if (onHallwayClassroomDoor && gp.player.direction.equals("up")) {
-                teleport(MAP_CLASSROOM, 6, 13, "up");
+                teleport(MAP_CLASSROOM, classroomDoor[0], classroomDoor[1] - 1, "up");
             } 
             else if (onClassroomExit && gp.player.direction.equals("down")) {
                 teleport(MAP_HALLWAY, hallRightBrownDoor[0], hallRightBrownDoor[1] + 1, "down");
@@ -124,7 +132,7 @@ public class EventHandler {
 
             // HOMETOWN <-> BEDROOM (House Gate)
             else if (onHometownHouseDoor && gp.player.direction.equals("up")) {
-                teleport(MAP_BEDROOM, 7, 11, "up");
+                teleport(MAP_BEDROOM, 7, 9, "up");
             } 
             else if (onBedroomExit && gp.player.direction.equals("down")) {
                 teleport(MAP_HOMETOWN, hometownGate[0], hometownGate[1] + 2, "down");
@@ -153,7 +161,32 @@ public class EventHandler {
         return (getPlayerRow() == row && col >= startCol && col <= endCol);
     }
 
-    // Finds the first occurrence of a specific tile ID (e.g., metal gate 225)
+    // Triggers when player steps onto OR touches the 2-tile-wide door (tiles 63 & 64) below them
+    private boolean isTouchingDoorDown(int map, int doorCol, int doorRow) {
+        if (gp.currentMap != map) return false;
+        int pCol = getPlayerCol();
+        int currentRow = getPlayerRow();
+        int bottomEdgeRow = (gp.player.worldY + gp.player.solidArea.y + gp.player.solidArea.height + 4) / gp.tileSize;
+
+        boolean inDoorCols = (pCol == doorCol || pCol == doorCol + 1);
+        boolean touchingDoorRow = (currentRow == doorRow || bottomEdgeRow == doorRow);
+        return inDoorCols && touchingDoorRow;
+    }
+
+    // Searches for primaryTileId first, falling back to secondaryTileId (e.g. 92 or 63)
+    private int[] findDoorTile(int map, int primaryTileId, int secondaryTileId) {
+        for (int row = 0; row < gp.maxWorldRow; row++) {
+            for (int col = 0; col < gp.maxWorldCol; col++) {
+                int id = gp.tileM.mapTileNum[map][col][row];
+                if (id == primaryTileId || id == secondaryTileId) {
+                    return new int[]{col, row};
+                }
+            }
+        }
+        return new int[]{4, 14};
+    }
+
+    // Finds the first occurrence of a specific tile ID (e.g., metal gate 225, library door 63)
     private int[] findSingleTile(int map, int tileId) {
         for (int row = 0; row < gp.maxWorldRow; row++) {
             for (int col = 0; col < gp.maxWorldCol; col++) {
