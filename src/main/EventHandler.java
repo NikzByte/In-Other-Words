@@ -21,6 +21,12 @@ public class EventHandler {
     public void checkEvent() {
         int pCol = getPlayerCol();
         int pRow = getPlayerRow();
+
+        // Prevent ArrayIndexOutOfBoundsException freeze when touching map edges
+        if (pCol < 0 || pCol >= gp.maxWorldCol || pRow < 0 || pRow >= gp.maxWorldRow) {
+            return;
+        }
+
         int currentTile = gp.tileM.mapTileNum[gp.currentMap][pCol][pRow];
 
         // --- 1. DEFINE ALL EXIT / DOOR TILES ---
@@ -60,8 +66,8 @@ public class EventHandler {
         boolean onHometownHouseDoor = isOnTile(MAP_HOMETOWN, hometownGate[0], hometownGate[1] + 1);
         boolean onHometownRightPath = isOnTile(MAP_HOMETOWN, 16, 7) || isOnTile(MAP_HOMETOWN, 16, 8);
 
-        // Bedroom (Map 6) - Doorway tile 272 at (7, 12)
-        boolean onBedroomExit = isOnTile(MAP_BEDROOM, 7, 12);
+        // Bedroom (Map 6) - Exact floor tiles in front of doorway (row 10, cols 7-8)
+        boolean onBedroomExit = isOnTile(MAP_BEDROOM, 7, 10) || isOnTile(MAP_BEDROOM, 8, 10);
 
         // Re-enable teleporting once player steps off all trigger tiles
         boolean onAnyTrigger = onCourtyardSchoolDoor || onCourtyardLeftPath || onCourtyardBottomPath
@@ -124,7 +130,7 @@ public class EventHandler {
 
             // HOMETOWN <-> BEDROOM (House Gate)
             else if (onHometownHouseDoor && gp.player.direction.equals("up")) {
-                teleport(MAP_BEDROOM, 7, 11, "up");
+                teleport(MAP_BEDROOM, 7, 9, "up");
             } 
             else if (onBedroomExit && gp.player.direction.equals("down")) {
                 teleport(MAP_HOMETOWN, hometownGate[0], hometownGate[1] + 2, "down");

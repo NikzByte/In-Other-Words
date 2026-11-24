@@ -102,7 +102,7 @@ public class TileManager {
         setup(60, "schoolHallwayTile32", true);  // Bottom wall right edge
         setup(61, "schoolHallwayTile33", true);  // Bottom wall corner-right
 
-        // Classroom tiles (62-93)
+        // Classroom tiles (62-95)
         setup(62, "classroomMap01", true);  // Wall corner
         setup(63, "classroomMap02", true);  // Wall horizontal
         setup(64, "classroomMap03", true);  // Wall corner
@@ -132,201 +132,202 @@ public class TileManager {
         setup(88, "classroomMap27", true);  // Student chair
         setup(89, "classroomMap28", true);  // Student table
         setup(90, "classroomMap29", true);  // Student chair
-        setup(91, "classroomMap30", true);  // Wall corner
-        setup(92, "classroomMap31", false); // Floor/wall section
-        setup(93, "classroomMap32", false); // Floor/wall section
+        setup(91, "classroomMap30", true);  // Bottom-left wall corner
+        setup(92, "classroomMap31", false); // Bottom doorway / floor transition
+        setup(93, "classroomMap32", true);  // Bottom wall horizontal
+        setup(94, "classroomMap33", true);  // Bottom wall horizontal
+        setup(95, "classroomMap34", true);  // Bottom-right wall corner
 
-        // Library tiles (94-159)
-        setup(94, "libraryTileMap01", true);   // Top-left wall corner
-        setup(95, "libraryTileMap02", true);   // Top wall horizontal
-        setup(96, "libraryTileMap03", true);   // Top wall horizontal
-        setup(97, "libraryTileMap04", true);   // Top wall horizontal
-        setup(98, "libraryTileMap05", true);   // Top wall horizontal
-        setup(99, "libraryTileMap06", true);   // Top wall horizontal
-        setup(100, "libraryTileMap07", true);  // Top wall horizontal
-        setup(101, "libraryTileMap08", true);  // Top-right wall corner
-        setup(102, "libraryTileMap09", true);  // Left wall vertical
-        setup(103, "libraryTileMap10", true);  // Bookshelf upper
-        setup(104, "libraryTileMap11", true);  // Cabinet upper
-        setup(105, "libraryTileMap12", true);  // Bookshelf upper
-        setup(106, "libraryTileMap13", true);  // Wall plain
-        setup(107, "libraryTileMap14", true);  // Bookshelf upper
-        setup(108, "libraryTileMap15", true);  // Cabinet upper
-        setup(109, "libraryTileMap16", true);  // Bookshelf upper
-        setup(110, "libraryTileMap17", true);  // Right wall vertical
-        setup(111, "libraryTileMap18", true);  // Left wall vertical
-        setup(112, "libraryTileMap19", true);  // Bookshelf middle
-        setup(113, "libraryTileMap20", true);  // Cabinet middle
-        setup(114, "libraryTileMap21", true);  // Bookshelf middle
-        setup(115, "libraryTileMap22", false); // Wall base / floor transition
-        setup(116, "libraryTileMap23", true);  // Bookshelf middle
-        setup(117, "libraryTileMap24", true);  // Cabinet middle
-        setup(118, "libraryTileMap25", true);  // Bookshelf middle
-        setup(119, "libraryTileMap26", true);  // Right wall vertical
-        setup(120, "libraryTileMap27", true);  // Left wall vertical
-        setup(121, "libraryTileMap28", true);  // Chair / small desk
-        setup(122, "libraryTileMap29", true);  // Chair / small desk
-        setup(123, "libraryTileMap30", false); // Floor with wall trim
-        setup(124, "libraryTileMap31", false); // Plain floor
-        setup(125, "libraryTileMap32", true);  // Chair / small desk
-        setup(126, "libraryTileMap33", true);  // Chair / small desk
-        setup(127, "libraryTileMap34", true);  // Right wall vertical
-        setup(128, "libraryTileMap35", true);  // Counter / bench left
-        setup(129, "libraryTileMap36", true);  // Counter / bench right
-        setup(130, "libraryTileMap37", true);  // Left wall vertical
-        setup(131, "libraryTileMap38", true);  // Chair / small desk
-        setup(132, "libraryTileMap39", true);  // Chair / small desk
-        setup(133, "libraryTileMap40", true);  // Chair / small desk
-        setup(134, "libraryTileMap41", true);  // Right wall vertical
-        setup(135, "libraryTileMap42", true);  // Bookshelf lower
-        setup(136, "libraryTileMap43", true);  // Left wall with shelf
-        setup(137, "libraryTileMap44", true);  // Bookshelf lower
-        setup(138, "libraryTileMap45", true);  // Cabinet lower
-        setup(139, "libraryTileMap46", true);  // Bookshelf lower
-        setup(140, "libraryTileMap47", true);  // Right wall vertical
-        setup(141, "libraryTileMap48", true);  // Left wall vertical
-        setup(142, "libraryTileMap49", true);  // Bookshelf base
-        setup(143, "libraryTileMap50", false); // Floor with left trim
-        setup(144, "libraryTileMap51", true);  // Bookshelf base
-        setup(145, "libraryTileMap52", true);  // Cabinet base
-        setup(146, "libraryTileMap53", true);  // Bookshelf base
-        setup(147, "libraryTileMap54", true);  // Right wall vertical
-        setup(148, "libraryTileMap55", true);  // Left wall vertical
-        setup(149, "libraryTileMap56", false); // Floor with bottom trim
-        setup(150, "libraryTileMap57", false); // Floor with top-left trim
-        setup(151, "libraryTileMap58", false); // Floor with top trim
-        setup(152, "libraryTileMap59", false); // Floor with doorway trim
-        setup(153, "libraryTileMap60", false); // Floor with bottom-right trim
-        setup(154, "libraryTileMap61", true);  // Right wall vertical
-        setup(155, "libraryTileMap62", true);  // Bottom-left wall corner
-        setup(156, "libraryTileMap63", true);  // Bottom wall horizontal
-        setup(157, "libraryTileMap64", true);  // Bottom wall horizontal
-        setup(158, "libraryTileMap65", true);  // Bottom wall horizontal
-        setup(159, "libraryTileMap66", true);  // Bottom-right wall corner
+        // Library tiles (96-161)
+        setup(96, "libraryTileMap01", true);   // Top-left wall corner
+        setup(97, "libraryTileMap02", true);   // Top wall horizontal
+        setup(98, "libraryTileMap03", true);   // Top wall horizontal
+        setup(99, "libraryTileMap04", true);   // Top wall horizontal
+        setup(100, "libraryTileMap05", true);  // Top wall horizontal
+        setup(101, "libraryTileMap06", true);  // Top wall horizontal
+        setup(102, "libraryTileMap07", true);  // Top wall horizontal
+        setup(103, "libraryTileMap08", true);  // Top-right wall corner
+        setup(104, "libraryTileMap09", true);  // Left wall vertical
+        setup(105, "libraryTileMap10", true);  // Bookshelf upper
+        setup(106, "libraryTileMap11", true);  // Cabinet upper
+        setup(107, "libraryTileMap12", true);  // Bookshelf upper
+        setup(108, "libraryTileMap13", true);  // Wall plain
+        setup(109, "libraryTileMap14", true);  // Bookshelf upper
+        setup(110, "libraryTileMap15", true);  // Cabinet upper
+        setup(111, "libraryTileMap16", true);  // Bookshelf upper
+        setup(112, "libraryTileMap17", true);  // Right wall vertical
+        setup(113, "libraryTileMap18", true);  // Left wall vertical
+        setup(114, "libraryTileMap19", true);  // Bookshelf middle
+        setup(115, "libraryTileMap20", true);  // Cabinet middle
+        setup(116, "libraryTileMap21", true);  // Bookshelf middle
+        setup(117, "libraryTileMap22", false); // Wall base / floor transition
+        setup(118, "libraryTileMap23", true);  // Bookshelf middle
+        setup(119, "libraryTileMap24", true);  // Cabinet middle
+        setup(120, "libraryTileMap25", true);  // Bookshelf middle
+        setup(121, "libraryTileMap26", true);  // Right wall vertical
+        setup(122, "libraryTileMap27", true);  // Left wall vertical
+        setup(123, "libraryTileMap28", true);  // Chair / small desk
+        setup(124, "libraryTileMap29", true);  // Chair / small desk
+        setup(125, "libraryTileMap30", false); // Floor with wall trim
+        setup(126, "libraryTileMap31", false); // Plain floor
+        setup(127, "libraryTileMap32", true);  // Chair / small desk
+        setup(128, "libraryTileMap33", true);  // Chair / small desk
+        setup(129, "libraryTileMap34", true);  // Right wall vertical
+        setup(130, "libraryTileMap35", true);  // Counter / bench left
+        setup(131, "libraryTileMap36", true);  // Counter / bench right
+        setup(132, "libraryTileMap37", true);  // Left wall vertical
+        setup(133, "libraryTileMap38", true);  // Chair / small desk
+        setup(134, "libraryTileMap39", true);  // Chair / small desk
+        setup(135, "libraryTileMap40", true);  // Chair / small desk
+        setup(136, "libraryTileMap41", true);  // Right wall vertical
+        setup(137, "libraryTileMap42", true);  // Bookshelf lower
+        setup(138, "libraryTileMap43", true);  // Left wall with shelf
+        setup(139, "libraryTileMap44", true);  // Bookshelf lower
+        setup(140, "libraryTileMap45", true);  // Cabinet lower
+        setup(141, "libraryTileMap46", true);  // Bookshelf lower
+        setup(142, "libraryTileMap47", true);  // Right wall vertical
+        setup(143, "libraryTileMap48", true);  // Left wall vertical
+        setup(144, "libraryTileMap49", true);  // Bookshelf base
+        setup(145, "libraryTileMap50", false); // Floor with left trim
+        setup(146, "libraryTileMap51", true);  // Bookshelf base
+        setup(147, "libraryTileMap52", true);  // Cabinet base
+        setup(148, "libraryTileMap53", true);  // Bookshelf base
+        setup(149, "libraryTileMap54", true);  // Right wall vertical
+        setup(150, "libraryTileMap55", true);  // Left wall vertical
+        setup(151, "libraryTileMap56", false); // Floor with bottom trim
+        setup(152, "libraryTileMap57", false); // Floor with top-left trim
+        setup(153, "libraryTileMap58", false); // Floor with top trim
+        setup(154, "libraryTileMap59", false); // Floor with doorway trim
+        setup(155, "libraryTileMap60", false); // Floor with bottom-right trim
+        setup(156, "libraryTileMap61", true);  // Right wall vertical
+        setup(157, "libraryTileMap62", true);  // Bottom-left wall corner
+        setup(158, "libraryTileMap63", true);  // Bottom wall horizontal
+        setup(159, "libraryTileMap64", true);  // Bottom wall horizontal
+        setup(160, "libraryTileMap65", true);  // Bottom wall horizontal
+        setup(161, "libraryTileMap66", true);  // Bottom-right wall corner
 
-        // Garden tiles (160-184)
-        setup(160, "gardenMap01", true);   // Tree
-        setup(161, "gardenMap02", false);  // Concrete path
-        setup(162, "gardenMap03", false);  // Plain grass
-        setup(163, "gardenMap04", false);  // Grass border top-left
-        setup(164, "gardenMap05", false);  // Grass border top
-        setup(165, "gardenMap06", false);  // Grass border top
-        setup(166, "gardenMap07", false);  // Grass border top-right
-        setup(167, "gardenMap08", false);  // Grass border bottom-left
-        setup(168, "gardenMap09", false);  // Grass with flowers top-right
-        setup(169, "gardenMap10", false);  // Grass with flowers top-left
-        setup(170, "gardenMap11", false);  // Grass with flowers top-right
-        setup(171, "gardenMap12", false);  // Grass border bottom-left
-        setup(172, "gardenMap13", false);  // Grass with flowers top-left
-        setup(173, "gardenMap14", true);   // Bench left
-        setup(174, "gardenMap15", true);   // Bench middle
-        setup(175, "gardenMap16", true);   // Bench right
-        setup(176, "gardenMap17", false);  // Grass with flowers top-right
-        setup(177, "gardenMap18", false);  // Grass border left
-        setup(178, "gardenMap19", false);  // Grass with flowers left
-        setup(179, "gardenMap20", false);  // Grass with scattered flowers
-        setup(180, "gardenMap21", false);  // Grass border right
-        setup(181, "gardenMap22", false);  // Grass border top-right
-        setup(182, "gardenMap23", false);  // Grass border top
-        setup(183, "gardenMap24", false);  // Grass border top
-        setup(184, "gardenMap25", false);  // Grass border top-right
+        // Garden tiles (162-186)
+        setup(162, "gardenMap01", true);   // Tree
+        setup(163, "gardenMap02", false);  // Concrete path
+        setup(164, "gardenMap03", false);  // Plain grass
+        setup(165, "gardenMap04", false);  // Grass border top-left
+        setup(166, "gardenMap05", false);  // Grass border top
+        setup(167, "gardenMap06", false);  // Grass border top
+        setup(168, "gardenMap07", false);  // Grass border top-right
+        setup(169, "gardenMap08", false);  // Grass border bottom-left
+        setup(170, "gardenMap09", false);  // Grass with flowers top-right
+        setup(171, "gardenMap10", false);  // Grass with flowers top-left
+        setup(172, "gardenMap11", false);  // Grass with flowers top-right
+        setup(173, "gardenMap12", false);  // Grass border bottom-left
+        setup(174, "gardenMap13", false);  // Grass with flowers top-left
+        setup(175, "gardenMap14", true);   // Bench left
+        setup(176, "gardenMap15", true);   // Bench middle
+        setup(177, "gardenMap16", true);   // Bench right
+        setup(178, "gardenMap17", false);  // Grass with flowers top-right
+        setup(179, "gardenMap18", false);  // Grass border left
+        setup(180, "gardenMap19", false);  // Grass with flowers left
+        setup(181, "gardenMap20", false);  // Grass with scattered flowers
+        setup(182, "gardenMap21", false);  // Grass border right
+        setup(183, "gardenMap22", false);  // Grass border top-right
+        setup(184, "gardenMap23", false);  // Grass border top
+        setup(185, "gardenMap24", false);  // Grass border top
+        setup(186, "gardenMap25", false);  // Grass border top-right
 
-        // Hometown tiles (185-247)
-        setup(185, "hometownMap01", true);  // Tricycle / vehicle part on grass
-        setup(186, "hometownMap02", true);  // Tricycle / vehicle part on grass
-        setup(187, "hometownMap03", true);  // Tricycle / vehicle part on grass
-        setup(188, "hometownMap04", true);  // Tree
-        setup(189, "hometownMap05", true);  // Building / stall corner
-        setup(190, "hometownMap06", true);  // Fence / gate on grass
-        setup(191, "hometownMap07", true);  // Fence / wall corner on grass
-        setup(192, "hometownMap08", true);  // Wooden bench / counter
-        setup(193, "hometownMap09", true);  // Wooden bench / gate gap
-        setup(194, "hometownMap10", true);  // Wooden bench / counter
-        setup(195, "hometownMap11", true);  // Fence / wall edge on grass
-        setup(196, "hometownMap12", true);  // Roof / wall corner
-        setup(197, "hometownMap13", true);  // Roof / wall section
-        setup(198, "hometownMap14", true);  // Roof / wall corner
-        setup(199, "hometownMap15", true);  // Roof / wall section
-        setup(200, "hometownMap16", true);  // Plain roof / wall
-        setup(201, "hometownMap17", true);  // Plain roof / wall
-        setup(202, "hometownMap18", false); // Concrete / sidewalk tile
-        setup(203, "hometownMap19", true);  // Green roof corner
-        setup(204, "hometownMap20", true);  // Green roof section
-        setup(205, "hometownMap21", true);  // Green roof edge
-        setup(206, "hometownMap22", true);  // Green roof corner
-        setup(207, "hometownMap23", true);  // Red roof section
-        setup(208, "hometownMap24", true);  // Red roof section
-        setup(209, "hometownMap25", true);  // House wall with window
-        setup(210, "hometownMap26", true);  // House wall with window
-        setup(211, "hometownMap27", true);  // House wall section
-        setup(212, "hometownMap28", true);  // House wall with door/vent
-        setup(213, "hometownMap29", true);  // Sari-sari store sign left
-        setup(214, "hometownMap30", true);  // Sari-sari store sign right
-        setup(215, "hometownMap31", false); // Crosswalk / striped pavement
-        setup(216, "hometownMap32", false); // Crosswalk / striped pavement
-        setup(217, "hometownMap33", true);  // Gray building wall
-        setup(218, "hometownMap34", true);  // Building wall with blue window
-        setup(219, "hometownMap35", true);  // Green wall section
-        setup(220, "hometownMap36", true);  // Green wall section
-        setup(221, "hometownMap37", true);  // Gray wall edge
-        setup(222, "hometownMap38", true);  // Tree
-        setup(223, "hometownMap39", true);  // Brick / patterned wall
-        setup(224, "hometownMap40", true);  // Brick / patterned wall
-        setup(225, "hometownMap41", true);  // Metal gate / bars
-        setup(226, "hometownMap42", true);  // Brick / patterned wall
-        setup(227, "hometownMap43", true);  // Sari-sari store counter left
-        setup(228, "hometownMap44", true);  // Sari-sari store counter right
-        setup(229, "hometownMap45", false); // Crosswalk / striped pavement
-        setup(230, "hometownMap46", false); // Crosswalk / striped pavement
-        setup(231, "hometownMap47", true);  // White building wall
-        setup(232, "hometownMap48", true);  // Building window / signage
-        setup(233, "hometownMap49", true);  // Storefront / shutter wall
-        setup(234, "hometownMap50", true);  // Storefront / shutter wall
-        setup(235, "hometownMap51", true);  // White wall / doorway trim
-        setup(236, "hometownMap52", false); // Dark asphalt road
-        setup(237, "hometownMap53", false); // Road edge / curb
-        setup(238, "hometownMap54", false); // Road edge / curb
-        setup(239, "hometownMap55", false); // Road edge / curb
-        setup(240, "hometownMap56", false); // Road edge / curb
-        setup(241, "hometownMap57", false); // Road edge / curb
-        setup(242, "hometownMap58", false); // Road edge / curb
-        setup(243, "hometownMap59", false); // Road edge / curb
-        setup(244, "hometownMap60", false); // Road edge / curb
-        setup(245, "hometownMap61", false); // Road edge / curb
-        setup(246, "hometownMap62", false); // Road edge / curb
-        setup(247, "hometownMap63", false); // Road edge / curb
+        // Hometown tiles (187-249)
+        setup(187, "hometownMap01", true);  // Tricycle / vehicle part on grass
+        setup(188, "hometownMap02", true);  // Tricycle / vehicle part on grass
+        setup(189, "hometownMap03", true);  // Tricycle / vehicle part on grass
+        setup(190, "hometownMap04", true);  // Tree
+        setup(191, "hometownMap05", true);  // Building / stall corner
+        setup(192, "hometownMap06", true);  // Fence / gate on grass
+        setup(193, "hometownMap07", true);  // Fence / wall corner on grass
+        setup(194, "hometownMap08", true);  // Wooden bench / counter
+        setup(195, "hometownMap09", true);  // Wooden bench / gate gap
+        setup(196, "hometownMap10", true);  // Wooden bench / counter
+        setup(197, "hometownMap11", true);  // Fence / wall edge on grass
+        setup(198, "hometownMap12", true);  // Roof / wall corner
+        setup(199, "hometownMap13", true);  // Roof / wall section
+        setup(200, "hometownMap14", true);  // Roof / wall corner
+        setup(201, "hometownMap15", true);  // Roof / wall section
+        setup(202, "hometownMap16", true);  // Plain roof / wall
+        setup(203, "hometownMap17", true);  // Plain roof / wall
+        setup(204, "hometownMap18", false); // Concrete / sidewalk tile
+        setup(205, "hometownMap19", true);  // Green roof corner
+        setup(206, "hometownMap20", true);  // Green roof section
+        setup(207, "hometownMap21", true);  // Green roof edge
+        setup(208, "hometownMap22", true);  // Green roof corner
+        setup(209, "hometownMap23", true);  // Red roof section
+        setup(210, "hometownMap24", true);  // Red roof section
+        setup(211, "hometownMap25", true);  // House wall with window
+        setup(212, "hometownMap26", true);  // House wall with window
+        setup(213, "hometownMap27", true);  // House wall section
+        setup(214, "hometownMap28", true);  // House wall with door/vent
+        setup(215, "hometownMap29", true);  // Sari-sari store sign left
+        setup(216, "hometownMap30", true);  // Sari-sari store sign right
+        setup(217, "hometownMap31", false); // Crosswalk / striped pavement
+        setup(218, "hometownMap32", false); // Crosswalk / striped pavement
+        setup(219, "hometownMap33", true);  // Gray building wall
+        setup(220, "hometownMap34", true);  // Building wall with blue window
+        setup(221, "hometownMap35", true);  // Green wall section
+        setup(222, "hometownMap36", true);  // Green wall section
+        setup(223, "hometownMap37", true);  // Gray wall edge
+        setup(224, "hometownMap38", true);  // Tree
+        setup(225, "hometownMap39", true);  // Brick / patterned wall
+        setup(226, "hometownMap40", true);  // Brick / patterned wall
+        setup(227, "hometownMap41", true);  // Metal gate / bars
+        setup(228, "hometownMap42", true);  // Brick / patterned wall
+        setup(229, "hometownMap43", true);  // Sari-sari store counter left
+        setup(230, "hometownMap44", true);  // Sari-sari store counter right
+        setup(231, "hometownMap45", false); // Crosswalk / striped pavement
+        setup(232, "hometownMap46", false); // Crosswalk / striped pavement
+        setup(233, "hometownMap47", true);  // White building wall
+        setup(234, "hometownMap48", true);  // Building window / signage
+        setup(235, "hometownMap49", true);  // Storefront / shutter wall
+        setup(236, "hometownMap50", true);  // Storefront / shutter wall
+        setup(237, "hometownMap51", true);  // White wall / doorway trim
+        setup(238, "hometownMap52", false); // Dark asphalt road
+        setup(239, "hometownMap53", false); // Road edge / curb
+        setup(240, "hometownMap54", false); // Road edge / curb
+        setup(241, "hometownMap55", false); // Road edge / curb
+        setup(242, "hometownMap56", false); // Road edge / curb
+        setup(243, "hometownMap57", false); // Road edge / curb
+        setup(244, "hometownMap58", false); // Road edge / curb
+        setup(245, "hometownMap59", false); // Road edge / curb
+        setup(246, "hometownMap60", false); // Road edge / curb
+        setup(247, "hometownMap61", false); // Road edge / curb
+        setup(248, "hometownMap62", false); // Road edge / curb
+        setup(249, "hometownMap63", false); // Road edge / curb
 
-        // Bedroom tiles (248-275)
-        setup(248, "bedroomMap01", true);  // Top-left wall corner
-        setup(249, "bedroomMap02", true);  // Top wall plain
-        setup(250, "bedroomMap03", true);  // Top wall window upper
-        setup(251, "bedroomMap04", true);  // Top-right wall corner
-        setup(252, "bedroomMap05", true);  // Left wall vertical
-        setup(253, "bedroomMap06", true);  // Right wall vertical
-        setup(254, "bedroomMap07", true);  // Wall with bed headboard
-        setup(255, "bedroomMap08", true);  // Wall window lower
-        setup(256, "bedroomMap09", true);  // Wall with wardrobe upper-left
-        setup(257, "bedroomMap10", true);  // Wall with wardrobe upper-right
-        setup(258, "bedroomMap11", true);  // Wall with desk upper
-        setup(259, "bedroomMap12", true);  // Left wall vertical
-        setup(260, "bedroomMap13", true);  // Bed middle / pillow
-        setup(261, "bedroomMap14", false); // Plain floor
-        setup(262, "bedroomMap15", true);  // Wardrobe lower-left
-        setup(263, "bedroomMap16", true);  // Wardrobe lower-right
-        setup(264, "bedroomMap17", true);  // Desk / chair lower
-        setup(265, "bedroomMap18", true);  // Bed foot
-        setup(266, "bedroomMap19", true);  // Small stool / nightstand
-        setup(267, "bedroomMap20", false); // Rug left
-        setup(268, "bedroomMap21", false); // Rug middle
-        setup(269, "bedroomMap22", false); // Rug right
-        setup(270, "bedroomMap23", true);  // Bottom-left wall corner
-        setup(271, "bedroomMap24", true);  // Bottom wall horizontal
-        setup(272, "bedroomMap25", true);  // Bottom wall doorway
-        setup(273, "bedroomMap26", true);  // Bottom wall horizontal
-        setup(274, "bedroomMap27", true);  // Bottom wall horizontal
-        setup(275, "bedroomMap28", true);  // Bottom-right wall corner
+        // Bedroom tiles (250-277)
+        setup(250, "bedroomMap01", true);  // Top-left wall corner
+        setup(251, "bedroomMap02", true);  // Top wall plain
+        setup(252, "bedroomMap03", true);  // Top wall window upper
+        setup(253, "bedroomMap04", true);  // Top-right wall corner
+        setup(254, "bedroomMap05", true);  // Left wall vertical
+        setup(255, "bedroomMap06", true);  // Right wall vertical
+        setup(256, "bedroomMap07", true);  // Wall with bed headboard
+        setup(257, "bedroomMap08", true);  // Wall window lower
+        setup(258, "bedroomMap09", true);  // Wall with wardrobe upper-left
+        setup(259, "bedroomMap10", true);  // Wall with wardrobe upper-right
+        setup(260, "bedroomMap11", true);  // Wall with desk upper
+        setup(261, "bedroomMap12", true);  // Left wall vertical
+        setup(262, "bedroomMap13", true);  // Bed middle / pillow
+        setup(263, "bedroomMap14", false); // Plain floor
+        setup(264, "bedroomMap15", true);  // Wardrobe lower-left
+        setup(265, "bedroomMap16", true);  // Wardrobe lower-right
+        setup(266, "bedroomMap17", true);  // Desk / chair lower
+        setup(267, "bedroomMap18", true);  // Bed foot
+        setup(268, "bedroomMap19", true);  // Small stool / nightstand
+        setup(269, "bedroomMap20", false); // Rug left
+        setup(270, "bedroomMap21", false); // Rug middle
+        setup(271, "bedroomMap22", false); // Rug right
+        setup(272, "bedroomMap23", true);  // Bottom-left wall corner
+        setup(273, "bedroomMap24", true);  // Bottom wall horizontal
+        setup(274, "bedroomMap25", false); // Bottom wall doorway
+        setup(275, "bedroomMap26", true);  // Bottom wall horizontal
+        setup(276, "bedroomMap27", true);  // Bottom wall horizontal
+        setup(277, "bedroomMap28", true);  // Bottom-right wall corner
     }
-
 
     public void setup(int index, String imagePath, boolean collision) {
         UtilityTool uTool = new UtilityTool();
