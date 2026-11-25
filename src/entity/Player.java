@@ -14,20 +14,21 @@ import main.UtilityTool;
 
 public class Player extends Entity {
 
-    GamePanel gp;
     KeyHandler keyH;
 
     public final int screenX;
     public final int screenY;
 
     public Player(GamePanel gp, KeyHandler keyH) {
-        this.gp = gp;
+        super(gp);
         this.keyH = keyH;
 
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
         solidArea = new Rectangle(32, 64, 64, 56);
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
 
         setDefaultValues();
         getPlayerImage();
@@ -85,6 +86,10 @@ public class Player extends Entity {
             collisionOn = false;
             gp.cChecker.checkTile(this); 
 
+            // Check NPC collision
+            int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
+            interactNPC(npcIndex);
+
             // 3. If collision is false, player can move
             if (collisionOn == false) {
                 switch(direction) {
@@ -115,6 +120,12 @@ public class Player extends Entity {
                     }
                     spriteCounter = 0;
                 }
+        }
+    }
+
+    public void interactNPC(int i) {
+        if (i != 999) {
+            // Dialogue trigger will be implemented by groupmate.
         }
     }
     public void draw(Graphics2D g2) {
