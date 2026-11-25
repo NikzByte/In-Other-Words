@@ -54,7 +54,7 @@ public class Player extends Entity {
     }
 
     public BufferedImage setup(String imageName) {
-        
+
         UtilityTool uTool = new UtilityTool();
         BufferedImage image = null;
 
@@ -70,7 +70,7 @@ public class Player extends Entity {
     public void update() {
 
         if (keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true) {
-            
+
             // 1. Set the direction based on key pressed (DO NOT change worldX/worldY yet)
             if (keyH.upPressed == true) {
                 direction = "up";
@@ -84,7 +84,7 @@ public class Player extends Entity {
 
             // 2. Check for tile collision
             collisionOn = false;
-            gp.cChecker.checkTile(this); 
+            gp.cChecker.checkTile(this);
 
             // Check NPC collision
             int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
@@ -175,8 +175,8 @@ public class Player extends Entity {
     public BufferedImage formatTransparency(BufferedImage original) {
         if (original == null) return null;
         BufferedImage formatted = new BufferedImage(
-            original.getWidth(), 
-            original.getHeight(), 
+            original.getWidth(),
+            original.getHeight(),
             BufferedImage.TYPE_INT_ARGB
         );
 
@@ -184,7 +184,7 @@ public class Player extends Entity {
         g2.drawImage(original, 0, 0, null);
         g2.dispose();
         return formatted;
-    
+
 }
 }
 
