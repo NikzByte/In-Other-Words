@@ -14,11 +14,19 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JOptionPane;
 
+import ai.TutorService;
+import data.FileManager;
+import data.GameProgress;
+import data.VocabularyEntry;
+import entity.Entity;
 import entity.Player;
 import tile.TileManager;
 import story.StoryManager;
@@ -62,6 +70,16 @@ public class GamePanel extends JPanel {
     private final TutorService tutor = TutorService.fromEnvironment();
     private boolean skipUnseen = true;
     private boolean fullscreen;
+    private static final String[] WINDOW_PRESET_LABELS = {
+        "3:2 (1152x768)", "16:9 (1280x720)", "16:9 (1600x900)", "4:3 (1024x768)", "1:1 (720x720)"
+    };
+    private static final int[][] WINDOW_PRESET_SIZES = {
+        {1152, 768}, {1280, 720}, {1600, 900}, {1024, 768}, {720, 720}
+    };
+    private int windowPresetIndex = 0;
+    private boolean customWindowSize;
+    private int windowWidth = 1152;
+    private int windowHeight = 768;
     private boolean skipAfterChoices;
     private boolean muteAll;
     private int pointerX = -1;
@@ -104,6 +122,66 @@ public class GamePanel extends JPanel {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+        this.setLayout(null);
+        setupGame();
+        try {
+            story = new StoryManager(StoryScript.load(), progress);
+            storyView = new StoryView(story, progress, this::handleStoryAction);
+            storyView.setTutor(tutor);
+            storyView.setVisible(false);
+            add(storyView);
+            java.util.LinkedHashMap<String, VocabularyEntry> entries = new java.util.LinkedHashMap<>();
+            for (StoryScript.Word word : story.script().words()) {
+                entries.putIfAbsent(word.text(), new VocabularyEntry(word.text(), word.meaning(), word.dialect(), word.review()));
+            }
+            vocabulary = List.copyOf(entries.values());
+        } catch (IOException error) {
+            notice = "The storyline could not be loaded. Please check the story resource files.";
+            noticeExpiresAt = Long.MAX_VALUE;
+            error.printStackTrace();
+        }
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                handleClick(e.getX(), e.getY());
+            }
+        });
+        addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                pointerX = toUiX(e.getX());
+                pointerY = toUiY(e.getY());
+                repaint();
+            }
+        });
+        addKeyListener(new KeyAdapter() {
+            @Override public void keyPressed(KeyEvent e) {
+                int code = e.getKeyCode();
+                if (code == KeyEvent.VK_ESCAPE && screen != Screen.TITLE) {
+                    if (screen == Screen.GAME && talking) talking = false;
+                    else goBack();
+                }
+                else if (code == KeyEvent.VK_ENTER && screen == Screen.TITLE) startNewStory();
+                else if (code == KeyEvent.VK_E && screen == Screen.GAME && !talking) resumeStory();
+                else if (e.isControlDown() && code == KeyEvent.VK_S) saveGame();
+                else if (e.isControlDown() && code == KeyEvent.VK_L) loadGame();
+                refreshStoryVisibility();
+                repaint();
+            }
+            @Override public void keyTyped(KeyEvent e) {
+                if (screen == Screen.DICTIONARY) {
+                    char c = e.getKeyChar();
+                    if (c == '\b' && !searchText.isEmpty()) searchText = searchText.substring(0, searchText.length() - 1);
+                    else if (!Character.isISOControl(c) && searchText.length() < 40) searchText += c;
+                    dictionaryPage = 0;
+                    repaint();
+                }
+            }
+        });
+    }
+
+    public void setupGame() {
+        aSetter.setNPC();
     }
 
     public void startGameThread() {
@@ -120,14 +198,43 @@ public class GamePanel extends JPanel {
         keyH.upPressed = keyH.downPressed = keyH.leftPressed = keyH.rightPressed = false;
     }
 
+    private double uiScale() {
+        return Math.min(Math.max(1, getWidth()) / 960.0, Math.max(1, getHeight()) / 576.0);
+    }
+
+    private int uiDrawWidth() {
+        return (int) Math.round(960 * uiScale());
+    }
+
+    private int uiDrawHeight() {
+        return (int) Math.round(576 * uiScale());
+    }
+
+    private int uiOffsetX() {
+        return (getWidth() - uiDrawWidth()) / 2;
+    }
+
+    private int uiOffsetY() {
+        return (getHeight() - uiDrawHeight()) / 2;
+    }
+
+    private int toUiX(int panelX) {
+        return (int) Math.floor((panelX - uiOffsetX()) / uiScale());
+    }
+
+    private int toUiY(int panelY) {
+        return (int) Math.floor((panelY - uiOffsetY()) / uiScale());
+    }
+
     @Override public void doLayout() {
-        if (storyView != null) storyView.setBounds(0, 0, getWidth(), getHeight());
+        if (storyView != null) storyView.setBounds(uiOffsetX(), uiOffsetY(), uiDrawWidth(), uiDrawHeight());
     }
 
     private void refreshStoryVisibility() {
         if (storyView == null) return;
         storyView.setVisible(screen == Screen.GAME && talking && story.started());
         storyView.setHintsEnabled(showHints);
+        storyView.setTextSpeed(textSpeed);
         storyView.refresh();
         if (!storyView.isVisible()) requestFocusInWindow();
     }
@@ -181,27 +288,79 @@ public class GamePanel extends JPanel {
     }
 
     public void update() {
-        player.update();
-        eHandler.checkEvent();
+        animationFrame++;
+        if (!notice.isEmpty() && System.currentTimeMillis() >= noticeExpiresAt) notice = "";
+        if (screen == Screen.GAME && !talking) {
+            player.update();
+            for (int i = 0; i < npc[currentMap].length; i++) {
+                if (npc[currentMap][i] != null) {
+                    npc[currentMap][i].update();
+                }
+            }
+            eHandler.checkEvent();
+        }
     }
 
     @Override
     public void paintComponent(Graphics g) {
-        
         super.paintComponent(g);
 
-        Graphics2D g2 = (Graphics2D)g.create();
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // Draw tiles and player
-        tileM.draw(g2);
-        player.draw(g2);
+        if (screen == Screen.GAME) {
+            long drawStart = keyH.checkDrawTime ? System.nanoTime() : 0;
 
-        if (keyH.checkDrawTime) {
-            long drawEnd = System.nanoTime();
-            long passed = drawEnd - drawStart;
-            g2.setColor(Color.white);
-            g2.drawString("Draw Time: " + passed, 10, 400);
-            System.out.println("Draw Time: " + passed);
+            g2.setColor(ink);
+            g2.fillRect(0, 0, getWidth(), getHeight());
+
+            double worldScale = Math.min(Math.max(1, getWidth()) / (double) screenWidth,
+                    Math.max(1, getHeight()) / (double) screenHeight);
+            int worldDrawW = (int) Math.round(screenWidth * worldScale);
+            int worldDrawH = (int) Math.round(screenHeight * worldScale);
+            int worldOffX = (getWidth() - worldDrawW) / 2;
+            int worldOffY = (getHeight() - worldDrawH) / 2;
+
+            Graphics2D worldG = (Graphics2D) g2.create();
+            worldG.setClip(worldOffX, worldOffY, worldDrawW, worldDrawH);
+            worldG.translate(worldOffX, worldOffY);
+            worldG.scale(worldScale, worldScale);
+
+            tileM.draw(worldG);
+
+            entityList.add(player);
+            for (int i = 0; i < npc[currentMap].length; i++) {
+                if (npc[currentMap][i] != null) {
+                    entityList.add(npc[currentMap][i]);
+                }
+            }
+            Collections.sort(entityList, Comparator.comparingInt(e -> e.worldY));
+            for (int i = 0; i < entityList.size(); i++) {
+                entityList.get(i).draw(worldG);
+            }
+            entityList.clear();
+            worldG.dispose();
+
+            if (keyH.checkDrawTime) {
+                g2.setColor(Color.WHITE);
+                g2.setFont(new Font("SansSerif", Font.PLAIN, 14));
+                g2.drawString("Draw time: " + (System.nanoTime() - drawStart) / 1_000_000.0 + " ms", 14, 86);
+            }
+            g2.translate(uiOffsetX(), uiOffsetY());
+            g2.scale(uiScale(), uiScale());
+            drawGameUi(g2);
+        } else {
+            g2.setColor(cream);
+            g2.fillRect(0, 0, getWidth(), getHeight());
+            g2.translate(uiOffsetX(), uiOffsetY());
+            g2.scale(uiScale(), uiScale());
+            switch (screen) {
+                case TITLE -> drawTitle(g2);
+                case DICTIONARY -> drawDictionary(g2);
+                case SETTINGS -> drawSettings(g2);
+                case SAVES -> drawSaves(g2);
+                default -> { }
+            }
         }
 
         g2.dispose();
@@ -250,7 +409,17 @@ public class GamePanel extends JPanel {
         int w=960, h=576;
         panel(g, 14, 12, 236, 54, cream, 12);
         g.setColor(ink); g.setFont(new Font("SansSerif",Font.BOLD,17)); g.drawString("Campus",28,35);
-        g.setFont(new Font("SansSerif",Font.PLAIN,14)); g.drawString("Chapter "+progress.getCurrentStage()+"  •  Affection "+progress.getAffectionScore(),28,55);
+        // Show partner-specific affection if a partner has been chosen, else global score
+        String _hudPartner = progress.getSelectedPartner();
+        char _hudInitial = data.GameProgress.partnerInitial(_hudPartner);
+        String _hudAffLine;
+        if (_hudInitial != '\0') {
+            int _rap = progress.getAffectionFor(_hudInitial);
+            _hudAffLine = "Chapter " + progress.getCurrentStage() + "  •  " + data.GameProgress.partnerName(_hudPartner) + " ♥ " + _rap;
+        } else {
+            _hudAffLine = "Chapter " + progress.getCurrentStage() + "  •  Affection " + progress.getAffectionScore();
+        }
+        g.setFont(new Font("SansSerif",Font.PLAIN,14)); g.drawString(_hudAffLine, 28, 55);
         if(!talking) panel(g, 14, h-66, w-28, 54, cream, 12);
         if(talking) return;
         String[] labels={"Save","Load","Words","Journal","Options","Talk"};
@@ -351,12 +520,23 @@ public class GamePanel extends JPanel {
         for (int i = 0; i < Math.min(limit, lines.size()); i++) g.drawString(lines.get(i), x, y + i * spacing);
     }
 
+    private String currentWindowSizeLabel() {
+        if (customWindowSize) {
+            return "Custom (" + windowWidth + "x" + windowHeight + ")";
+        }
+        return WINDOW_PRESET_LABELS[windowPresetIndex];
+    }
+
     private void drawSettings(Graphics2D g) {
         int w=960,h=576;pageFrame(g,"Settings",w,h);
         int left=198, right=w-24, gap=34, colW=(right-left-gap)/2, rightX=left+colW+gap;
         g.setColor(ink);g.setFont(new Font("SansSerif",Font.PLAIN,20));g.drawString("Display",left,112);g.drawString("Skip",rightX,112);
-        button(g,left,124,Math.min(180,colW),38,(fullscreen?"✓":"□")+" Window",fullscreen?cream:softYellow);
-        button(g,left,168,Math.min(180,colW),38,(fullscreen?"□":"✓")+" Fullscreen",fullscreen?softYellow:cream);
+        int halfBtn = (colW - 8) / 2;
+        button(g,left,124,halfBtn,38,(fullscreen?"□":"✓")+" Window",fullscreen?cream:softYellow);
+        button(g,left+halfBtn+8,124,colW-halfBtn-8,38,(fullscreen?"✓":"□")+" Fullscreen",fullscreen?softYellow:cream);
+        int presetW = colW - 114;
+        button(g,left,168,presetW,38,currentWindowSizeLabel(),fullscreen?cream:softYellow);
+        button(g,left+presetW+8,168,106,38,"Custom...",customWindowSize&&!fullscreen?softYellow:cream);
         button(g,rightX,124,Math.min(205,colW),38,(skipUnseen?"✓":"□")+" Unseen text",skipUnseen?softYellow:cream);
         button(g,rightX,168,Math.min(205,colW),38,(skipAfterChoices?"✓":"□")+" After choices",skipAfterChoices?softYellow:cream);
         drawSlider(g,left,230,colW,"Text speed",textSpeed);drawSlider(g,rightX,230,colW,"Auto-forward time",autoForward);
@@ -386,19 +566,77 @@ public class GamePanel extends JPanel {
 
     private void drawSaves(Graphics2D g) {
         pageFrame(g, "Save / Load", 960, 576);
-        panel(g, 216, 130, 690, 290, cream, 16);
+        // ── Main card ──────────────────────────────────────────────────────
+        panel(g, 216, 108, 690, 320, cream, 16);
         g.setColor(ink); g.setFont(new Font("SansSerif", Font.BOLD, 24));
-        g.drawString("Your story", 240, 175);
-        g.setFont(new Font("SansSerif", Font.PLAIN, 18));
+        g.drawString("Your story so far", 240, 150);
+
         if (story != null && story.started()) {
-            drawWrapped(g, "Current scene: " + story.scene().title(), 240, 218, 635, 25, 3);
-            g.drawString("Chapter " + progress.getCurrentStage() + " / Affection " + progress.getAffectionScore(), 240, 300);
-            g.drawString("Partner: " + (progress.getSelectedPartner().isEmpty() ? "Not chosen yet" : progress.getSelectedPartner()), 240, 332);
-        } else g.drawString("Start a new story or load your saved progress.", 240, 218);
-        g.setFont(new Font("SansSerif", Font.PLAIN, 15));
-        g.drawString("One save slot. Saving replaces your previous saved progress.", 240, 389);
-        button(g, 290, 450, 240, 44, "Save progress", softYellow);
-        button(g, 560, 450, 280, 44, "Load saved story", cream);
+            g.setFont(new Font("SansSerif", Font.PLAIN, 17));
+            drawWrapped(g, "Scene: " + story.scene().title(), 240, 186, 635, 22, 2);
+
+            // Chapter
+            g.setFont(new Font("SansSerif", Font.PLAIN, 16));
+            g.drawString("Chapter " + progress.getCurrentStage(), 240, 222);
+
+            // Words learned
+            int wordCount = progress.getLearnedWords().size();
+            g.drawString("Words learned: " + wordCount, 500, 222);
+
+            // Partner + per-character rapport
+            String partner = progress.getSelectedPartner();
+            char initial = data.GameProgress.partnerInitial(partner);
+            String partnerDisplay = partner.isEmpty() ? "Not chosen yet" : data.GameProgress.partnerName(partner);
+            g.drawString("Partner: " + partnerDisplay, 240, 254);
+
+            // Per-character rapport mini-display
+            int rapJ = progress.getAffectionFor('J');
+            int rapI = progress.getAffectionFor('I');
+            int rapN = progress.getAffectionFor('N');
+            g.setFont(new Font("SansSerif", Font.PLAIN, 15));
+            // Jessa – red tint label
+            g.setColor(new java.awt.Color(200, 60, 60));   drawAffectionBar(g, "Jessa",  rapJ, 240, 284);
+            // Inna – blue tint label
+            g.setColor(new java.awt.Color(60,  110, 210)); drawAffectionBar(g, "Inna",   rapI, 420, 284);
+            // Nikka – yellow/gold tint label
+            g.setColor(new java.awt.Color(170, 130, 10));  drawAffectionBar(g, "Nikka",  rapN, 600, 284);
+            g.setColor(ink);
+
+            // Global affection (quiz score)
+            g.setFont(new Font("SansSerif", Font.PLAIN, 15));
+            g.drawString("Quiz score: " + progress.getAffectionScore(), 240, 320);
+        } else {
+            g.setFont(new Font("SansSerif", Font.PLAIN, 18));
+            g.drawString("Start a new story or load your saved progress.", 240, 200);
+        }
+
+        g.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        g.setColor(new java.awt.Color(120, 120, 120));
+        g.drawString("One save slot — saving replaces your previous progress.", 240, 403);
+        g.setColor(ink);
+        button(g, 290, 442, 240, 44, "Save progress", softYellow);
+        button(g, 560, 442, 280, 44, "Load saved story", cream);
+    }
+
+    /** Draws a small labelled affection bar. maxRapport ≈ 10 based on script. */
+    private void drawAffectionBar(Graphics2D g, String name, int value, int x, int y) {
+        // Name label
+        g.drawString(name + ": " + value, x, y);
+        // Mini pip bar (5 pips, each pip = 2 rapport)
+        int pips = 5;
+        int filled = Math.min(pips, Math.max(0, value));
+        int pw = 12, ph = 8, gap = 3;
+        int barX = x, barY = y + 4;
+        Color base = g.getColor();
+        for (int p = 0; p < pips; p++) {
+            g.setColor(p < filled ? base : new java.awt.Color(210, 210, 210));
+            g.fillRoundRect(barX + p * (pw + gap), barY, pw, ph, 4, 4);
+            g.setColor(ink);
+            g.setStroke(new java.awt.BasicStroke(1f));
+            g.drawRoundRect(barX + p * (pw + gap), barY, pw, ph, 4, 4);
+            g.setStroke(new java.awt.BasicStroke(3));
+        }
+        g.setColor(base);
     }
 
     private void pageFrame(Graphics2D g, String title, int width, int height) {
@@ -480,8 +718,8 @@ public class GamePanel extends JPanel {
     }
 
     private void handleClick(int x, int y) {
-        x = x * 960 / Math.max(1, getWidth());
-        y = y * 576 / Math.max(1, getHeight());
+        x = toUiX(x);
+        y = toUiY(y);
         int width = 960;
         int height = 576;
 
@@ -594,13 +832,30 @@ public class GamePanel extends JPanel {
 
     private void handleSettingsClick(int x, int y, int width) {
         int left = 198;
-        int rightX = left + (width - 24 - left - 34) / 2 + 34;
+        int colW = (width - 24 - left - 34) / 2;
+        int rightX = left + colW + 34;
+        int halfBtn = (colW - 8) / 2;
+        int presetW = colW - 114;
         if (y >= 124 && y < 162) {
-            if (x < rightX) fullscreen = false;
-            else skipUnseen = !skipUnseen;
+            if (x >= left && x < left + halfBtn) {
+                applyDisplayMode(false);
+            } else if (x >= left + halfBtn + 8 && x < rightX) {
+                applyDisplayMode(true);
+            } else if (x >= rightX) {
+                skipUnseen = !skipUnseen;
+            }
         } else if (y >= 168 && y < 206) {
-            if (x < rightX) fullscreen = true;
-            else skipAfterChoices = !skipAfterChoices;
+            if (x >= left && x < left + presetW) {
+                windowPresetIndex = (windowPresetIndex + 1) % WINDOW_PRESET_SIZES.length;
+                customWindowSize = false;
+                windowWidth = WINDOW_PRESET_SIZES[windowPresetIndex][0];
+                windowHeight = WINDOW_PRESET_SIZES[windowPresetIndex][1];
+                applyDisplayMode(false);
+            } else if (x >= left + presetW + 8 && x < rightX) {
+                promptCustomWindowSize();
+            } else if (x >= rightX) {
+                skipAfterChoices = !skipAfterChoices;
+            }
         } else if (y >= 450 && y < 505) {
             if (x < left + 224) showHints = !showHints;
             else if (x < rightX) {
@@ -611,6 +866,65 @@ public class GamePanel extends JPanel {
         } else if ((y >= 235 && y < 280) || (y >= 345 && y < 390)) {
             updateSlider(x, y, left, rightX, width);
         }
+    }
+
+    private void promptCustomWindowSize() {
+        javax.swing.JTextField wField = new javax.swing.JTextField(Integer.toString(windowWidth), 6);
+        javax.swing.JTextField hField = new javax.swing.JTextField(Integer.toString(windowHeight), 6);
+        javax.swing.JPanel form = new javax.swing.JPanel(new java.awt.GridLayout(2, 2, 8, 6));
+        form.add(new javax.swing.JLabel("Width (480 - 3840):"));
+        form.add(wField);
+        form.add(new javax.swing.JLabel("Height (360 - 2160):"));
+        form.add(hField);
+        int choice = JOptionPane.showConfirmDialog(this, form, "Custom Window Size",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        if (choice != JOptionPane.OK_OPTION) return;
+        try {
+            int w = Integer.parseInt(wField.getText().trim());
+            int h = Integer.parseInt(hField.getText().trim());
+            if (w < 480 || w > 3840 || h < 360 || h > 2160) {
+                showNotice("Size must be 480-3840 x 360-2160.");
+                return;
+            }
+            windowWidth = w;
+            windowHeight = h;
+            customWindowSize = true;
+            applyDisplayMode(false);
+        } catch (NumberFormatException ex) {
+            showNotice("Please enter valid whole numbers for width and height.");
+        }
+    }
+
+    private void applyDisplayMode(boolean useFullscreen) {
+        fullscreen = useFullscreen;
+        java.awt.Window ancestor = javax.swing.SwingUtilities.getWindowAncestor(this);
+        if (!(ancestor instanceof javax.swing.JFrame frame)) {
+            return;
+        }
+        java.awt.GraphicsDevice gd = frame.getGraphicsConfiguration().getDevice();
+        if (useFullscreen) {
+            if (!frame.isUndecorated()) {
+                frame.dispose();
+                frame.setUndecorated(true);
+            }
+            frame.setBounds(gd.getDefaultConfiguration().getBounds());
+            frame.setVisible(true);
+        } else {
+            if (frame.isUndecorated()) {
+                frame.dispose();
+                frame.setUndecorated(false);
+            }
+            frame.setExtendedState(javax.swing.JFrame.NORMAL);
+            setPreferredSize(new Dimension(windowWidth, windowHeight));
+            frame.setSize(windowWidth, windowHeight);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        }
+        revalidate();
+        doLayout();
+        repaint();
+        requestFocusInWindow();
+        showNotice(useFullscreen ? "Switched to Fullscreen." : "Window size: " + windowWidth + "x" + windowHeight);
     }
 
     private void updateSlider(int x, int y, int left, int rightX, int width) {
@@ -626,7 +940,7 @@ public class GamePanel extends JPanel {
     }
 
     private void handleSaveClick(int x, int y, int width, int height) {
-        if (y >= 450 && y <= 494) {
+        if (y >= 442 && y <= 486) {
             if (x >= 290 && x <= 530) saveGame();
             else if (x >= 560 && x <= 840) loadGame();
         }
@@ -695,7 +1009,7 @@ public class GamePanel extends JPanel {
             int map = Integer.parseInt(mapValue);
             int x = Integer.parseInt(xValue);
             int y = Integer.parseInt(yValue);
-            if (map < 0 || map > 1 || x < 0 || x >= maxWorldCol * tileSize
+            if (map < 0 || map >= maxMap || x < 0 || x >= maxWorldCol * tileSize
                     || y < 0 || y >= maxWorldRow * tileSize)
                 throw new NumberFormatException("Out of bounds");
             return new int[]{map, x, y};

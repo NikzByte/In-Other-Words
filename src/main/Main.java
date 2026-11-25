@@ -8,7 +8,8 @@ public class Main {
         javax.swing.SwingUtilities.invokeLater(() -> {
             JFrame window = new JFrame();
             window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            window.setResizable(false);
+            window.setResizable(true);
+            window.setMinimumSize(new java.awt.Dimension(480, 360));
             window.setTitle("In Other Words");
 
             GamePanel gamePanel = new GamePanel();

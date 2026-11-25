@@ -33,9 +33,21 @@ public final class StoryView extends JPanel {
     private static final long serialVersionUID = 1L;
     private static final Color INK = new Color(0x2B193D), CREAM = new Color(0xF6E9C7),
             PINK = new Color(0xFFB2C2), YELLOW = new Color(0xF2DEA5);
+    // Semi-transparent versions for the see-through dialogue overlay effect
+    // Alpha 100/255 ≈ 39% opaque on the full backdrop (60-70% transparent)
+    private static final Color CREAM_OVERLAY = new Color(0xF6, 0xE9, 0xC7, 100);
+    // Panel cards are more opaque so text is readable (~82% opaque)
+    private static final Color CREAM_PANEL  = new Color(0xF6, 0xE9, 0xC7, 210);
+    private static final Color PINK_PANEL   = new Color(0xFF, 0xB2, 0xC2, 215);
+    private static final Color YELLOW_PANEL = new Color(0xF2, 0xDE, 0xA5, 210);
     private final StoryManager story;
     private final GameProgress progress;
     private final Consumer<String> action;
+    private final DialectHighlighter highlighter;
+    private final StorySprites sprites = new StorySprites();
+    private static final long SPRITE_ANIM_NANOS = 200_000_000L;
+    private long spriteAnimStartNanos;
+    private javax.swing.Timer spriteAnimTimer;
     private final JTextField reply = new JTextField();
     private final List<Hit> hits = new ArrayList<>();
     private record Hit(Rectangle box, Runnable action) {}
@@ -44,15 +56,21 @@ public final class StoryView extends JPanel {
     private boolean hintsEnabled = true;
     private TutorService tutor = new TutorService(new OfflineTutor());
     private boolean checking;
+    private int textSpeed = 50;
+    private int revealedChars = Integer.MAX_VALUE;
+    private int totalPageChars;
+    private javax.swing.Timer typewriterTimer;
 
     public void setHintsEnabled(boolean enabled) { hintsEnabled = enabled; }
+    public void setTextSpeed(int speed) { textSpeed = Math.max(0, Math.min(100, speed)); }
     /** The AI tutor used for typed answers; without one, only exact matches are accepted. */
     public void setTutor(TutorService tutor) { this.tutor = Objects.requireNonNull(tutor, "Tutor must not be null."); }
-    public void resetPresentation() { displayedNode = ""; page = 0; reply.setText(""); }
+    public void resetPresentation() { displayedNode = ""; page = 0; reply.setText(""); revealedChars = Integer.MAX_VALUE; }
 
     public StoryView(StoryManager story, GameProgress progress, Consumer<String> action) {
         this.story = story; this.progress = progress; this.action = action;
-        setLayout(null); setFocusable(true); setBackground(CREAM);
+        this.highlighter = new DialectHighlighter(story.script());
+        setLayout(null); setFocusable(true); setBackground(new Color(0,0,0,0)); setOpaque(false);
         reply.setFont(new Font("SansSerif", Font.PLAIN, 20));
         reply.setForeground(INK); reply.setBackground(Color.WHITE);
         reply.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(INK, 2),
@@ -88,14 +106,20 @@ public final class StoryView extends JPanel {
     @Override public void doLayout() {
         reply.setBounds(390 * getWidth() / 960, 357 * getHeight() / 576,
                 530 * getWidth() / 960, 46 * getHeight() / 576);
+        float fontSize = Math.max(12f, 20f * getHeight() / 576f);
+        reply.setFont(reply.getFont().deriveFont(fontSize));
     }
     public void refresh() {
         if (!story.started()) { reply.setVisible(false); return; }
         if (!displayedNode.equals(story.current().id)) {
             displayedNode = story.current().id; page = 0; reply.setText("");
+            startSpritePopAnimation();
+            startTypewriter();
         }
         int pages = textPages().size();
         page = Math.max(0, Math.min(page, pages - 1));
+        totalPageChars = pageCharCount(textPages().get(page));
+        if (revealedChars > totalPageChars) revealedChars = totalPageChars;
         reply.setVisible(isVisible() && story.acceptsText() && page == pages - 1);
         doLayout();
         if (isShowing()) {
@@ -104,12 +128,77 @@ public final class StoryView extends JPanel {
         }
         repaint();
     }
-    private List<List<String>> textPages() {
-        List<String> lines = wrap(story.format(story.current().text),
-                getFontMetrics(new Font("SansSerif", Font.PLAIN, 19)), 524);
-        List<List<String>> pages = new ArrayList<>();
+    private void startTypewriter() {
+        if (textSpeed >= 98) {
+            revealedChars = Integer.MAX_VALUE;
+            if (typewriterTimer != null) typewriterTimer.stop();
+            return;
+        }
+        revealedChars = 0;
+        if (typewriterTimer == null) {
+            typewriterTimer = new javax.swing.Timer(18, e -> {
+                int step = 1 + (textSpeed / 30);
+                revealedChars += step;
+                if (revealedChars >= totalPageChars) {
+                    revealedChars = totalPageChars;
+                    typewriterTimer.stop();
+                }
+                repaint();
+            });
+        }
+        typewriterTimer.restart();
+    }
+
+    private static int pageCharCount(List<DialectHighlighter.StyledLine> lines) {
+        int count = 0;
+        for (DialectHighlighter.StyledLine l : lines) count += l.text().length();
+        return count;
+    }
+
+    private static List<DialectHighlighter.StyledLine> slicePageChars(
+            List<DialectHighlighter.StyledLine> lines, int maxChars) {
+        if (maxChars >= pageCharCount(lines)) return lines;
+        List<DialectHighlighter.StyledLine> sliced = new ArrayList<>();
+        int remaining = maxChars;
+        for (DialectHighlighter.StyledLine l : lines) {
+            if (remaining <= 0) break;
+            String t = l.text();
+            if (t.length() <= remaining) {
+                sliced.add(l);
+                remaining -= t.length();
+            } else {
+                sliced.add(new DialectHighlighter.StyledLine(t.substring(0, remaining), l.sourceStart()));
+                remaining = 0;
+            }
+        }
+        return sliced;
+    }
+
+    private void startSpritePopAnimation() {
+        spriteAnimStartNanos = System.nanoTime();
+        if (spriteAnimTimer == null) {
+            spriteAnimTimer = new javax.swing.Timer(16, e -> {
+                if (System.nanoTime() - spriteAnimStartNanos >= SPRITE_ANIM_NANOS) {
+                    spriteAnimTimer.stop();
+                }
+                repaint();
+            });
+        }
+        spriteAnimTimer.restart();
+    }
+
+    private double spriteAnimProgress() {
+        if (spriteAnimStartNanos == 0L) return 1.0;
+        return Math.min(1.0, (System.nanoTime() - spriteAnimStartNanos) / (double) SPRITE_ANIM_NANOS);
+    }
+
+    private List<List<DialectHighlighter.StyledLine>> textPages() {
+        String formatted = story.format(story.current().text);
+        List<DialectHighlighter.StyledLine> lines = highlighter.wrapWithOffsets(
+                formatted, getFontMetrics(new Font("SansSerif", Font.PLAIN, 19)), 524);
+        List<List<DialectHighlighter.StyledLine>> pages = new ArrayList<>();
         for (int i = 0; i < lines.size(); i += 6) pages.add(lines.subList(i, Math.min(i + 6, lines.size())));
-        if (pages.isEmpty()) pages.add(List.of(""));
+        if (pages.isEmpty()) pages.add(List.of(new DialectHighlighter.StyledLine("", 0)));
         return pages;
     }
     private void choose(int choice) {
@@ -150,7 +239,13 @@ public final class StoryView extends JPanel {
         }.execute();
     }
     private void next() {
-        if (page + 1 < textPages().size()) page++;
+        if (revealedChars < totalPageChars) {
+            revealedChars = totalPageChars;
+            if (typewriterTimer != null) typewriterTimer.stop();
+            repaint();
+            return;
+        }
+        if (page + 1 < textPages().size()) { page++; startTypewriter(); }
         else if (story.completed()) { action.accept("Menu"); return; }
         else story.advance();
         refresh();
@@ -161,9 +256,11 @@ public final class StoryView extends JPanel {
         Graphics2D g = (Graphics2D) graphics.create();
         g.scale(getWidth() / 960.0, getHeight() / 576.0);
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.setColor(CREAM); g.fillRect(0, 0, 960, 576);
+        // Semi-transparent backdrop — overworld shows through at ~60-70% transparency
+        g.setComposite(java.awt.AlphaComposite.getInstance(java.awt.AlphaComposite.SRC_OVER, 1.0f));
+        g.setColor(CREAM_OVERLAY); g.fillRect(0, 0, 960, 576);
         hits.clear();
-        panel(g, 18, 12, 660, 65, PINK);
+        panel(g, 18, 12, 660, 65, PINK_PANEL);
         g.setFont(new Font("SansSerif", Font.BOLD, 17));
         drawLines(g, wrap(story.scene().title(), g.getFontMetrics(), 625), 31, 38, 22, 2);
         panel(g, 696, 12, 246, 65, CREAM);
@@ -173,17 +270,10 @@ public final class StoryView extends JPanel {
         g.drawString(progress.getSelectedPartner().isEmpty() ? "Getting to know the club"
                 : progress.getSelectedPartner() + "  •  Affection " + progress.getAffectionScore(), 710, 61);
 
-        panel(g, 20, 95, 334, 337, CREAM);
-        g.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 10, new float[]{7,7}, 0));
-        g.drawRoundRect(30, 105, 314, 317, 14, 14);
-        g.setStroke(new BasicStroke(2));
-        g.setFont(new Font("SansSerif", Font.BOLD, 18));
-        center(g, "[CHARACTER SPRITE]", 187, 247);
-        g.setFont(new Font("SansSerif", Font.PLAIN, 16));
+        sprites.drawPortraits(g, story.current(), 20, 85, 334, 385, spriteAnimProgress());
         String speaker = story.current().speaker;
         if (speaker.equals("MC") || speaker.equals("You")) speaker = story.value("preferred_address").isBlank()
                 ? "MC" : story.value("preferred_address");
-        center(g, speaker, 187, 276);
         panel(g, 20, 446, 334, 65, PINK);
         g.setFont(new Font("SansSerif", Font.BOLD, 19));
         drawLines(g, wrap(speaker, g.getFontMetrics(), 306), 34, 473, 23, 2);
@@ -191,8 +281,11 @@ public final class StoryView extends JPanel {
         panel(g, 373, 95, 568, 231, CREAM);
         g.setFont(new Font("SansSerif", Font.BOLD, 16)); g.drawString(story.current().speaker, 389, 122);
         g.setFont(new Font("SansSerif", Font.PLAIN, 19));
-        List<List<String>> pages = textPages();
-        drawLines(g, pages.get(Math.min(page, pages.size()-1)), 390, 153, 25, 6);
+        String formattedText = story.format(story.current().text);
+        List<List<DialectHighlighter.StyledLine>> pages = textPages();
+        List<DialectHighlighter.StyledLine> currentLines = pages.get(Math.min(page, pages.size() - 1));
+        highlighter.drawLines(g, formattedText, slicePageChars(currentLines, revealedChars), 390, 153, 25, INK);
+        g.setColor(INK);
         g.setFont(new Font("SansSerif", Font.PLAIN, 12));
         if (pages.size() > 1) g.drawString("Page " + (page + 1) + " / " + pages.size(), 391, 313);
         if (page > 0) button(g, 682, 294, 112, 27, "Previous", CREAM, () -> { page--; refresh(); });

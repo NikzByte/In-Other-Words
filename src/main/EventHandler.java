@@ -52,8 +52,24 @@ public class EventHandler {
         boolean onHallwayLibraryDoor   = isOnTile(MAP_HALLWAY, hallLeftBrownDoor[0], hallLeftBrownDoor[1]);
         boolean onHallwayClassroomDoor = isOnTile(MAP_HALLWAY, hallRightBrownDoor[0], hallRightBrownDoor[1]);
 
-        // Map 1 (courtyard) last walkable path row before the solid boundary.
-        boolean onCourtyardBottomExit = isOnTile(1, 7, 14) || isOnTile(1, 8, 14) || isOnTile(1, 9, 14);
+        // Classroom (Map 2) - Dynamically finds door tile 92 (or 63 if shared), triggers when touching door tiles
+        int[] classroomDoor = findDoorTile(MAP_CLASSROOM, 92, 63);
+        boolean onClassroomExit = isTouchingDoorDown(MAP_CLASSROOM, classroomDoor[0], classroomDoor[1]);
+
+        // Library (Map 3) - Doorway tiles 63 (left) & 64 (right)
+        int[] libraryDoor = findSingleTile(MAP_LIBRARY, 63);
+        boolean onLibraryExit = isTouchingDoorDown(MAP_LIBRARY, libraryDoor[0], libraryDoor[1]);
+
+        // Garden (Map 4) - Top concrete path (cols 8-10, row 6)
+        boolean onGardenTopPath = isOnRowRange(MAP_GARDEN, 6, 8, 10);
+
+        // Hometown (Map 5) - Sidewalk tile directly below metal gate (tile 225) & upper-right sidewalk edge
+        int[] hometownGate = findSingleTile(MAP_HOMETOWN, 225);
+        boolean onHometownHouseDoor = isOnTile(MAP_HOMETOWN, hometownGate[0], hometownGate[1] + 1);
+        boolean onHometownRightPath = isOnTile(MAP_HOMETOWN, 16, 7) || isOnTile(MAP_HOMETOWN, 16, 8);
+
+        // Bedroom (Map 6) - Exact floor tiles in front of doorway (row 10, cols 7-8)
+        boolean onBedroomExit = isOnTile(MAP_BEDROOM, 7, 10) || isOnTile(MAP_BEDROOM, 8, 10);
 
         // Re-enable teleporting once player steps off all trigger tiles
         boolean onAnyTrigger = onCourtyardSchoolDoor || onCourtyardLeftPath || onCourtyardBottomPath

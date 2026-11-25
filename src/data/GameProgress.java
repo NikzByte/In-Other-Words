@@ -84,6 +84,42 @@ public class GameProgress {
         learnedWords.add(normalizedWord);
     }
 
+    /**
+     * Returns the rapport/affection score for a specific love interest.
+     * @param initial 'J' for Jessa, 'I' for Inna, 'N' for Nikka
+     */
+    public int getAffectionFor(char initial) {
+        String raw = storyState.getOrDefault("rapport_" + initial, "0");
+        try { return Integer.parseInt(raw); } catch (NumberFormatException e) { return 0; }
+    }
+
+    /** Sets the rapport for a specific love interest (used by save/load round-trip). */
+    public void setAffectionFor(char initial, int value) {
+        storyState.put("rapport_" + initial, Integer.toString(value));
+    }
+
+    /** Returns the name of the partner initial, or empty string if unrecognised. */
+    public static String partnerName(String partner) {
+        if (partner == null) return "";
+        return switch (partner.strip().toLowerCase()) {
+            case "jessa", "j" -> "Jessa";
+            case "inna",  "i" -> "Inna";
+            case "nikka", "n" -> "Nikka";
+            default -> partner.strip();
+        };
+    }
+
+    /** Returns the initial character for a partner name ('J','I','N'), or '\0' if unknown. */
+    public static char partnerInitial(String partner) {
+        if (partner == null || partner.isBlank()) return '\0';
+        return switch (partner.strip().toLowerCase().charAt(0)) {
+            case 'j' -> 'J';
+            case 'i' -> 'I';
+            case 'n' -> 'N';
+            default  -> '\0';
+        };
+    }
+
     /** Resets in-memory progress. Save it explicitly to replace an existing save file. */
     public void resetProgress() {
         currentStage = 1;
