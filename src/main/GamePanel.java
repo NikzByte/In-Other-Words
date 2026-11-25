@@ -4,9 +4,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import javax.swing.JPanel;
 
+import entity.Entity;
 import entity.Player;
 import tile.TileManager;
 
@@ -38,7 +42,12 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
     public CollisionChecker cChecker = new CollisionChecker(this);
     public EventHandler eHandler = new EventHandler(this);
+    public AssetSetter aSetter = new AssetSetter(this);
+
+    // ENTITIES & OBJECTS
     public Player player = new Player(this, keyH);
+    public Entity npc[][] = new Entity[maxMap][10];
+    ArrayList<Entity> entityList = new ArrayList<>();
 
     int FPS = 60;
 
@@ -48,6 +57,11 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+        setupGame();
+    }
+
+    public void setupGame() {
+        aSetter.setNPC();
     }
 
     public void startGameThread() {
@@ -83,6 +97,13 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
         player.update();
+
+        for (int i = 0; i < npc[currentMap].length; i++) {
+            if (npc[currentMap][i] != null) {
+                npc[currentMap][i].update();
+            }
+        }
+
         eHandler.checkEvent();
     }
 
@@ -96,9 +117,27 @@ public class GamePanel extends JPanel implements Runnable {
             drawStart = System.nanoTime();
         }
 
-        // Draw tiles and player
+        // Draw tiles and Y-sorted entities (player & NPCs)
         tileM.draw(g2);
-        player.draw(g2);
+
+        entityList.add(player);
+        for (int i = 0; i < npc[currentMap].length; i++) {
+            if (npc[currentMap][i] != null) {
+                entityList.add(npc[currentMap][i]);
+            }
+        }
+
+        Collections.sort(entityList, new Comparator<Entity>() {
+            @Override
+            public int compare(Entity e1, Entity e2) {
+                return Integer.compare(e1.worldY, e2.worldY);
+            }
+        });
+
+        for (int i = 0; i < entityList.size(); i++) {
+            entityList.get(i).draw(g2);
+        }
+        entityList.clear();
 
         if (keyH.checkDrawTime) {
             long drawEnd = System.nanoTime();
