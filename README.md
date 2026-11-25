@@ -1,12 +1,12 @@
 <div align="center">
+  <img src="src/assets/inOtherWordsHeader.png" 
+       alt="In Other Words Header" 
+       width="100%">
 
-<img src="inOtherWordsHeader.jpg" alt="In Other Words Header" width="100%">
+  <h1>💌 In Other Words</h1>
+  <h3>A Dialect-Learning Dating Sim</h3>
 
-# 💌 In Other Words
-### A Language-Learning Dating Sim
-
-*Every language has a story. Sometimes, finding the right words is where yours begins.* 💗
-
+  <i>Every language has a story. Sometimes, finding the right words is where yours begins.</i> 💗
 </div>
 
 ---
