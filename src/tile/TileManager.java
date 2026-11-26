@@ -201,7 +201,7 @@ public class TileManager {
         setup(155, "libraryTileMap60", false); // Floor with bottom-right trim
         setup(156, "libraryTileMap61", true);  // Right wall vertical
         setup(157, "libraryTileMap62", true);  // Bottom-left wall corner
-        setup(158, "libraryTileMap63", true);  // Bottom wall horizontal
+        setup(158, "libraryTileMap63", false); // Bottom doorway / floor transition
         setup(159, "libraryTileMap64", true);  // Bottom wall horizontal
         setup(160, "libraryTileMap65", true);  // Bottom wall horizontal
         setup(161, "libraryTileMap66", true);  // Bottom-right wall corner
