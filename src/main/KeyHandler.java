@@ -13,13 +13,14 @@ public class KeyHandler implements KeyListener {
         this.gp = gp;
     }
 
-    @Override 
+    @Override
     public void keyTyped(KeyEvent e) {
     }
 
-    @Override 
+    @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode(); // returns the integer keyCode associated with the key in this event
+        if (e.isControlDown() || e.isAltDown() || e.isMetaDown()) return;
 
         // character movement
         if (code == KeyEvent.VK_W) {
@@ -56,10 +57,10 @@ public class KeyHandler implements KeyListener {
         }
     }
 
-    @Override 
+    @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
-        
+
         if (code == KeyEvent.VK_W) {
             upPressed = false;
         }
@@ -71,6 +72,6 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_D) {
             rightPressed = false;
-        }       
+        }
     }
 }
