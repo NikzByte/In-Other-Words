@@ -265,8 +265,9 @@ public final class StoryView extends JPanel {
         g.setColor(CREAM_OVERLAY); g.fillRect(0, 0, 960, 576);
         hits.clear();
         panel(g, 18, 12, 660, 65, PINK_PANEL);
-        g.setFont(new Font("Georgia", Font.BOLD, 22));
-        drawLines(g, wrap(story.scene().title(), g.getFontMetrics(), 625), 31, 40, 25, 2);
+        g.setColor(new Color(110, 30, 58));
+        g.setFont(new Font("Georgia", Font.BOLD, 28));
+        drawLines(g, wrap(story.scene().title(), g.getFontMetrics(), 625), 31, 46, 30, 2);
         panel(g, 696, 12, 246, 65, CREAM_PANEL);
         g.setFont(new Font("SansSerif", Font.BOLD, 16));
         g.drawString("Chapter " + progress.getCurrentStage(), 710, 37);
@@ -301,9 +302,9 @@ public final class StoryView extends JPanel {
         Color nameFill = speakerFillColor(rawSpeaker);
         Color nameBorder = speakerBorderColor(rawSpeaker);
         panel(g, 20, 446, 334, 65, nameFill, nameBorder);
-        g.setColor(INK);
-        g.setFont(new Font("Georgia", Font.BOLD, 24));
-        drawLines(g, wrap(speaker, g.getFontMetrics(), 306), 34, 476, 26, 2);
+        g.setColor(nameBorder);
+        g.setFont(new Font("Georgia", Font.BOLD, 30));
+        drawLines(g, wrap(speaker, g.getFontMetrics(), 306), 34, 483, 32, 2);
 
         panel(g, 373, 95, 568, 231, CREAM);
         g.setFont(new Font("SansSerif", Font.BOLD, 16)); g.drawString(story.current().speaker, 389, 122);
