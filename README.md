@@ -1,5 +1,15 @@
-# In Other Words 💌
-### A Language-Learning Dating Sim
+<div align="center">
+  <img src="src/assets/inOtherWordsHeader.png" 
+       alt="In Other Words Header" 
+       width="100%">
+
+  <h1>💌 In Other Words</h1>
+  <h3>A Dialect-Learning Dating Sim</h3>
+
+  <i>Every language has a story. Sometimes, finding the right words is where yours begins.</i> 💗
+</div>
+
+---
 
 **In Other Words** is a Java-based, story-driven game that combines romance, interactive conversations, and Philippine regional language learning. Set on a university campus, players meet three characters from different regions and learn to communicate with them through words, phrases, and full conversations.
 
