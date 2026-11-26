@@ -84,7 +84,12 @@ public final class StoryView extends JPanel {
                 for (Hit hit : List.copyOf(hits)) if (hit.box.contains(x, y)) {
                     hit.action.run(); return;
                 }
-                if (!reply.isVisible()) requestFocusInWindow();
+                if (!reply.isVisible()) {
+                    requestFocusInWindow();
+                    if (!story.acceptsText() && (story.answered() || !List.of("CHOICE", "QUIZ").contains(story.current().kind))) {
+                        next();
+                    }
+                }
             }
         });
         bind("ENTER", "advance", this::next, WHEN_FOCUSED);

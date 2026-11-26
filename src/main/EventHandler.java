@@ -238,6 +238,21 @@ public class EventHandler {
     }
 
     public void teleport(int map, int col, int row, String direction) {
+        if (col < 0 || col >= gp.maxWorldCol || row < 0 || row >= gp.maxWorldRow
+                || gp.tileM.mapTileNum[map][col][row] == 0) {
+            // Fallback to a safe walkable tile inside the target map
+            outer:
+            for (int r = 1; r < gp.maxWorldRow - 1; r++) {
+                for (int c = 1; c < gp.maxWorldCol - 1; c++) {
+                    int tid = gp.tileM.mapTileNum[map][c][r];
+                    if (tid != 0 && gp.tileM.tile[tid] != null && !gp.tileM.tile[tid].collision) {
+                        col = c;
+                        row = r;
+                        break outer;
+                    }
+                }
+            }
+        }
         gp.currentMap = map;
         gp.player.worldX = gp.tileSize * col;
         gp.player.worldY = gp.tileSize * row;

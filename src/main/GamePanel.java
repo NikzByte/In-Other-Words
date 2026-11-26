@@ -143,6 +143,7 @@ public class GamePanel extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                spawnClickHearts(toUiX(e.getX()), toUiY(e.getY()));
                 handleClick(e.getX(), e.getY());
             }
         });
@@ -262,14 +263,35 @@ public class GamePanel extends JPanel {
     }
 
     private void interactWithNearbyNPC() {
-        if (findNearbyNPC() == null) {
+        int expectedMap = (story != null && story.started()) ? expectedMapForScene(story.current().scene) : -1;
+        boolean hasNpcOnMap = false;
+        for (int i = 0; i < npc[currentMap].length; i++) {
+            if (npc[currentMap][i] != null) { hasNpcOnMap = true; break; }
+        }
+        if (!hasNpcOnMap && expectedMap != -1 && currentMap == expectedMap) {
+            resumeStory();
+            return;
+        }
+        Entity nearby = findNearbyNPC();
+        if (nearby == null) {
             showNotice("Walk up to an NPC and press E to talk.");
             return;
         }
+        if (expectedMap != -1 && currentMap != expectedMap) {
+            showNotice("Head to " + mapDisplayName(expectedMap) + " to continue this scene.");
+            return;
+        }
         if (story != null && story.started()) {
-            int expectedMap = expectedMapForScene(story.current().scene);
-            if (expectedMap != -1 && currentMap != expectedMap) {
-                showNotice("Head to " + mapDisplayName(expectedMap) + " to continue this scene.");
+            String requiredSprite = requiredNpcSpriteForScene(story.current().scene);
+            if (requiredSprite != null && nearby instanceof entity.NPC_Courtyard npcObj
+                    && !requiredSprite.equals(npcObj.getSpriteName())) {
+                String who = switch (requiredSprite) {
+                    case "jessaNPC" -> "Jessa";
+                    case "innaNPC"  -> "Inna";
+                    case "nikkaNPC" -> "Nikka";
+                    default -> "the right character";
+                };
+                showNotice("Talk to " + who + " to continue this scene.");
                 return;
             }
         }
@@ -293,6 +315,39 @@ public class GamePanel extends JPanel {
             case "J4-02", "J-R", "J-N", "N4-02", "N-R", "N-N" -> EventHandler.MAP_GARDEN;
             default -> -1;
         };
+    }
+
+    private String requiredNpcSpriteForScene(String sceneId) {
+        if (sceneId == null) return null;
+        return switch (sceneId) {
+            case "S1-02A", "J2-01", "J2-04", "J2-05", "J2-L", "J3-01", "J3-02", "J3-03",
+                 "J4-01", "J4-02", "J-R", "J-F", "J-N" -> "jessaNPC";
+            case "S1-02B", "I2-01", "I2-02", "I2-04", "I2-05", "I2-L", "I3-01", "I3-02",
+                 "I3-03", "I4-00", "I4-01", "I4-02", "I-R", "I-F", "I-N" -> "innaNPC";
+            case "S1-03", "N2-01", "N2-02", "N2-04", "N2-L", "N3-01", "N3-02", "N3-03",
+                 "N4-01", "N4-02", "N-R", "N-F", "N-N" -> "nikkaNPC";
+            default -> null;
+        };
+    }
+
+    private String questGoalText() {
+        if (story == null || !story.started()) return "";
+        String sceneId = story.current().scene;
+        int map = expectedMapForScene(sceneId);
+        String loc = map == -1 ? "Campus" : mapDisplayName(map);
+        String who = switch (sceneId) {
+            case "M02", "S1-01", "S2-01", "J2-02", "J2-06", "J3-00", "J4-00",
+                 "I2-06", "I3-00", "N2-05", "N2-06", "N3-00", "N4-00" -> "Talk to the club (E)";
+            case "S1-02A", "J2-01", "J2-04", "J2-05", "J2-L", "J3-01", "J3-02", "J3-03",
+                 "J4-01", "J4-02", "J-R", "J-F", "J-N" -> "Talk to Jessa (E)";
+            case "S1-02B", "I2-01", "I2-02", "I2-04", "I2-05", "I2-L", "I3-01", "I3-02",
+                 "I3-03", "I4-00", "I4-01", "I4-02", "I-R", "I-F", "I-N" -> "Talk to Inna (E)";
+            case "S1-03", "N2-01", "N2-02", "N2-04", "N2-L", "N3-01", "N3-02", "N3-03",
+                 "N4-01", "N4-02", "N-R", "N-F", "N-N" -> "Talk to Nikka (E)";
+            case "S1-04", "J2-03", "J3-S", "I2-03", "I3-S", "N2-03", "N3-S" -> "Study Break (Press E)";
+            default -> "Press E to continue";
+        };
+        return loc + " — " + who;
     }
 
     private String mapDisplayName(int map) {
@@ -324,6 +379,7 @@ public class GamePanel extends JPanel {
             case "Map" -> { talking = false; screen = Screen.GAME; clearMovement(); }
             case "SceneCut" -> {
                 talking = false; screen = Screen.GAME; clearMovement();
+                aSetter.updateNPCsForScene(story.current().scene);
                 int nextMap = expectedMapForScene(story.current().scene);
                 if (nextMap != -1) {
                     showNotice("Head to " + mapDisplayName(nextMap) + " and press E on an NPC to continue.");
@@ -365,6 +421,7 @@ public class GamePanel extends JPanel {
             }
             eHandler.checkEvent();
         }
+        updateClickHearts();
     }
 
     @Override
@@ -436,11 +493,15 @@ public class GamePanel extends JPanel {
         super.paintChildren(g);
         Graphics2D overlay = (Graphics2D) g.create();
         drawNotice(overlay);
+        overlay.translate(uiOffsetX(), uiOffsetY());
+        overlay.scale(uiScale(), uiScale());
+        drawClickHearts(overlay);
         overlay.dispose();
     }
 
     private void drawTitle(Graphics2D g) {
         Graphics2D ui=(Graphics2D)g.create();ui.setColor(cream);ui.fillRect(0,0,960,576);
+        drawTitlePlaid(ui);
         panel(ui,58,38,340,162,pink,20);
         ui.setColor(ink);ui.setFont(new Font("SansSerif",Font.BOLD,38));ui.drawString("In Other Words",73,108);
         ui.setColor(raspberryPlum);ui.setFont(new Font("SansSerif",Font.BOLD,31));ui.drawString("Mahal Kita",74,151);
@@ -486,11 +547,20 @@ public class GamePanel extends JPanel {
             _hudAffLine = "Chapter " + progress.getCurrentStage() + "  •  Affection " + progress.getAffectionScore();
         }
         g.setFont(new Font("SansSerif",Font.PLAIN,14)); g.drawString(_hudAffLine, 28, 55);
+        if (!talking && story != null && story.started() && !story.completed()) {
+            String goal = questGoalText();
+            if (!goal.isEmpty()) {
+                panel(g, 14, 72, 310, 44, softYellow, 12);
+                g.setColor(ink);
+                g.setFont(new Font("SansSerif", Font.BOLD, 12));
+                g.drawString("Goal: " + goal, 26, 99);
+            }
+        }
         if(!talking) panel(g, 14, h-66, w-28, 54, cream, 12);
         if(talking) return;
-        String[] labels={"Save","Load","Words","Journal","Options","Talk"};
-        int x=24; int[] widths={92,92,106,112,112,100};
-        for(int i=0;i<labels.length;i++){ button(g,x,h-57,widths[i],38,labels[i],labels[i].equals("Talk")?pink:cream); x+=widths[i]+8; }
+        String[] labels={"Save","Load","Words","Journal","Options"};
+        int x=24; int[] widths={92,92,106,112,112};
+        for(int i=0;i<labels.length;i++){ button(g,x,h-57,widths[i],38,labels[i],cream); x+=widths[i]+8; }
         g.setColor(ink);g.setFont(new Font("SansSerif",Font.PLAIN,13));g.drawString("WASD move  •  E talk  •  Esc back",w-258,h-34);
     }
 
@@ -1051,6 +1121,7 @@ public class GamePanel extends JPanel {
             }
             int[] location = readSavedLocation(loaded);
             story.load(loaded);
+            aSetter.updateNPCsForScene(story.current().scene);
             player.setDefaultValues();
             currentMap = location[0];
             player.worldX = location[1];
@@ -1082,5 +1153,90 @@ public class GamePanel extends JPanel {
         } catch (NumberFormatException error) {
             throw new IllegalArgumentException("The saved map position is invalid.", error);
         }
+    }
+
+    private static final class HeartParticle {
+        double x, y, vx, vy;
+        int size, life, maxLife;
+        Color color;
+        HeartParticle(double x, double y, double vx, double vy, int size, int maxLife, Color color) {
+            this.x = x; this.y = y; this.vx = vx; this.vy = vy;
+            this.size = size; this.life = maxLife; this.maxLife = maxLife; this.color = color;
+        }
+    }
+
+    private final java.util.List<HeartParticle> clickHearts = new java.util.ArrayList<>();
+
+    private void spawnClickHearts(int uiX, int uiY) {
+        Color[] palette = {
+            new Color(255, 115, 145),
+            new Color(235, 75, 110),
+            new Color(255, 165, 185),
+            new Color(245, 200, 95)
+        };
+        for (int i = 0; i < 5; i++) {
+            double angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.6;
+            double speed = 1.2 + Math.random() * 1.8;
+            int size = 10 + (int) (Math.random() * 6);
+            int life = 26 + (int) (Math.random() * 12);
+            clickHearts.add(new HeartParticle(
+                uiX + (Math.random() - 0.5) * 10,
+                uiY + (Math.random() - 0.5) * 8,
+                Math.cos(angle) * speed,
+                Math.sin(angle) * speed - 0.6,
+                size, life, palette[i % palette.length]
+            ));
+        }
+    }
+
+    private void updateClickHearts() {
+        for (int i = clickHearts.size() - 1; i >= 0; i--) {
+            HeartParticle p = clickHearts.get(i);
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.04;
+            p.life--;
+            if (p.life <= 0) clickHearts.remove(i);
+        }
+    }
+
+    private void drawClickHearts(Graphics2D g2) {
+        if (clickHearts.isEmpty()) return;
+        Graphics2D g = (Graphics2D) g2.create();
+        g.setFont(new Font("SansSerif", Font.BOLD, 16));
+        for (HeartParticle p : clickHearts) {
+            float alpha = Math.max(0f, Math.min(1f, p.life / (float) p.maxLife));
+            g.setColor(new Color(p.color.getRed(), p.color.getGreen(), p.color.getBlue(), (int) (alpha * 235)));
+            g.setFont(new Font("SansSerif", Font.BOLD, p.size));
+            g.drawString("♥", (int) Math.round(p.x), (int) Math.round(p.y));
+        }
+        g.dispose();
+    }
+
+    private void drawTitlePlaid(Graphics2D ui) {
+        Graphics2D g = (Graphics2D) ui.create();
+        double ox = (pointerX - 480) * 0.05;
+        double oy = (pointerY - 288) * 0.05;
+        int step = 64;
+        int startX = (int) Math.floor((ox % step) - step * 2);
+        int startY = (int) Math.floor((oy % step) - step * 2);
+
+        // Soft translucent diagonal diamond plaid stripes
+        g.setStroke(new java.awt.BasicStroke(14f));
+        g.setColor(new Color(255, 178, 194, 48));
+        for (int x = startX - 600; x < 1600; x += step) {
+            g.drawLine(x, -64, x + 640, 640);
+        }
+        g.setColor(new Color(242, 222, 165, 55));
+        for (int x = startX - 600; x < 1600; x += step) {
+            g.drawLine(x + 640, -64, x, 640);
+        }
+        g.setStroke(new java.awt.BasicStroke(2f));
+        g.setColor(new Color(43, 25, 61, 18));
+        for (int x = startX - 600; x < 1600; x += step) {
+            g.drawLine(x, -64, x + 640, 640);
+            g.drawLine(x + 640, -64, x, 640);
+        }
+        g.dispose();
     }
 }
