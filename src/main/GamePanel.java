@@ -371,6 +371,15 @@ public class GamePanel extends JPanel {
     }
 
     private void handleStoryAction(String action) {
+        if (action.startsWith("ClickHearts:")) {
+            String[] parts = action.substring("ClickHearts:".length()).split(",");
+            if (parts.length == 2) {
+                try {
+                    spawnClickHearts(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
+                } catch (NumberFormatException ignored) { }
+            }
+            return;
+        }
         switch (action) {
             case "Save" -> saveGame();
             case "Load" -> loadGame();

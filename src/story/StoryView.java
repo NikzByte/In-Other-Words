@@ -81,6 +81,7 @@ public final class StoryView extends JPanel {
             @Override public void mousePressed(MouseEvent event) {
                 int x = event.getX() * 960 / Math.max(1, getWidth());
                 int y = event.getY() * 576 / Math.max(1, getHeight());
+                action.accept("ClickHearts:" + x + "," + y);
                 for (Hit hit : List.copyOf(hits)) if (hit.box.contains(x, y)) {
                     hit.action.run(); return;
                 }
