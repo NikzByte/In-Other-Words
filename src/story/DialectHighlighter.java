@@ -64,7 +64,6 @@ final class DialectHighlighter {
         add(map, "Agyamanak unay, Apong", DialectStyle.INNA_BLUE, false);
         add(map, "Agyamanak unay, apo", DialectStyle.INNA_BLUE, false);
         add(map, "Agyamanak, apo", DialectStyle.INNA_BLUE, false);
-        add(map, "Ay, apay a kasta", DialectStyle.INNA_BLUE, false);
         add(map, "Apay a kasta", DialectStyle.INNA_BLUE, false);
         add(map, "Kayat ko", DialectStyle.INNA_BLUE, false);
         add(map, "Bay-am lattan", DialectStyle.INNA_BLUE, false);
@@ -106,7 +105,10 @@ final class DialectHighlighter {
     }
 
     private static void add(Map<String, Entry> map, String phrase, DialectStyle style, boolean caseSensitive) {
-        String key = (caseSensitive ? phrase : phrase.toLowerCase(Locale.ROOT)) + "|" + style.name();
+        if (phrase == null || phrase.isBlank()) return;
+        String lower = phrase.trim().toLowerCase(Locale.ROOT);
+        if (lower.equals("hala") || lower.equals("ay")) return;
+        String key = (caseSensitive ? phrase : lower) + "|" + style.name();
         map.putIfAbsent(key, new Entry(phrase, style, caseSensitive));
     }
 

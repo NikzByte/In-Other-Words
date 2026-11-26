@@ -162,7 +162,7 @@ public class GamePanel extends JPanel {
                     else goBack();
                 }
                 else if (code == KeyEvent.VK_ENTER && screen == Screen.TITLE) startNewStory();
-                else if (code == KeyEvent.VK_E && screen == Screen.GAME && !talking) resumeStory();
+                else if (code == KeyEvent.VK_E && screen == Screen.GAME && !talking) interactWithNearbyNPC();
                 else if (e.isControlDown() && code == KeyEvent.VK_S) saveGame();
                 else if (e.isControlDown() && code == KeyEvent.VK_L) loadGame();
                 refreshStoryVisibility();
@@ -249,6 +249,65 @@ public class GamePanel extends JPanel {
         refreshStoryVisibility();
     }
 
+    private Entity findNearbyNPC() {
+        double maxDist = tileSize * 1.6;
+        for (int i = 0; i < npc[currentMap].length; i++) {
+            Entity candidate = npc[currentMap][i];
+            if (candidate == null) continue;
+            double dx = player.worldX - candidate.worldX;
+            double dy = player.worldY - candidate.worldY;
+            if (Math.hypot(dx, dy) <= maxDist) return candidate;
+        }
+        return null;
+    }
+
+    private void interactWithNearbyNPC() {
+        if (findNearbyNPC() == null) {
+            showNotice("Walk up to an NPC and press E to talk.");
+            return;
+        }
+        if (story != null && story.started()) {
+            int expectedMap = expectedMapForScene(story.current().scene);
+            if (expectedMap != -1 && currentMap != expectedMap) {
+                showNotice("Head to " + mapDisplayName(expectedMap) + " to continue this scene.");
+                return;
+            }
+        }
+        resumeStory();
+    }
+
+    private int expectedMapForScene(String sceneId) {
+        if (sceneId == null || sceneId.isBlank()) return -1;
+        return switch (sceneId) {
+            case "M01" -> EventHandler.MAP_COURTYARD;
+            case "M02", "S1-01", "S1-02A", "S1-02B", "S1-03", "S2-01",
+                 "J2-02", "J2-05", "J3-00", "J4-00", "J4-01", "J-F",
+                 "I2-02", "I2-05", "I3-00", "I4-00", "I4-01", "I-F",
+                 "N2-02", "N2-05", "N3-00", "N4-00", "N4-01", "N-F" -> EventHandler.MAP_CLASSROOM;
+            case "S1-04",
+                 "J2-01", "J2-03", "J2-04", "J2-06", "J2-L", "J3-S",
+                 "I2-01", "I2-03", "I2-04", "I2-06", "I2-L", "I3-S", "I4-02", "I-R", "I-N",
+                 "N2-01", "N2-03", "N2-04", "N2-06", "N2-L", "N3-S" -> EventHandler.MAP_LIBRARY;
+            case "J3-01", "I3-01", "N3-01", "N3-03" -> EventHandler.MAP_HOMETOWN;
+            case "J3-02", "J3-03", "I3-02", "I3-03", "N3-02" -> EventHandler.MAP_BEDROOM;
+            case "J4-02", "J-R", "J-N", "N4-02", "N-R", "N-N" -> EventHandler.MAP_GARDEN;
+            default -> -1;
+        };
+    }
+
+    private String mapDisplayName(int map) {
+        return switch (map) {
+            case EventHandler.MAP_COURTYARD -> "the Courtyard";
+            case EventHandler.MAP_HALLWAY   -> "the Hallway";
+            case EventHandler.MAP_CLASSROOM -> "Room 401 (Classroom)";
+            case EventHandler.MAP_LIBRARY   -> "the Library";
+            case EventHandler.MAP_GARDEN    -> "the Garden / Balcony";
+            case EventHandler.MAP_HOMETOWN  -> "the Hometown";
+            case EventHandler.MAP_BEDROOM   -> "Home";
+            default -> "the next area";
+        };
+    }
+
     private void resumeStory() {
         if (story == null || !story.started()) { startNewStory(); return; }
         screen = Screen.GAME; talking = true;
@@ -263,6 +322,13 @@ public class GamePanel extends JPanel {
             case "Words" -> { dictionaryPage = 0; openScreen(Screen.DICTIONARY); }
             case "Options" -> openScreen(Screen.SETTINGS);
             case "Map" -> { talking = false; screen = Screen.GAME; clearMovement(); }
+            case "SceneCut" -> {
+                talking = false; screen = Screen.GAME; clearMovement();
+                int nextMap = expectedMapForScene(story.current().scene);
+                if (nextMap != -1) {
+                    showNotice("Head to " + mapDisplayName(nextMap) + " and press E on an NPC to continue.");
+                }
+            }
             case "Menu" -> { talking = false; screen = Screen.TITLE; clearMovement(); }
             case "Journal" -> openStoryJournal();
             case "Hint" -> JOptionPane.showMessageDialog(this, story.hint(), "Language hint", JOptionPane.INFORMATION_MESSAGE);

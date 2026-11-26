@@ -19,6 +19,13 @@ public final class StoryManager {
     private final GameProgress progress;
     private final AffectionManager affection;
     private final AnswerValidator validator = new AnswerValidator();
+    private boolean sceneTransitioned = false;
+
+    public boolean consumeSceneTransition() {
+        boolean transitioned = sceneTransitioned;
+        sceneTransitioned = false;
+        return transitioned;
+    }
 
     public StoryManager(StoryScript script, GameProgress progress) {
         this.script = script;
@@ -271,6 +278,9 @@ public final class StoryManager {
         for (int guard = 0; guard < script.nodes().size() + 5; guard++) {
             target = resolve(target);
             StoryScript.Node node = script.node(target);
+            if (!previousScene.isEmpty() && !node.scene.equals(previousScene)) {
+                sceneTransitioned = true;
+            }
             if (previousScene.equals(value("practiceScene")) && !node.scene.equals(previousScene)
                     && !value("returnNode").isEmpty()) {
                 target = value("returnNode");
