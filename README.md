@@ -2,19 +2,13 @@
   <img src="src/assets/inOtherWordsHeader.png"
        alt="In Other Words Header"
        width="100%">
-
+  <h1>In Other Words 💌</h1>
   <h3>A Philippine Regional Language-Learning Visual Novel & Campus RPG</h3>
 
   <p>
-    <i>"Every language has a story. Sometimes, finding the right words is where yours begins."</i> 💗
+    <i>"Every language has a story. Sometimes, finding the right words is where yours begins."</i> 
   </p>
 
-  <p>
-    <img src="https://img.shields.io/badge/Language-Java%2017%2B-BD2D87?style=for-the-badge" alt="Java 17+">
-    <img src="https://img.shields.io/badge/UI-Java%20Swing%20%26%202D-FFB2C2?style=for-the-badge&labelColor=2B193D" alt="Java Swing">
-    <img src="https://img.shields.io/badge/Course-OOP%20101%20%E2%80%A2%20CS2103-F2DEA5?style=for-the-badge&labelColor=2B193D" alt="CS2103">
-    <img src="https://img.shields.io/badge/Team-PowerpuffGirls%20(Group%203)-2B193D?style=for-the-badge" alt="PowerpuffGirls">
-  </p>
 </div>
 
 ---
