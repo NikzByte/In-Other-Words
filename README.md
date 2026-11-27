@@ -1,6 +1,10 @@
-
+<div align="center">
+  <img src="src/assets/inOtherWordsHeader.png"
+       alt="In Other Words"
+       width="100%">
+  
   <h1>In Other Words 💌</h1>
-  <h3>A Philippine Regional Language-Learning Visual Novel & Campus RPG</h3>
+  <h3>A Philippine Regional Language-Learning Visual Novel </h3>
 
   <p>
     <i>"Every language has a story. Sometimes, finding the right words is where yours begins."</i> 
@@ -12,7 +16,7 @@
 
 ## 🌸 Project Overview
 
-**In Other Words** is a story-driven Java 2D campus RPG and visual novel dating simulator where romance meets Philippine regional language learning.
+**In Other Words** is a story-driven Java 2D visual novel dating simulator where romance meets Philippine regional language learning.
 
 Arriving at a new university, you meet three classmates from different regions of the Philippines — **Jessa** (*Bisaya / Cebuano*), **Inna** (*Ilokano*), and **Nikka** (*Central Bikol*). Explore seven interconnected maps, talk to your clubmates, build your vocabulary notebook, and test your fluency through interactive dialogue choices, Study Breaks, and typed responses. Your language mastery and choices shape your affection score and determine how your story ends.
 
@@ -154,7 +158,8 @@ In Other Words/
   <img src="src/assets/characters.png"
        alt="In Other Words"
        width="100%">
----
+</div>
+
 
 ## ▶️ How to Run the Program
 
@@ -173,6 +178,18 @@ Copy-Item -Recurse -Force src\resources out\
 java -cp out main.Main
 ```
 
+---
+
+| Dialogue Choices | AI Tutor Interaction |
+|---|---|
+| ![Dialogue Choices](src/assets/github/choicesSample.png) | ![AI Tutor](src/assets/github/AITutorSample.png) |
+
+| Campus Hallway | Character Dialogue |
+|---|---|
+| ![Campus Hallway](src/assets/github/hallwaySample.png) | ![Character Dialogue](src/assets/github/dialogueSample.png) |
+
+---
+
 ### 🎮 Controls
 | Input | Action |
 |---|---|
@@ -183,18 +200,6 @@ java -cp out main.Main
 | `Type` + `Enter` | Submit a typed language answer |
 | `Esc` | Toggle between dialogue view and campus map / go back |
 | `Ctrl + S` / `Ctrl + L` | Quick Save / Quick Load progress |
-
----
-
-## 🌟 Sample Output
-
-| Dialogue Choices | AI Tutor Interaction |
-|---|---|
-| ![Dialogue Choices](src/assets/github/choicesSample.png) | ![AI Tutor](src/assets/github/AITutorSample.png) |
-
-| Campus Hallway | Character Dialogue |
-|---|---|
-| ![Campus Hallway](src/assets/github/hallwaySample.png) | ![Character Dialogue](src/assets/github/dialogueSample.png) |
 
 ---
 
@@ -212,7 +217,7 @@ java -cp out main.Main
 
 ## 🙏 Acknowledgment
 
-A special thank you to **Ma’am Fatima Mari Agdon** for her invaluable guidance, patience, and support throughout the development of **In Other Words**. 💗
+A special thank you to **Ma’am Fatima Marie Agdon** for her invaluable guidance, patience, and support throughout the development of **In Other Words**. 💗
 
 We are truly grateful for the knowledge, encouragement, and constructive feedback you shared with us throughout this project. Your guidance helped us learn, grow, and bring our ideas to life.
 
