@@ -1,6 +1,6 @@
 <div align="center">
-  <img src="src/assets/inOtherWordsHeader.png"
-       alt="In Other Words Header"
+  <img src="src/assets/characters.png"
+       alt="In Other Words Characters"
        width="100%">
   <h1>In Other Words 💌</h1>
   <h3>A Philippine Regional Language-Learning Visual Novel & Campus RPG</h3>
@@ -152,11 +152,6 @@ In Other Words/
         ├── Tile.java
         └── TileManager.java
 ```
-<div align="center">
-  <img src="src/assets/characters.png"
-       alt="In Other Words Characters"
-       width="100%">
-</div>
 
 ---
 
