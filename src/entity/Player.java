@@ -3,7 +3,6 @@ package entity;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
-// import java.awt.Color;
 import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
@@ -37,7 +36,7 @@ public class Player extends Entity {
     public void setDefaultValues() {
         worldX = gp.tileSize * 10;
         worldY = gp.tileSize * 10;
-        speed = 5;
+        speed = 8;
         direction = "down";
     }
 
@@ -169,22 +168,8 @@ public class Player extends Entity {
                 }
                 break;
         }
+        if (image == null) image = down1;
         g2.drawImage(image, screenX, screenY, null);
     }
-
-    public BufferedImage formatTransparency(BufferedImage original) {
-        if (original == null) return null;
-        BufferedImage formatted = new BufferedImage(
-            original.getWidth(),
-            original.getHeight(),
-            BufferedImage.TYPE_INT_ARGB
-        );
-
-        Graphics2D g2 = formatted.createGraphics();
-        g2.drawImage(original, 0, 0, null);
-        g2.dispose();
-        return formatted;
-
-}
 }
 

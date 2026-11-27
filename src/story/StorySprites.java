@@ -65,15 +65,26 @@ final class StorySprites {
         return null;
     }
 
+    private static final java.util.Set<String> NO_SPRITE_SPEAKERS = java.util.Set.of(
+            "", "narration", "system", "epilogue", "ending", "study break", "club", "library");
+
     List<String> spritesFor(StoryScript.Node node) {
-        if (node == null) return List.of("DIALOGUE/DIALOGUE.png");
+        if (node == null) return List.of();
+        String speakerKey = node.speaker == null ? "" : node.speaker.trim().toLowerCase(Locale.ROOT);
+        if (NO_SPRITE_SPEAKERS.contains(speakerKey)) return List.of();
         List<String> mapped = nodeSprites.get(node.id);
-        if (mapped != null && !mapped.isEmpty()) return mapped;
+        if (mapped != null && !mapped.isEmpty()
+                && !(mapped.size() == 1 && mapped.get(0).equals("DIALOGUE/DIALOGUE.png"))) {
+            return mapped;
+        }
         return defaultForSpeaker(node.speaker);
     }
 
+    private static final java.util.Set<String> FEMALE_SPEAKERS = java.util.Set.of(
+            "lola ising", "lola pilar", "manang lita", "nanang", "yani", "librarian");
+
     private static List<String> defaultForSpeaker(String speaker) {
-        if (speaker == null) return List.of("DIALOGUE/DIALOGUE.png");
+        if (speaker == null) return List.of("PLACEHOLDER/MALE_SILHOUETTE.png");
         String s = speaker.trim().toLowerCase(Locale.ROOT);
         if (s.equals("jessa")) return List.of("JESSA/JESSA_IDLE.png");
         if (s.equals("inna")) return List.of("INNA/INNA_IDLE.png");
@@ -85,7 +96,9 @@ final class StorySprites {
         if (s.equals("all")) {
             return List.of("JESSA/JESSA_HAPPY.png", "INNA/INNA_HAPPY.png", "NIKKA/NIKKA_HAPPYBLUSH.png");
         }
-        return List.of("DIALOGUE/DIALOGUE.png");
+        if (FEMALE_SPEAKERS.contains(s)) return List.of("PLACEHOLDER/FEMALE_SILHOUETTE.png");
+        // All other speakers (male characters, narration, system, etc.) use the male silhouette
+        return List.of("PLACEHOLDER/MALE_SILHOUETTE.png");
     }
 
     private BufferedImage loadSprite(String relativePath) {

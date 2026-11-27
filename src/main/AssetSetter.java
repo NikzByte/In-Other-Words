@@ -96,16 +96,18 @@ public class AssetSetter {
     private void placeAtDocCoord(int mapNum, int index, String spriteName, int docX, int docY) {
         int col = Math.max(1, Math.min(gp.maxWorldCol - 2, Math.round(docX / 30.0f)));
         int row = Math.max(1, Math.min(gp.maxWorldRow - 2, Math.round(docY / 28.0f)));
-        // Snap to nearest walkable, unoccupied tile so NPCs never stack on each other
+        // Snap to nearest walkable, unoccupied tile away from doors so NPCs never stack or block exits
         int tid = gp.tileM.mapTileNum[mapNum][col][row];
         boolean blocked = tid == 0 || (gp.tileM.tile[tid] != null && gp.tileM.tile[tid].collision);
-        if (blocked || isTileOccupied(mapNum, col, row, index)) {
+        boolean nearDoor = gp.eHandler != null && gp.eHandler.isNearDoor(mapNum, col, row);
+        if (blocked || nearDoor || isTileOccupied(mapNum, col, row, index)) {
             int bestCol = col, bestRow = row;
             int bestDist = Integer.MAX_VALUE;
             for (int r = 1; r < gp.maxWorldRow - 1; r++) {
                 for (int c = 1; c < gp.maxWorldCol - 1; c++) {
                     int t = gp.tileM.mapTileNum[mapNum][c][r];
                     if (t != 0 && gp.tileM.tile[t] != null && !gp.tileM.tile[t].collision
+                            && !(gp.eHandler != null && gp.eHandler.isNearDoor(mapNum, c, r))
                             && !isTileOccupied(mapNum, c, r, index)) {
                         int d = Math.abs(c - col) + Math.abs(r - row);
                         if (d < bestDist) { bestDist = d; bestCol = c; bestRow = r; }

@@ -57,11 +57,19 @@ public final class StoryView extends JPanel {
     private TutorService tutor = new TutorService(new OfflineTutor());
     private boolean checking;
     private int textSpeed = 50;
+    private String locationName = "Campus";
     private int revealedChars = Integer.MAX_VALUE;
     private int totalPageChars;
     private javax.swing.Timer typewriterTimer;
 
+    // Affection change pop-up state
+    private static final long AFF_POPUP_NANOS = 2_000_000_000L; // 2 seconds visible
+    private int affPopupDelta;
+    private long affPopupStartNanos;
+    private javax.swing.Timer affPopupTimer;
+
     public void setHintsEnabled(boolean enabled) { hintsEnabled = enabled; }
+    public void setLocationName(String name) { this.locationName = (name == null || name.isBlank()) ? "Campus" : name; }
     public void setTextSpeed(int speed) { textSpeed = Math.max(0, Math.min(100, speed)); }
     /** The AI tutor used for typed answers; without one, only exact matches are accepted. */
     public void setTutor(TutorService tutor) { this.tutor = Objects.requireNonNull(tutor, "Tutor must not be null."); }
@@ -136,6 +144,11 @@ public final class StoryView extends JPanel {
             if (reply.isVisible()) reply.requestFocusInWindow();
             else requestFocusInWindow();
         }
+        int affDelta = story.consumeAffectionDelta();
+        if (affDelta != 0) {
+            startAffectionPopup(affDelta);
+            action.accept(affDelta > 0 ? "Sfx:affection_up" : "Sfx:affection_down");
+        }
         repaint();
     }
     private void startTypewriter() {
@@ -202,6 +215,57 @@ public final class StoryView extends JPanel {
         return Math.min(1.0, (System.nanoTime() - spriteAnimStartNanos) / (double) SPRITE_ANIM_NANOS);
     }
 
+    private void startAffectionPopup(int delta) {
+        affPopupDelta = delta;
+        affPopupStartNanos = System.nanoTime();
+        if (affPopupTimer == null) {
+            affPopupTimer = new javax.swing.Timer(16, e -> {
+                if (System.nanoTime() - affPopupStartNanos >= AFF_POPUP_NANOS) {
+                    affPopupTimer.stop();
+                    affPopupDelta = 0;
+                }
+                repaint();
+            });
+        }
+        affPopupTimer.restart();
+    }
+
+    private void drawAffectionPopup(Graphics2D g) {
+        if (affPopupDelta == 0 || affPopupStartNanos == 0L) return;
+        double elapsed = (System.nanoTime() - affPopupStartNanos) / (double) AFF_POPUP_NANOS;
+        if (elapsed > 1.0) return;
+
+        // Fade in quickly (0–0.15), hold, then fade out (0.7–1.0)
+        float alpha;
+        if (elapsed < 0.15) alpha = (float) (elapsed / 0.15);
+        else if (elapsed > 0.7) alpha = (float) ((1.0 - elapsed) / 0.3);
+        else alpha = 1.0f;
+        alpha = Math.max(0f, Math.min(1f, alpha));
+
+        // Float upward over time
+        int floatY = (int) Math.round(elapsed * 18);
+
+        boolean positive = affPopupDelta > 0;
+        String text = (positive ? "♥ +" : "♥ ") + affPopupDelta;
+        Color bg = positive ? new Color(235, 95, 125, (int) (alpha * 210))
+                            : new Color(100, 100, 120, (int) (alpha * 210));
+        Color fg = new Color(255, 255, 255, (int) (alpha * 255));
+
+        // Position: top-right corner of the dialogue text panel (373, 95, 568, 231)
+        int popW = 72, popH = 30;
+        int popX = 373 + 568 - popW - 8;
+        int popY = 95 + 8 - floatY;
+
+        g.setColor(bg);
+        g.fillRoundRect(popX, popY, popW, popH, 12, 12);
+        g.setColor(fg);
+        g.setFont(new Font("SansSerif", Font.BOLD, 16));
+        FontMetrics fm = g.getFontMetrics();
+        int textX = popX + (popW - fm.stringWidth(text)) / 2;
+        int textY = popY + (popH + fm.getAscent() - fm.getDescent()) / 2;
+        g.drawString(text, textX, textY);
+    }
+
     private List<List<DialectHighlighter.StyledLine>> textPages() {
         String formatted = story.format(story.current().text);
         List<DialectHighlighter.StyledLine> lines = highlighter.wrapWithOffsets(
@@ -213,7 +277,15 @@ public final class StoryView extends JPanel {
     }
     private void choose(int choice) {
         if (page != textPages().size() - 1) return;
-        story.choose(choice); refresh();
+        String nodeId = story.current().id;
+        String kind = story.current().kind;
+        story.choose(choice);
+        if ("QUIZ".equals(kind)) {
+            action.accept("true".equals(story.value("ok_" + nodeId)) ? "Sfx:correct_answer" : "Sfx:incorrect_answer");
+        } else {
+            action.accept("Sfx:selected_button");
+        }
+        refresh();
         if (story.current().scene.equals("S1-04") && story.current().kind.equals("CHOICE") && choice == 0
                 && story.value("selection." + story.current().id).equals("0"))
             action.accept("Words");
@@ -224,7 +296,11 @@ public final class StoryView extends JPanel {
         AnswerCheckRequest request = tutor.isReady() ? story.aiRequestFor(text) : null;
         if (request == null) {
             // No AI needed (exact match, blank, not a typed question) or AI off: normal checking.
-            story.submit(text); refresh();
+            String nodeId = story.current().id;
+            String kind = story.current().kind;
+            story.submit(text);
+            playAnswerSfx(nodeId, kind);
+            refresh();
             if (reply.isVisible()) reply.selectAll();
             return;
         }
@@ -243,11 +319,21 @@ public final class StoryView extends JPanel {
                 checking = false;
                 reply.setEnabled(true);
                 story.submitWithAi(nodeId, text, verdict); // empty verdict = normal checking
+                playAnswerSfx(nodeId, "TYPED");
                 refresh();
                 if (reply.isVisible()) reply.selectAll();
             }
         }.execute();
     }
+    private void playAnswerSfx(String nodeId, String kind) {
+        if (!"TYPED".equals(kind)) return;
+        if ("true".equals(story.value("ok_" + nodeId))) {
+            action.accept("Sfx:correct_answer");
+        } else if (!story.value("feedback." + nodeId).isBlank()) {
+            action.accept("Sfx:incorrect_answer");
+        }
+    }
+
     private void next() {
         if (revealedChars < totalPageChars) {
             revealedChars = totalPageChars;
@@ -255,6 +341,7 @@ public final class StoryView extends JPanel {
             repaint();
             return;
         }
+        action.accept("Sfx:interact");
         if (page + 1 < textPages().size()) { page++; startTypewriter(); }
         else if (story.completed()) { action.accept("Menu"); return; }
         else story.advance();
@@ -272,33 +359,32 @@ public final class StoryView extends JPanel {
         hits.clear();
         panel(g, 18, 12, 660, 65, PINK_PANEL);
         g.setColor(new Color(110, 30, 58));
-        g.setFont(new Font("Georgia", Font.BOLD, 28));
-        drawLines(g, wrap(story.scene().title(), g.getFontMetrics(), 625), 31, 46, 30, 2);
-        panel(g, 696, 12, 246, 65, CREAM_PANEL);
+        g.setFont(new Font("Georgia", Font.BOLD, 21));
+        drawLines(g, wrap(story.scene().title(), g.getFontMetrics(), 625), 31, 38, 22, 1);
+        g.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        g.drawString("Chapter " + progress.getCurrentStage() + "  •  " + locationName, 31, 62);
+
+        String partner = progress.getSelectedPartner();
+        Color affPanelColor = partnerAffectionPanelColor(partner);
+        panel(g, 696, 12, 246, 65, affPanelColor);
+        g.setColor(INK);
         g.setFont(new Font("SansSerif", Font.BOLD, 16));
-        g.drawString("Chapter " + progress.getCurrentStage(), 710, 37);
-        g.setFont(new Font("SansSerif", Font.PLAIN, 15));
-        if (progress.getSelectedPartner().isEmpty()) {
-            g.drawString("Getting to know the club", 710, 61);
-        } else {
-            String partner = progress.getSelectedPartner();
-            g.drawString(partner, 710, 60);
-            int aff = progress.getAffectionScore();
-            int maxAff = 10;
-            double ratio = Math.max(0.0, Math.min(1.0, aff / (double) maxAff));
-            int barX = 775, barY = 47, barW = 118, barH = 14;
-            g.setColor(new Color(230, 215, 195));
-            g.fillRoundRect(barX, barY, barW, barH, 8, 8);
-            if (ratio > 0) {
-                g.setColor(new Color(235, 95, 125));
-                g.fillRoundRect(barX, barY, Math.max(6, (int) Math.round(barW * ratio)), barH, 8, 8);
-            }
-            g.setColor(INK);
-            g.setStroke(new BasicStroke(1.5f));
-            g.drawRoundRect(barX, barY, barW, barH, 8, 8);
-            g.setFont(new Font("SansSerif", Font.BOLD, 12));
-            g.drawString("♥ " + aff, barX + barW + 6, 59);
+        g.drawString(partner.isEmpty() ? "General" : partner, 710, 36);
+        int aff = partner.isEmpty() ? 0 : progress.getAffectionScore();
+        int maxAff = 10;
+        double ratio = Math.max(0.0, Math.min(1.0, aff / (double) maxAff));
+        int barX = 710, barY = 47, barW = 180, barH = 14;
+        g.setColor(new Color(230, 215, 195));
+        g.fillRoundRect(barX, barY, barW, barH, 8, 8);
+        if (ratio > 0) {
+            g.setColor(new Color(235, 95, 125));
+            g.fillRoundRect(barX, barY, Math.max(6, (int) Math.round(barW * ratio)), barH, 8, 8);
         }
+        g.setColor(INK);
+        g.setStroke(new BasicStroke(1.5f));
+        g.drawRoundRect(barX, barY, barW, barH, 8, 8);
+        g.setFont(new Font("SansSerif", Font.BOLD, 12));
+        g.drawString("♥ " + aff, barX + barW + 6, 59);
 
         sprites.drawPortraits(g, story.current(), 20, 85, 334, 385, spriteAnimProgress());
         String rawSpeaker = story.current().speaker;
@@ -331,6 +417,7 @@ public final class StoryView extends JPanel {
             String label = actions[i];
             button(g, 20 + i * 133, 531, 123, 32, label, i == 2 ? YELLOW : CREAM, () -> action.accept(label));
         }
+        drawAffectionPopup(g);
         g.dispose();
     }
     private void controls(Graphics2D g) {
@@ -379,7 +466,10 @@ public final class StoryView extends JPanel {
         int lineHeight = g.getFontMetrics().getHeight();
         int baseline = y + (h - lines.size() * lineHeight) / 2 + g.getFontMetrics().getAscent();
         drawLines(g, lines, x + 12, baseline, lineHeight, lines.size());
-        hits.add(new Hit(new Rectangle(x, y, w, h), run));
+        hits.add(new Hit(new Rectangle(x, y, w, h), () -> {
+            action.accept("Sfx:selected_button");
+            run.run();
+        }));
     }
     private void panel(Graphics2D g, int x, int y, int w, int h, Color fill) {
         panel(g, x, y, w, h, fill, INK);
@@ -389,6 +479,16 @@ public final class StoryView extends JPanel {
         g.setColor(border); g.fillRoundRect(x + 3, y + 4, w, h, 17, 17);
         g.setColor(fill); g.fillRoundRect(x, y, w, h, 17, 17);
         g.setColor(border); g.setStroke(new BasicStroke(2)); g.drawRoundRect(x, y, w, h, 17, 17);
+    }
+
+    private static Color partnerAffectionPanelColor(String partner) {
+        if (partner == null || partner.isEmpty()) return CREAM_PANEL;
+        return switch (partner.trim().toUpperCase(java.util.Locale.ROOT)) {
+            case "JESSA" -> new Color(255, 200, 200, 220);
+            case "INNA"  -> new Color(205, 225, 255, 220);
+            case "NIKKA" -> new Color(255, 245, 190, 220);
+            default      -> CREAM_PANEL;
+        };
     }
 
     private static Color speakerFillColor(String speaker) {

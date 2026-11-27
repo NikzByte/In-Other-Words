@@ -143,6 +143,85 @@ public class EventHandler {
 
     // --- HELPER METHODS ---
 
+    /**
+     * Returns true if (col, row) is on or within 1 tile of any door/exit/spawn tile
+     * on the given map, so NPCs never block doorways or spawn on top of the player.
+     */
+    public boolean isNearDoor(int mapNum, int col, int row) {
+        switch (mapNum) {
+            case MAP_COURTYARD -> {
+                if (near(col, row, 16, 8, 1) || near(col, row, 17, 8, 1)) return true;
+                int[] leftPath = findLeftPathTile(MAP_COURTYARD);
+                if (near(col, row, leftPath[0], leftPath[1], 1) || near(col, row, leftPath[0], leftPath[1] + 1, 1)) return true;
+                int bottomRow = findBottommostTileRow(MAP_COURTYARD, 4);
+                if (Math.abs(row - bottomRow) <= 1 && gp.tileM.mapTileNum[MAP_COURTYARD][col][bottomRow] == 4) return true;
+            }
+            case MAP_HALLWAY -> {
+                if (near(col, row, 8, 11, 1) || near(col, row, 9, 11, 1)) return true;
+                int[] leftDoor = findBrownDoorMat(MAP_HALLWAY, true);
+                int[] rightDoor = findBrownDoorMat(MAP_HALLWAY, false);
+                if (near(col, row, leftDoor[0], leftDoor[1], 1) || near(col, row, rightDoor[0], rightDoor[1], 1)) return true;
+            }
+            case MAP_CLASSROOM -> {
+                int[] door = findSingleTile(MAP_CLASSROOM, 92);
+                if (near(col, row, door[0], door[1], 1)) return true;
+            }
+            case MAP_LIBRARY -> {
+                int[] door = findSingleTile(MAP_LIBRARY, 158);
+                if (near(col, row, door[0], door[1], 1)) return true;
+            }
+            case MAP_GARDEN -> {
+                if (row >= 5 && row <= 7 && col >= 7 && col <= 11) return true;
+            }
+            case MAP_HOMETOWN -> {
+                int[] gate = findSingleTile(MAP_HOMETOWN, 227);
+                if (near(col, row, gate[0], gate[1], 1)) return true;
+                if (near(col, row, 16, 7, 1) || near(col, row, 16, 8, 1)) return true;
+            }
+            case MAP_BEDROOM -> {
+                int[] door = findSingleTile(MAP_BEDROOM, 274);
+                if (near(col, row, door[0], door[1], 1)) return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean near(int c1, int r1, int c2, int r2, int radius) {
+        return Math.abs(c1 - c2) <= radius && Math.abs(r1 - r2) <= radius;
+    }
+
+    /**
+     * Returns {col, row} of the exit tile on {@code fromMap} that leads toward {@code toMap},
+     * or null if {@code fromMap == toMap} or no route is known.
+     */
+    public int[] getNextExitTowards(int fromMap, int toMap) {
+        if (fromMap == toMap || toMap < 0) return null;
+        return switch (fromMap) {
+            case MAP_COURTYARD -> {
+                if (toMap == MAP_HOMETOWN || toMap == MAP_BEDROOM) yield findLeftPathTile(MAP_COURTYARD);
+                if (toMap == MAP_GARDEN) {
+                    int row = findBottommostTileRow(MAP_COURTYARD, 4);
+                    int col = findFirstTileColOnRow(MAP_COURTYARD, row, 4);
+                    yield new int[] { Math.max(0, col + 1), row };
+                }
+                yield new int[] { 16, 8 }; // School door -> Hallway / Classroom / Library
+            }
+            case MAP_HALLWAY -> {
+                if (toMap == MAP_LIBRARY) yield findBrownDoorMat(MAP_HALLWAY, true);
+                if (toMap == MAP_CLASSROOM) yield findBrownDoorMat(MAP_HALLWAY, false);
+                yield new int[] { 8, 11 }; // Bottom exit -> Courtyard / Garden / Hometown / Bedroom
+            }
+            case MAP_CLASSROOM -> findSingleTile(MAP_CLASSROOM, 92);
+            case MAP_LIBRARY   -> findSingleTile(MAP_LIBRARY, 158);
+            case MAP_GARDEN    -> new int[] { 9, 6 };
+            case MAP_HOMETOWN  -> (toMap == MAP_BEDROOM)
+                    ? findSingleTile(MAP_HOMETOWN, 227)
+                    : new int[] { 16, 7 };
+            case MAP_BEDROOM   -> findSingleTile(MAP_BEDROOM, 274);
+            default -> null;
+        };
+    }
+
     private int getPlayerCol() {
         return (gp.player.worldX + gp.player.solidArea.x + gp.player.solidArea.width / 2) / gp.tileSize;
     }

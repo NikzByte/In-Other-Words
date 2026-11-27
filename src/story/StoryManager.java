@@ -20,11 +20,22 @@ public final class StoryManager {
     private final AffectionManager affection;
     private final AnswerValidator validator = new AnswerValidator();
     private boolean sceneTransitioned = false;
+    private int lastAffectionDelta;
 
     public boolean consumeSceneTransition() {
         boolean transitioned = sceneTransitioned;
         sceneTransitioned = false;
         return transitioned;
+    }
+
+    /**
+     * Returns the most recent affection delta and resets it to zero.
+     * The UI polls this after each story action to trigger a pop-up.
+     */
+    public int consumeAffectionDelta() {
+        int delta = lastAffectionDelta;
+        lastAffectionDelta = 0;
+        return delta;
     }
 
     public StoryManager(StoryScript script, GameProgress progress) {
@@ -203,7 +214,25 @@ public final class StoryManager {
     }
 
     public String hint() {
-        return current().hint.isBlank() ? "Use the phrase from the conversation." : format(current().hint);
+        if (!current().hint.isBlank()) return format(current().hint);
+        String answers = current().answers;
+        if (answers == null || answers.isBlank()) return "Use the phrase from the conversation.";
+        String model = answers.split("\\|")[0].strip();
+        StringBuilder masked = new StringBuilder();
+        for (String word : model.split("\\s+")) {
+            if (!masked.isEmpty()) masked.append(' ');
+            if (word.length() <= 1) {
+                masked.append(word);
+            } else {
+                int reveal = word.length() >= 6 ? 2 : 1;
+                masked.append(word, 0, reveal);
+                for (int i = reveal; i < word.length(); i++) {
+                    char c = word.charAt(i);
+                    masked.append(Character.isLetterOrDigit(c) ? '_' : c);
+                }
+            }
+        }
+        return "Try in " + languageFor(current()) + ": " + masked;
     }
     public void revealAnswer() {
         if (!current().kind.equals("TYPED") || answered()) return;
@@ -323,6 +352,7 @@ public final class StoryManager {
     }
     private void applyOnce(String id, String effects) {
         if (effects.isBlank()) return;
+        int scoreBefore = progress.getAffectionScore();
         boolean firstTime = !value("applied." + id).equals("true");
         for (String effect : effects.split(";")) {
             if (effect.isBlank()) continue;
@@ -357,6 +387,7 @@ public final class StoryManager {
             }
         }
         put("applied." + id, "true");
+        lastAffectionDelta += progress.getAffectionScore() - scoreBefore;
     }
     public String format(String text) {
         String name = value("preferred_address");
@@ -368,7 +399,13 @@ public final class StoryManager {
                 .replace("[LOVE INTEREST'S NAME]", progress.getSelectedPartner());
     }
     public static String normalizeTyped(String text) {
-        return text.replace('\u2019', '\'').replace('\u2018', '\'').strip()
-                .replaceAll("[.!?]+$", "").strip();
+        if (text == null) return "";
+        return text.replace('\u2019', '\'').replace('\u2018', '\'')
+                .replace('\u201C', '"').replace('\u201D', '"')
+                .replace('\u2013', '-').replace('\u2014', '-')
+                .replace('-', ' ')
+                .replaceAll("[.,!?;:'\"]", "")
+                .replaceAll("\\s+", " ")
+                .strip();
     }
 }

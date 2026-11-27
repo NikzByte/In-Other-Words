@@ -100,6 +100,8 @@ public class GamePanel extends JPanel {
     private boolean muteAll;
     private Clip menuMusicClip;
     private Clip gameplayMusicClip;
+    private final java.util.Map<String, Clip> sfxClips = new java.util.HashMap<>();
+    private String lastHoveredButton = "";
     private int activeSlider = -1;
     private int pointerX = -1;
     private int pointerY = -1;
@@ -145,6 +147,7 @@ public class GamePanel extends JPanel {
         setupGame();
         initMenuMusic();
         initGameplayMusic();
+        initSfx();
         try {
             story = new StoryManager(StoryScript.load(), progress);
             storyView = new StoryView(story, progress, this::handleStoryAction);
@@ -205,7 +208,10 @@ public class GamePanel extends JPanel {
                     else goBack();
                 }
                 else if (code == KeyEvent.VK_ENTER && screen == Screen.TITLE) startNewStory();
-                else if (code == KeyEvent.VK_E && screen == Screen.GAME && !talking) interactWithNearbyNPC();
+                else if (code == KeyEvent.VK_E && screen == Screen.GAME && !talking) {
+                    playSfx("interact");
+                    interactWithNearbyNPC();
+                }
                 else if (e.isControlDown() && code == KeyEvent.VK_S) saveGame();
                 else if (e.isControlDown() && code == KeyEvent.VK_L) loadGame();
                 refreshStoryVisibility();
@@ -253,7 +259,7 @@ public class GamePanel extends JPanel {
 
     private void startMenuMusic() {
         if (menuMusicClip == null) return;
-        applyClipVolume(menuMusicClip);
+        applyClipVolume(menuMusicClip, musicVolume);
         menuMusicClip.setFramePosition(0);
         menuMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
     }
@@ -264,7 +270,7 @@ public class GamePanel extends JPanel {
 
     private void startGameplayMusic(boolean restart) {
         if (gameplayMusicClip == null) return;
-        applyClipVolume(gameplayMusicClip);
+        applyClipVolume(gameplayMusicClip, musicVolume);
         if (restart) {
             gameplayMusicClip.stop();
             gameplayMusicClip.setFramePosition(0);
@@ -279,13 +285,34 @@ public class GamePanel extends JPanel {
     }
 
     private void applyMusicVolume() {
-        applyClipVolume(menuMusicClip);
-        applyClipVolume(gameplayMusicClip);
+        applyClipVolume(menuMusicClip, musicVolume);
+        applyClipVolume(gameplayMusicClip, musicVolume);
     }
 
-    private void applyClipVolume(Clip clip) {
+    private void initSfx() {
+        String[] names = {
+            "affection_down", "affection_up", "correct_answer",
+            "enter_exit_game", "hover_button", "incorrect_answer",
+            "interact", "selected_button"
+        };
+        for (String name : names) {
+            Clip clip = loadMusicClip("/assets/audio/sfx/" + name + ".wav");
+            if (clip != null) sfxClips.put(name, clip);
+        }
+    }
+
+    public void playSfx(String name) {
+        Clip clip = sfxClips.get(name);
         if (clip == null || !clip.isOpen()) return;
-        boolean muted = muteAll || musicVolume == 0;
+        applyClipVolume(clip, soundVolume);
+        if (clip.isRunning()) clip.stop();
+        clip.setFramePosition(0);
+        clip.start();
+    }
+
+    private void applyClipVolume(Clip clip, int volume) {
+        if (clip == null || !clip.isOpen()) return;
+        boolean muted = muteAll || volume == 0;
         if (clip.isControlSupported(BooleanControl.Type.MUTE)) {
             ((BooleanControl) clip.getControl(BooleanControl.Type.MUTE)).setValue(muted);
         }
@@ -295,7 +322,7 @@ public class GamePanel extends JPanel {
                 gain.setValue(gain.getMinimum());
             } else {
                 // Map 1-100 → -40 dB … 0 dB (logarithmic)
-                float dB = 20f * (float) Math.log10(musicVolume / 100.0);
+                float dB = 20f * (float) Math.log10(volume / 100.0);
                 dB = Math.max(gain.getMinimum(), Math.min(gain.getMaximum(), dB));
                 gain.setValue(dB);
             }
@@ -354,6 +381,16 @@ public class GamePanel extends JPanel {
 
     private void refreshStoryVisibility() {
         if (storyView == null) return;
+        storyView.setLocationName(switch (currentMap) {
+            case EventHandler.MAP_COURTYARD -> "Courtyard";
+            case EventHandler.MAP_HALLWAY   -> "Hallway";
+            case EventHandler.MAP_CLASSROOM -> "Classroom";
+            case EventHandler.MAP_LIBRARY   -> "Library";
+            case EventHandler.MAP_GARDEN    -> "Garden";
+            case EventHandler.MAP_HOMETOWN  -> "Hometown";
+            case EventHandler.MAP_BEDROOM   -> "Bedroom";
+            default -> "Campus";
+        });
         storyView.setVisible(screen == Screen.GAME && talking && story.started());
         storyView.setHintsEnabled(showHints);
         storyView.setTextSpeed(textSpeed);
@@ -367,6 +404,7 @@ public class GamePanel extends JPanel {
                 "Start a new story? Unsaved progress will be replaced.", "New Game",
                 JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION) return;
         stopMenuMusic();
+        playSfx("enter_exit_game");
         startGameplayMusic(true);
         story.start(); storyView.resetPresentation(); player.setDefaultValues(); currentMap = 0; clearMovement();
         showAbout = false; screen = Screen.GAME; returnScreen = Screen.GAME; talking = true;
@@ -473,6 +511,99 @@ public class GamePanel extends JPanel {
         return loc + " — " + who;
     }
 
+    /** Draws a small directional arrow around the player pointing toward the current quest goal. */
+    private void drawQuestArrow(Graphics2D g) {
+        int targetMap = expectedMapForScene(story.current().scene);
+        if (targetMap < 0) return;
+
+        int targetWorldX, targetWorldY;
+        if (currentMap == targetMap) {
+            entity.Entity targetNpc = findTargetNpc(currentMap, story.current().scene);
+            if (targetNpc == null) return;
+            targetWorldX = targetNpc.worldX + tileSize / 2;
+            targetWorldY = targetNpc.worldY + tileSize / 2;
+        } else {
+            int[] exit = eHandler.getNextExitTowards(currentMap, targetMap);
+            if (exit == null) return;
+            targetWorldX = exit[0] * tileSize + tileSize / 2;
+            targetWorldY = exit[1] * tileSize + tileSize / 2;
+        }
+
+        int playerCenterX = player.worldX + tileSize / 2;
+        int playerCenterY = player.worldY + tileSize / 2;
+        double dx = targetWorldX - playerCenterX;
+        double dy = targetWorldY - playerCenterY;
+        double dist = Math.hypot(dx, dy);
+        if (dist < tileSize * 1.1) return; // Already right next to the goal
+
+        double angle = Math.atan2(dy, dx);
+        // Player's screen center in virtual 960x576 coordinates
+        double screenCenterX = (player.screenX + tileSize / 2.0) * 960.0 / screenWidth;
+        double screenCenterY = (player.screenY + tileSize / 2.0) * 576.0 / screenHeight;
+        double bob = Math.sin(animationFrame * 0.14) * 2.5;
+        double orbitRadius = 46.0 + bob * 0.6;
+        double ax = screenCenterX + Math.cos(angle) * orbitRadius;
+        double ay = screenCenterY + Math.sin(angle) * orbitRadius;
+
+        Graphics2D arrowG = (Graphics2D) g.create();
+        arrowG.translate(ax, ay);
+        arrowG.rotate(angle);
+        int[] xs = { 9, -6, -3, -6 };
+        int[] ys = { 0, -7, 0, 7 };
+        arrowG.setColor(softYellow);
+        arrowG.fillPolygon(xs, ys, 4);
+        arrowG.setColor(ink);
+        arrowG.setStroke(new java.awt.BasicStroke(2f, java.awt.BasicStroke.CAP_ROUND, java.awt.BasicStroke.JOIN_ROUND));
+        arrowG.drawPolygon(xs, ys, 4);
+        arrowG.dispose();
+    }
+
+    /** Draws a small bobbing ▼ marker above the quest-target NPC's head when on the same map. */
+    private void drawTargetNpcMarker(Graphics2D g) {
+        int targetMap = expectedMapForScene(story.current().scene);
+        if (targetMap < 0 || currentMap != targetMap) return;
+        entity.Entity targetNpc = findTargetNpc(currentMap, story.current().scene);
+        if (targetNpc == null) return;
+
+        int worldCenterX = targetNpc.worldX + tileSize / 2;
+        int worldTopY = targetNpc.worldY - tileSize / 6;
+        double sx = (worldCenterX - player.worldX + player.screenX) * 960.0 / screenWidth;
+        double sy = (worldTopY - player.worldY + player.screenY) * 576.0 / screenHeight;
+        if (sx < 10 || sx > 950 || sy < 10 || sy > 566) return;
+
+        double bob = Math.sin(animationFrame * 0.14) * 3.0;
+        int cx = (int) Math.round(sx);
+        int cy = (int) Math.round(sy + bob);
+        int[] xs = { cx - 7, cx + 7, cx };
+        int[] ys = { cy - 9, cy - 9, cy + 2 };
+        g.setColor(pink);
+        g.fillPolygon(xs, ys, 3);
+        g.setColor(ink);
+        g.setStroke(new java.awt.BasicStroke(2f, java.awt.BasicStroke.CAP_ROUND, java.awt.BasicStroke.JOIN_ROUND));
+        g.drawPolygon(xs, ys, 3);
+    }
+
+    private entity.Entity findTargetNpc(int map, String sceneId) {
+        String wanted = switch (sceneId) {
+            case "S1-02A", "J2-01", "J2-04", "J2-05", "J2-L", "J3-01", "J3-02", "J3-03",
+                 "J4-01", "J4-02", "J-R", "J-F", "J-N" -> "jessaNPC";
+            case "S1-02B", "I2-01", "I2-02", "I2-04", "I2-05", "I2-L", "I3-01", "I3-02",
+                 "I3-03", "I4-00", "I4-01", "I4-02", "I-R", "I-F", "I-N" -> "innaNPC";
+            case "S1-03", "N2-01", "N2-02", "N2-04", "N2-L", "N3-01", "N3-02", "N3-03",
+                 "N4-01", "N4-02", "N-R", "N-F", "N-N" -> "nikkaNPC";
+            default -> null;
+        };
+        entity.Entity fallback = null;
+        for (entity.Entity e : npc[map]) {
+            if (e == null) continue;
+            if (fallback == null) fallback = e;
+            if (wanted != null && e instanceof entity.NPC_Courtyard c && wanted.equals(c.getSpriteName())) {
+                return e;
+            }
+        }
+        return fallback;
+    }
+
     private String mapDisplayName(int map) {
         return switch (map) {
             case EventHandler.MAP_COURTYARD -> "the Courtyard";
@@ -489,6 +620,7 @@ public class GamePanel extends JPanel {
     private void resumeStory() {
         if (story == null || !story.started()) { startNewStory(); return; }
         stopMenuMusic();
+        playSfx("enter_exit_game");
         startGameplayMusic(false);
         screen = Screen.GAME; talking = true;
         keyH.upPressed = keyH.downPressed = keyH.leftPressed = keyH.rightPressed = false;
@@ -496,6 +628,10 @@ public class GamePanel extends JPanel {
     }
 
     private void handleStoryAction(String action) {
+        if (action.startsWith("Sfx:")) {
+            playSfx(action.substring(4));
+            return;
+        }
         if (action.startsWith("ClickHearts:")) {
             String[] parts = action.substring("ClickHearts:".length()).split(",");
             if (parts.length == 2) {
@@ -634,6 +770,8 @@ public class GamePanel extends JPanel {
     @Override protected void paintChildren(Graphics g) {
         super.paintChildren(g);
         Graphics2D overlay = (Graphics2D) g.create();
+        overlay.setColor(new Color(255, 160, 180, 22));
+        overlay.fillRect(0, 0, getWidth(), getHeight());
         drawNotice(overlay);
         overlay.translate(uiOffsetX(), uiOffsetY());
         overlay.scale(uiScale(), uiScale());
@@ -745,6 +883,8 @@ public class GamePanel extends JPanel {
         String hudAffLine = "Chapter " + progress.getCurrentStage() + "  •  " + hudAffText;
         g.setFont(new Font("SansSerif", Font.PLAIN, 14)); g.drawString(hudAffLine, 28, 55);
         if (!talking && story != null && story.started() && !story.completed()) {
+            drawQuestArrow(g);
+            drawTargetNpcMarker(g);
             String goal = questGoalText();
             if (!goal.isEmpty()) {
                 panel(g, 14, 72, 310, 44, softYellow, 12);
@@ -755,6 +895,13 @@ public class GamePanel extends JPanel {
         }
         if(!talking) panel(g, 14, h-66, w-28, 54, cream, 12);
         if(talking) return;
+        if (findNearbyNPC() != null) {
+            int promptBob = (int) Math.round(Math.sin(animationFrame * 0.12) * 2.5);
+            panel(g, 415, h - 106 + promptBob, 130, 32, softYellow, 16);
+            g.setColor(ink);
+            g.setFont(new Font("SansSerif", Font.BOLD, 13));
+            drawCentered(g, "[E] Talk", 480, h - 85 + promptBob);
+        }
         String[] labels={"Save","Load","Words","Journal","Options"};
         int x=24; int[] widths={92,92,106,112,112};
         for(int i=0;i<labels.length;i++){ button(g,x,h-57,widths[i],38,labels[i],cream); x+=widths[i]+8; }
@@ -1016,6 +1163,10 @@ public class GamePanel extends JPanel {
     private void button(Graphics2D g, int x, int y, int width, int height, String text, Color fill) {
         boolean hovered = pointerX >= x && pointerX < x + width
                 && pointerY >= y && pointerY < y + height;
+        if (hovered && !text.equals(lastHoveredButton)) {
+            lastHoveredButton = text;
+            playSfx("hover_button");
+        }
         int lift = hovered ? 2 : 0;
         Color buttonColor = hovered
                 ? new Color(Math.min(255, fill.getRed() + 10),
@@ -1321,6 +1472,7 @@ public class GamePanel extends JPanel {
             progress.setStoryValue("map", Integer.toString(currentMap));
             progress.setStoryValue("worldX", Integer.toString(player.worldX));
             progress.setStoryValue("worldY", Integer.toString(player.worldY));
+            progress.setStoryValue("talking", Boolean.toString(talking));
             files.saveProgress(progress);
             showNotice("Game saved.");
         } catch (IOException e) {
@@ -1336,7 +1488,9 @@ public class GamePanel extends JPanel {
                 showNotice("No storyline save found. Choose New Game to begin."); return;
             }
             int[] location = readSavedLocation(loaded);
+            boolean savedTalking = "true".equals(loaded.getStoryValue("talking"));
             story.load(loaded);
+            story.consumeSceneTransition();
             aSetter.updateNPCsForScene(story.current().scene);
             player.setDefaultValues();
             currentMap = location[0];
@@ -1344,7 +1498,7 @@ public class GamePanel extends JPanel {
             player.worldY = location[2];
             stopMenuMusic();
             startGameplayMusic(true);
-            screen = Screen.GAME; returnScreen = Screen.GAME; talking = true;
+            screen = Screen.GAME; returnScreen = Screen.GAME; talking = savedTalking;
             storyView.resetPresentation();
             clearMovement();
             refreshStoryVisibility();
@@ -1433,28 +1587,73 @@ public class GamePanel extends JPanel {
 
     private void drawTitlePlaid(Graphics2D ui) {
         Graphics2D g = (Graphics2D) ui.create();
-        double ox = (pointerX - 480) * 0.05;
-        double oy = (pointerY - 288) * 0.05;
         int step = 64;
-        int startX = (int) Math.floor((ox % step) - step * 2);
-        int startY = (int) Math.floor((oy % step) - step * 2);
+        double drift = animationFrame * 0.35;
 
-        // Soft translucent diagonal diamond plaid stripes
-        g.setStroke(new java.awt.BasicStroke(14f));
-        g.setColor(new Color(255, 178, 194, 48));
-        for (int x = startX - 600; x < 1600; x += step) {
-            g.drawLine(x, -64, x + 640, 640);
+        // Layer 1: wider soft plaid (slower parallax + continuous rightward drift)
+        double ox1 = (pointerX - 480) * 0.10 + drift;
+        double oy1 = (pointerY - 288) * 0.10;
+        double tx1 = ((ox1 % step) + step) % step - step;
+        double ty1 = ((oy1 % step) + step) % step - step;
+
+        Graphics2D l1 = (Graphics2D) g.create();
+        l1.translate(tx1, ty1);
+        l1.setStroke(new java.awt.BasicStroke(14f));
+        l1.setColor(new Color(255, 178, 194, 48));
+        for (int x = -800; x < 1800; x += step) {
+            l1.drawLine(x, -128, x + 768, 704);
         }
-        g.setColor(new Color(242, 222, 165, 55));
-        for (int x = startX - 600; x < 1600; x += step) {
-            g.drawLine(x + 640, -64, x, 640);
+        l1.setColor(new Color(242, 222, 165, 55));
+        for (int x = -800; x < 1800; x += step) {
+            l1.drawLine(x + 768, -128, x, 704);
         }
-        g.setStroke(new java.awt.BasicStroke(2f));
-        g.setColor(new Color(43, 25, 61, 18));
-        for (int x = startX - 600; x < 1600; x += step) {
-            g.drawLine(x, -64, x + 640, 640);
-            g.drawLine(x + 640, -64, x, 640);
+        l1.dispose();
+
+        // Layer 2: thin accent grid (stronger parallax in all directions + faster drift)
+        double ox2 = (pointerX - 480) * 0.18 + drift * 1.4;
+        double oy2 = (pointerY - 288) * 0.18;
+        double tx2 = ((ox2 % step) + step) % step - step;
+        double ty2 = ((oy2 % step) + step) % step - step;
+
+        Graphics2D l2 = (Graphics2D) g.create();
+        l2.translate(tx2, ty2);
+        l2.setStroke(new java.awt.BasicStroke(2f));
+        l2.setColor(new Color(43, 25, 61, 20));
+        for (int x = -800; x < 1800; x += step) {
+            l2.drawLine(x, -128, x + 768, 704);
+            l2.drawLine(x + 768, -128, x, 704);
         }
+        l2.dispose();
+
+        drawCornerHearts(g);
         g.dispose();
+    }
+
+    /** Litters the four corners of the window with slightly translucent red, pink, and yellow hearts. */
+    private void drawCornerHearts(Graphics2D g) {
+        Color[] palette = {
+            new Color(230, 75, 105, 115),  // translucent red
+            new Color(255, 145, 175, 120), // translucent pink
+            new Color(245, 205, 95, 125)   // translucent yellow
+        };
+        // {baseX, baseY, size, colorIdx, phase}
+        int[][] corners = {
+            // Top-left
+            {18, 32, 18, 0, 0}, {46, 22, 13, 1, 1}, {24, 58, 12, 2, 2}, {68, 38, 15, 0, 3}, {12, 82, 10, 1, 4},
+            // Top-right
+            {926, 30, 19, 1, 1}, {896, 22, 13, 2, 2}, {934, 58, 12, 0, 3}, {876, 40, 15, 1, 4}, {912, 80, 11, 2, 0},
+            // Bottom-left
+            {20, 552, 19, 2, 2}, {50, 560, 13, 0, 3}, {26, 524, 12, 1, 4}, {74, 544, 15, 2, 0}, {14, 502, 10, 0, 1},
+            // Bottom-right
+            {924, 554, 18, 0, 3}, {894, 562, 13, 1, 4}, {934, 526, 12, 2, 0}, {872, 546, 15, 0, 1}, {914, 504, 11, 1, 2}
+        };
+        double px = (pointerX - 480) * 0.03;
+        double py = (pointerY - 288) * 0.03;
+        for (int[] h : corners) {
+            double bob = Math.sin(animationFrame * 0.05 + h[4]) * 2.5;
+            g.setColor(palette[h[3]]);
+            g.setFont(new Font("SansSerif", Font.BOLD, h[2]));
+            g.drawString("♥", (int) Math.round(h[0] + px), (int) Math.round(h[1] + py + bob));
+        }
     }
 }

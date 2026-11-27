@@ -249,15 +249,13 @@ OPTION	S2-01.9	Choose Jessa	partner:Jessa
 OPTION	S2-01.9	Choose Inna	partner:Inna
 OPTION	S2-01.9	Choose Nikka	partner:Nikka
 NODE	S2-01.10	S2-01	LINE	Jessa	Wait, really? You chose me? Okay okay okay. (to the other two) Sorry!!Yyou can't have the club's newest member. Ma’am, do we get additional points for being the first group to form!?	pick_S2-01=A		S2-01.11		
-NODE	S2-01.11	S2-01	LINE	Professor	No.	pick_S2-01=A		S2-01.12		
+NODE	S2-01.11	S2-01	LINE	Professor	No.	pick_S2-01=A		@route		
 NODE	S2-01.12	S2-01	LINE	Inna	Thanks for choosing me [NICKNAME]. I’ll try my best to send the task assignment later once I get home. I hope you don’t mind?	pick_S2-01=B		S2-01.13		
 NODE	S2-01.13	S2-01	LINE	MC	I won’t, don’t worry.	pick_S2-01=B		S2-01.14		
-NODE	S2-01.14	S2-01	LINE	Inna	(A small smile) Agyamanak, [FIRST NAME].	pick_S2-01=B		S2-01.15		
+NODE	S2-01.14	S2-01	LINE	Inna	(A small smile) Agyamanak, [FIRST NAME].	pick_S2-01=B		@route		
 NODE	S2-01.15	S2-01	LINE	Nikka	Oh wow. Okay. (blinks, then half a smile) You better pull your weight alright, I’m not one to take excuses.	pick_S2-01=C		S2-01.16		
 NODE	S2-01.16	S2-01	LINE	MC	I figured.	pick_S2-01=C		S2-01.17		
-NODE	S2-01.17	S2-01	LINE	Nikka	You learn quickly, Mx. [LAST NAME].	pick_S2-01=C		S2-01.18		
-NODE	S2-01.18	S2-01	LINE	Narration	Jessa fills every silence before it can land. The MC learns when to laugh with her, when to ask what she means, and when to leave the gap open.			S2-01.19		
-NODE	S2-01.19	S2-01	LINE	Narration	Settings: Library, Classroom, Street/Stalls (Cebu), Home (Cebu), Balcony.			@route		
+NODE	S2-01.17	S2-01	LINE	Nikka	You learn quickly, Mx. [LAST NAME].	pick_S2-01=C		@route		
 NODE	J2-01.0	J2-01	LINE	Narration	A corner table by the window with sticky notes everywhere. A sign says QUIET PLEASE, which Jessa has ignored twice already.			J2-01.1		
 NODE	J2-01.1	J2-01	LINE	Jessa	Okay, team meeting— although we’re only two members. Anyways, let’s discuss the distribution for tasks. I’ll be in charge of the food and you’ll be the team leader!			J2-01.2		
 NODE	J2-01.2	J2-01	LINE	MC	Why is the new guy the team leader…? Not to mention you forgot to distribute the tasks for the project?			J2-01.3		
