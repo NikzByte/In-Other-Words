@@ -1,7 +1,4 @@
-<div align="center">
-  <img src="src/assets/characters.png"
-       alt="In Other Words Characters"
-       width="100%">
+
   <h1>In Other Words 💌</h1>
   <h3>A Philippine Regional Language-Learning Visual Novel & Campus RPG</h3>
 
@@ -153,6 +150,10 @@ In Other Words/
         └── TileManager.java
 ```
 
+<div align="center">
+  <img src="src/assets/characters.png"
+       alt="In Other Words"
+       width="100%">
 ---
 
 ## ▶️ How to Run the Program
@@ -185,26 +186,21 @@ java -cp out main.Main
 
 ---
 
-## 🌟 Gameplay Flow
+## 🌟 Sample Output
 
-```text
-[Studio Intro Fade] ──▶ [Plaid Main Menu + Looping Menu Music]
-                              │
-              ┌───────────────┴───────────────┐
-              ▼                               ▼
-     [New Game / Load]               [Dictionary / Settings]
-              │                       • Filter Bisaya, Ilokano, Bikol
-              ▼                       • Adjust Music & Volume Sliders
- [Campus Exploration + Gameplay Music]
-   • Explore 7 maps (Courtyard, Hallway, Classroom, Library, Garden, Hometown, Bedroom)
-   • Talk to Jessa, Inna, or Nikka (E) ──▶ Learn regional phrases & earn ♥ Affection
-```
+| Dialogue Choices | AI Tutor Interaction |
+|---|---|
+| ![Dialogue Choices](src/assets/github/choicesSample.png) | ![AI Tutor](src/assets/github/AITutorSample.png) |
+
+| Campus Hallway | Character Dialogue |
+|---|---|
+| ![Campus Hallway](src/assets/github/hallwaySample.png) | ![Character Dialogue](src/assets/github/dialogueSample.png) |
 
 ---
 
 ## 👥 Team Members
 
-**PowerpuffGirls — Group 3 (CS2103)**
+**PowerPuffGirls — Group 3 (CS2103)**
 
 | Member | Role | GitHub |
 |---|---|---|
@@ -214,11 +210,13 @@ java -cp out main.Main
 
 ---
 
-## 🙏 Acknowledgments
+## 🙏 Acknowledgment
 
-- **Batangas State University — Alangilan Campus**, for supporting this project under **OOP 101 – Object-Oriented Programming** (*Section CS2103, First Semester, A.Y. 2026–2027*).
-- Our instructors and classmates for their feedback, playtesting, and encouragement.
-- The rich linguistic heritage of **Bisaya (Cebuano)**, **Ilokano**, and **Central Bikol** speakers that inspired every conversation in this game.
+A special thank you to **Ma’am Fatima Mari Agdon** for her invaluable guidance, patience, and support throughout the development of **In Other Words**. 💗
+
+We are truly grateful for the knowledge, encouragement, and constructive feedback you shared with us throughout this project. Your guidance helped us learn, grow, and bring our ideas to life.
+
+Thank you for being part of our journey and for making this learning experience more meaningful! 
 
 ---
 
