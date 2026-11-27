@@ -81,10 +81,16 @@ public final class StoryView extends JPanel {
             @Override public void mousePressed(MouseEvent event) {
                 int x = event.getX() * 960 / Math.max(1, getWidth());
                 int y = event.getY() * 576 / Math.max(1, getHeight());
+                action.accept("ClickHearts:" + x + "," + y);
                 for (Hit hit : List.copyOf(hits)) if (hit.box.contains(x, y)) {
                     hit.action.run(); return;
                 }
-                if (!reply.isVisible()) requestFocusInWindow();
+                if (!reply.isVisible()) {
+                    requestFocusInWindow();
+                    if (!story.acceptsText() && (story.answered() || !List.of("CHOICE", "QUIZ").contains(story.current().kind))) {
+                        next();
+                    }
+                }
             }
         });
         bind("ENTER", "advance", this::next, WHEN_FOCUSED);
@@ -111,6 +117,10 @@ public final class StoryView extends JPanel {
     }
     public void refresh() {
         if (!story.started()) { reply.setVisible(false); return; }
+        if (story.consumeSceneTransition()) {
+            action.accept("SceneCut");
+            return;
+        }
         if (!displayedNode.equals(story.current().id)) {
             displayedNode = story.current().id; page = 0; reply.setText("");
             startSpritePopAnimation();
@@ -261,22 +271,46 @@ public final class StoryView extends JPanel {
         g.setColor(CREAM_OVERLAY); g.fillRect(0, 0, 960, 576);
         hits.clear();
         panel(g, 18, 12, 660, 65, PINK_PANEL);
-        g.setFont(new Font("SansSerif", Font.BOLD, 17));
-        drawLines(g, wrap(story.scene().title(), g.getFontMetrics(), 625), 31, 38, 22, 2);
-        panel(g, 696, 12, 246, 65, CREAM);
+        g.setColor(new Color(110, 30, 58));
+        g.setFont(new Font("Georgia", Font.BOLD, 28));
+        drawLines(g, wrap(story.scene().title(), g.getFontMetrics(), 625), 31, 46, 30, 2);
+        panel(g, 696, 12, 246, 65, CREAM_PANEL);
         g.setFont(new Font("SansSerif", Font.BOLD, 16));
         g.drawString("Chapter " + progress.getCurrentStage(), 710, 37);
         g.setFont(new Font("SansSerif", Font.PLAIN, 15));
-        g.drawString(progress.getSelectedPartner().isEmpty() ? "Getting to know the club"
-                : progress.getSelectedPartner() + "  •  Affection " + progress.getAffectionScore(), 710, 61);
+        if (progress.getSelectedPartner().isEmpty()) {
+            g.drawString("Getting to know the club", 710, 61);
+        } else {
+            String partner = progress.getSelectedPartner();
+            g.drawString(partner, 710, 60);
+            int aff = progress.getAffectionScore();
+            int maxAff = 10;
+            double ratio = Math.max(0.0, Math.min(1.0, aff / (double) maxAff));
+            int barX = 775, barY = 47, barW = 118, barH = 14;
+            g.setColor(new Color(230, 215, 195));
+            g.fillRoundRect(barX, barY, barW, barH, 8, 8);
+            if (ratio > 0) {
+                g.setColor(new Color(235, 95, 125));
+                g.fillRoundRect(barX, barY, Math.max(6, (int) Math.round(barW * ratio)), barH, 8, 8);
+            }
+            g.setColor(INK);
+            g.setStroke(new BasicStroke(1.5f));
+            g.drawRoundRect(barX, barY, barW, barH, 8, 8);
+            g.setFont(new Font("SansSerif", Font.BOLD, 12));
+            g.drawString("♥ " + aff, barX + barW + 6, 59);
+        }
 
         sprites.drawPortraits(g, story.current(), 20, 85, 334, 385, spriteAnimProgress());
-        String speaker = story.current().speaker;
+        String rawSpeaker = story.current().speaker;
+        String speaker = rawSpeaker;
         if (speaker.equals("MC") || speaker.equals("You")) speaker = story.value("preferred_address").isBlank()
                 ? "MC" : story.value("preferred_address");
-        panel(g, 20, 446, 334, 65, PINK);
-        g.setFont(new Font("SansSerif", Font.BOLD, 19));
-        drawLines(g, wrap(speaker, g.getFontMetrics(), 306), 34, 473, 23, 2);
+        Color nameFill = speakerFillColor(rawSpeaker);
+        Color nameBorder = speakerBorderColor(rawSpeaker);
+        panel(g, 20, 446, 334, 65, nameFill, nameBorder);
+        g.setColor(nameBorder);
+        g.setFont(new Font("Georgia", Font.BOLD, 30));
+        drawLines(g, wrap(speaker, g.getFontMetrics(), 306), 34, 483, 32, 2);
 
         panel(g, 373, 95, 568, 231, CREAM);
         g.setFont(new Font("SansSerif", Font.BOLD, 16)); g.drawString(story.current().speaker, 389, 122);
@@ -348,9 +382,33 @@ public final class StoryView extends JPanel {
         hits.add(new Hit(new Rectangle(x, y, w, h), run));
     }
     private void panel(Graphics2D g, int x, int y, int w, int h, Color fill) {
-        g.setColor(INK); g.fillRoundRect(x + 3, y + 4, w, h, 17, 17);
+        panel(g, x, y, w, h, fill, INK);
+    }
+
+    private void panel(Graphics2D g, int x, int y, int w, int h, Color fill, Color border) {
+        g.setColor(border); g.fillRoundRect(x + 3, y + 4, w, h, 17, 17);
         g.setColor(fill); g.fillRoundRect(x, y, w, h, 17, 17);
-        g.setColor(INK); g.setStroke(new BasicStroke(2)); g.drawRoundRect(x, y, w, h, 17, 17);
+        g.setColor(border); g.setStroke(new BasicStroke(2)); g.drawRoundRect(x, y, w, h, 17, 17);
+    }
+
+    private static Color speakerFillColor(String speaker) {
+        if (speaker == null) return CREAM_PANEL;
+        String s = speaker.trim().toUpperCase(java.util.Locale.ROOT);
+        if (s.equals("MC") || s.equals("YOU")) return PINK_PANEL;
+        if (s.contains("JESSA")) return new Color(255, 165, 165, 225);
+        if (s.contains("INNA"))  return new Color(170, 205, 255, 225);
+        if (s.contains("NIKKA")) return new Color(255, 235, 145, 225);
+        return CREAM_PANEL;
+    }
+
+    private static Color speakerBorderColor(String speaker) {
+        if (speaker == null) return INK;
+        String s = speaker.trim().toUpperCase(java.util.Locale.ROOT);
+        if (s.equals("MC") || s.equals("YOU")) return new Color(165, 55, 90);
+        if (s.contains("JESSA")) return new Color(165, 35, 35);
+        if (s.contains("INNA"))  return new Color(30, 80, 165);
+        if (s.contains("NIKKA")) return new Color(155, 110, 10);
+        return INK;
     }
     private static void center(Graphics2D g, String text, int x, int y) {
         g.drawString(text, x - g.getFontMetrics().stringWidth(text) / 2, y);

@@ -13,12 +13,21 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.BooleanControl;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JPanel;
 import javax.swing.JOptionPane;
 
@@ -36,9 +45,16 @@ import story.StoryView;
 public class GamePanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
-    private enum Screen { TITLE, GAME, DICTIONARY, SETTINGS, SAVES }
-    private Screen screen = Screen.TITLE;
+    private enum Screen { INTRO, TITLE, GAME, DICTIONARY, SETTINGS, SAVES }
+    private Screen screen = Screen.INTRO;
     private Screen returnScreen = Screen.GAME;
+    private static final int INTRO_FADE_IN_FRAMES = 45;
+    private static final int INTRO_HOLD_FRAMES = 105;
+    private static final int INTRO_FADE_OUT_FRAMES = 45;
+    private static final int INTRO_END_PAUSE_FRAMES = 15;
+    private static final int INTRO_TOTAL_FRAMES =
+            INTRO_FADE_IN_FRAMES + INTRO_HOLD_FRAMES + INTRO_FADE_OUT_FRAMES + INTRO_END_PAUSE_FRAMES;
+    private int introFrame;
     private final Color ink = new Color(0x2B, 0x19, 0x3D);
     private final Color cream = new Color(0xF6, 0xE9, 0xC7);
     private final Color pink = new Color(0xFF, 0xB2, 0xC2);
@@ -82,6 +98,9 @@ public class GamePanel extends JPanel {
     private int windowHeight = 768;
     private boolean skipAfterChoices;
     private boolean muteAll;
+    private Clip menuMusicClip;
+    private Clip gameplayMusicClip;
+    private int activeSlider = -1;
     private int pointerX = -1;
     private int pointerY = -1;
     private long animationFrame;
@@ -124,6 +143,8 @@ public class GamePanel extends JPanel {
         this.setFocusable(true);
         this.setLayout(null);
         setupGame();
+        initMenuMusic();
+        initGameplayMusic();
         try {
             story = new StoryManager(StoryScript.load(), progress);
             storyView = new StoryView(story, progress, this::handleStoryAction);
@@ -143,7 +164,12 @@ public class GamePanel extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                spawnClickHearts(toUiX(e.getX()), toUiY(e.getY()));
                 handleClick(e.getX(), e.getY());
+            }
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                activeSlider = -1;
             }
         });
         addMouseMotionListener(new MouseMotionAdapter() {
@@ -153,16 +179,33 @@ public class GamePanel extends JPanel {
                 pointerY = toUiY(e.getY());
                 repaint();
             }
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                pointerX = toUiX(e.getX());
+                pointerY = toUiY(e.getY());
+                if (screen == Screen.SETTINGS && activeSlider != -1) {
+                    applySliderDrag(pointerX);
+                    repaint();
+                }
+            }
         });
         addKeyListener(new KeyAdapter() {
             @Override public void keyPressed(KeyEvent e) {
                 int code = e.getKeyCode();
+                if (screen == Screen.INTRO) {
+                    if (code == KeyEvent.VK_ENTER || code == KeyEvent.VK_SPACE || code == KeyEvent.VK_ESCAPE) {
+                        screen = Screen.TITLE;
+                        startMenuMusic();
+                        repaint();
+                    }
+                    return;
+                }
                 if (code == KeyEvent.VK_ESCAPE && screen != Screen.TITLE) {
                     if (screen == Screen.GAME && talking) talking = false;
                     else goBack();
                 }
                 else if (code == KeyEvent.VK_ENTER && screen == Screen.TITLE) startNewStory();
-                else if (code == KeyEvent.VK_E && screen == Screen.GAME && !talking) resumeStory();
+                else if (code == KeyEvent.VK_E && screen == Screen.GAME && !talking) interactWithNearbyNPC();
                 else if (e.isControlDown() && code == KeyEvent.VK_S) saveGame();
                 else if (e.isControlDown() && code == KeyEvent.VK_L) loadGame();
                 refreshStoryVisibility();
@@ -184,12 +227,91 @@ public class GamePanel extends JPanel {
         aSetter.setNPC();
     }
 
+    // ── Music ───────────────────────────────────────────────────────────
+    private Clip loadMusicClip(String resourcePath) {
+        try {
+            InputStream raw = getClass().getResourceAsStream(resourcePath);
+            if (raw == null) { System.err.println("Music file not found: " + resourcePath); return null; }
+            AudioInputStream ais = AudioSystem.getAudioInputStream(new BufferedInputStream(raw));
+            Clip clip = AudioSystem.getClip();
+            clip.open(ais);
+            ais.close();
+            return clip;
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            System.err.println("Could not load music (" + resourcePath + "): " + e.getMessage());
+            return null;
+        }
+    }
+
+    private void initMenuMusic() {
+        menuMusicClip = loadMusicClip("/assets/audio/menuMusic.wav");
+    }
+
+    private void initGameplayMusic() {
+        gameplayMusicClip = loadMusicClip("/assets/audio/gameplayMusic.wav");
+    }
+
+    private void startMenuMusic() {
+        if (menuMusicClip == null) return;
+        applyClipVolume(menuMusicClip);
+        menuMusicClip.setFramePosition(0);
+        menuMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
+    }
+
+    private void stopMenuMusic() {
+        if (menuMusicClip != null && menuMusicClip.isRunning()) menuMusicClip.stop();
+    }
+
+    private void startGameplayMusic(boolean restart) {
+        if (gameplayMusicClip == null) return;
+        applyClipVolume(gameplayMusicClip);
+        if (restart) {
+            gameplayMusicClip.stop();
+            gameplayMusicClip.setFramePosition(0);
+            gameplayMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
+        } else if (!gameplayMusicClip.isRunning()) {
+            gameplayMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
+        }
+    }
+
+    private void pauseGameplayMusic() {
+        if (gameplayMusicClip != null && gameplayMusicClip.isRunning()) gameplayMusicClip.stop();
+    }
+
+    private void applyMusicVolume() {
+        applyClipVolume(menuMusicClip);
+        applyClipVolume(gameplayMusicClip);
+    }
+
+    private void applyClipVolume(Clip clip) {
+        if (clip == null || !clip.isOpen()) return;
+        boolean muted = muteAll || musicVolume == 0;
+        if (clip.isControlSupported(BooleanControl.Type.MUTE)) {
+            ((BooleanControl) clip.getControl(BooleanControl.Type.MUTE)).setValue(muted);
+        }
+        if (clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
+            FloatControl gain = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            if (muted) {
+                gain.setValue(gain.getMinimum());
+            } else {
+                // Map 1-100 → -40 dB … 0 dB (logarithmic)
+                float dB = 20f * (float) Math.log10(musicVolume / 100.0);
+                dB = Math.max(gain.getMinimum(), Math.min(gain.getMaximum(), dB));
+                gain.setValue(dB);
+            }
+        }
+    }
+
     public void startGameThread() {
         if (gameTimer == null) gameTimer = new javax.swing.Timer(1000 / FPS, e -> { update(); repaint(); });
         gameTimer.start();
     }
 
     @Override public void removeNotify() {
+        stopMenuMusic();
+        pauseGameplayMusic();
+        if (menuMusicClip != null) { menuMusicClip.close(); menuMusicClip = null; }
+        if (gameplayMusicClip != null) { gameplayMusicClip.close(); gameplayMusicClip = null; }
         if (gameTimer != null) gameTimer.stop();
         super.removeNotify();
     }
@@ -244,26 +366,160 @@ public class GamePanel extends JPanel {
         if (story.started() && !story.completed() && JOptionPane.showConfirmDialog(this,
                 "Start a new story? Unsaved progress will be replaced.", "New Game",
                 JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION) return;
+        stopMenuMusic();
+        startGameplayMusic(true);
         story.start(); storyView.resetPresentation(); player.setDefaultValues(); currentMap = 0; clearMovement();
         showAbout = false; screen = Screen.GAME; returnScreen = Screen.GAME; talking = true;
         refreshStoryVisibility();
     }
 
+    private Entity findNearbyNPC() {
+        double maxDist = tileSize * 1.6;
+        for (int i = 0; i < npc[currentMap].length; i++) {
+            Entity candidate = npc[currentMap][i];
+            if (candidate == null) continue;
+            double dx = player.worldX - candidate.worldX;
+            double dy = player.worldY - candidate.worldY;
+            if (Math.hypot(dx, dy) <= maxDist) return candidate;
+        }
+        return null;
+    }
+
+    private void interactWithNearbyNPC() {
+        int expectedMap = (story != null && story.started()) ? expectedMapForScene(story.current().scene) : -1;
+        boolean hasNpcOnMap = false;
+        for (int i = 0; i < npc[currentMap].length; i++) {
+            if (npc[currentMap][i] != null) { hasNpcOnMap = true; break; }
+        }
+        if (!hasNpcOnMap && expectedMap != -1 && currentMap == expectedMap) {
+            resumeStory();
+            return;
+        }
+        Entity nearby = findNearbyNPC();
+        if (nearby == null) {
+            showNotice("Walk up to an NPC and press E to talk.");
+            return;
+        }
+        if (expectedMap != -1 && currentMap != expectedMap) {
+            showNotice("Head to " + mapDisplayName(expectedMap) + " to continue this scene.");
+            return;
+        }
+        if (story != null && story.started()) {
+            String requiredSprite = requiredNpcSpriteForScene(story.current().scene);
+            if (requiredSprite != null && nearby instanceof entity.NPC_Courtyard npcObj
+                    && !requiredSprite.equals(npcObj.getSpriteName())) {
+                String who = switch (requiredSprite) {
+                    case "jessaNPC" -> "Jessa";
+                    case "innaNPC"  -> "Inna";
+                    case "nikkaNPC" -> "Nikka";
+                    default -> "the right character";
+                };
+                showNotice("Talk to " + who + " to continue this scene.");
+                return;
+            }
+        }
+        resumeStory();
+    }
+
+    private int expectedMapForScene(String sceneId) {
+        if (sceneId == null || sceneId.isBlank()) return -1;
+        return switch (sceneId) {
+            case "M01" -> EventHandler.MAP_COURTYARD;
+            case "M02", "S1-01", "S1-02A", "S1-02B", "S1-03", "S2-01",
+                 "J2-02", "J2-05", "J3-00", "J4-00", "J4-01", "J-F",
+                 "I2-02", "I2-05", "I3-00", "I4-00", "I4-01", "I-F",
+                 "N2-02", "N2-05", "N3-00", "N4-00", "N4-01", "N-F" -> EventHandler.MAP_CLASSROOM;
+            case "S1-04",
+                 "J2-01", "J2-03", "J2-04", "J2-06", "J2-L", "J3-S",
+                 "I2-01", "I2-03", "I2-04", "I2-06", "I2-L", "I3-S", "I4-02", "I-R", "I-N",
+                 "N2-01", "N2-03", "N2-04", "N2-06", "N2-L", "N3-S" -> EventHandler.MAP_LIBRARY;
+            case "J3-01", "I3-01", "N3-01", "N3-03" -> EventHandler.MAP_HOMETOWN;
+            case "J3-02", "J3-03", "I3-02", "I3-03", "N3-02" -> EventHandler.MAP_BEDROOM;
+            case "J4-02", "J-R", "J-N", "N4-02", "N-R", "N-N" -> EventHandler.MAP_GARDEN;
+            default -> -1;
+        };
+    }
+
+    private String requiredNpcSpriteForScene(String sceneId) {
+        if (sceneId == null) return null;
+        return switch (sceneId) {
+            case "S1-02A", "J2-01", "J2-04", "J2-05", "J2-L", "J3-01", "J3-02", "J3-03",
+                 "J4-01", "J4-02", "J-R", "J-F", "J-N" -> "jessaNPC";
+            case "S1-02B", "I2-01", "I2-02", "I2-04", "I2-05", "I2-L", "I3-01", "I3-02",
+                 "I3-03", "I4-00", "I4-01", "I4-02", "I-R", "I-F", "I-N" -> "innaNPC";
+            case "S1-03", "N2-01", "N2-02", "N2-04", "N2-L", "N3-01", "N3-02", "N3-03",
+                 "N4-01", "N4-02", "N-R", "N-F", "N-N" -> "nikkaNPC";
+            default -> null;
+        };
+    }
+
+    private String questGoalText() {
+        if (story == null || !story.started()) return "";
+        String sceneId = story.current().scene;
+        int map = expectedMapForScene(sceneId);
+        String loc = map == -1 ? "Campus" : mapDisplayName(map);
+        String who = switch (sceneId) {
+            case "M02", "S1-01", "S2-01", "J2-02", "J2-06", "J3-00", "J4-00",
+                 "I2-06", "I3-00", "N2-05", "N2-06", "N3-00", "N4-00" -> "Talk to the club (E)";
+            case "S1-02A", "J2-01", "J2-04", "J2-05", "J2-L", "J3-01", "J3-02", "J3-03",
+                 "J4-01", "J4-02", "J-R", "J-F", "J-N" -> "Talk to Jessa (E)";
+            case "S1-02B", "I2-01", "I2-02", "I2-04", "I2-05", "I2-L", "I3-01", "I3-02",
+                 "I3-03", "I4-00", "I4-01", "I4-02", "I-R", "I-F", "I-N" -> "Talk to Inna (E)";
+            case "S1-03", "N2-01", "N2-02", "N2-04", "N2-L", "N3-01", "N3-02", "N3-03",
+                 "N4-01", "N4-02", "N-R", "N-F", "N-N" -> "Talk to Nikka (E)";
+            case "S1-04", "J2-03", "J3-S", "I2-03", "I3-S", "N2-03", "N3-S" -> "Study Break (Press E)";
+            default -> "Press E to continue";
+        };
+        return loc + " — " + who;
+    }
+
+    private String mapDisplayName(int map) {
+        return switch (map) {
+            case EventHandler.MAP_COURTYARD -> "the Courtyard";
+            case EventHandler.MAP_HALLWAY   -> "the Hallway";
+            case EventHandler.MAP_CLASSROOM -> "Room 401 (Classroom)";
+            case EventHandler.MAP_LIBRARY   -> "the Library";
+            case EventHandler.MAP_GARDEN    -> "the Garden / Balcony";
+            case EventHandler.MAP_HOMETOWN  -> "the Hometown";
+            case EventHandler.MAP_BEDROOM   -> "Home";
+            default -> "the next area";
+        };
+    }
+
     private void resumeStory() {
         if (story == null || !story.started()) { startNewStory(); return; }
+        stopMenuMusic();
+        startGameplayMusic(false);
         screen = Screen.GAME; talking = true;
         keyH.upPressed = keyH.downPressed = keyH.leftPressed = keyH.rightPressed = false;
         refreshStoryVisibility();
     }
 
     private void handleStoryAction(String action) {
+        if (action.startsWith("ClickHearts:")) {
+            String[] parts = action.substring("ClickHearts:".length()).split(",");
+            if (parts.length == 2) {
+                try {
+                    spawnClickHearts(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
+                } catch (NumberFormatException ignored) { }
+            }
+            return;
+        }
         switch (action) {
             case "Save" -> saveGame();
             case "Load" -> loadGame();
             case "Words" -> { dictionaryPage = 0; openScreen(Screen.DICTIONARY); }
             case "Options" -> openScreen(Screen.SETTINGS);
             case "Map" -> { talking = false; screen = Screen.GAME; clearMovement(); }
-            case "Menu" -> { talking = false; screen = Screen.TITLE; clearMovement(); }
+            case "SceneCut" -> {
+                talking = false; screen = Screen.GAME; clearMovement();
+                aSetter.updateNPCsForScene(story.current().scene);
+                int nextMap = expectedMapForScene(story.current().scene);
+                if (nextMap != -1) {
+                    showNotice("Head to " + mapDisplayName(nextMap) + " and press E on an NPC to continue.");
+                }
+            }
+            case "Menu" -> { talking = false; screen = Screen.TITLE; clearMovement(); pauseGameplayMusic(); startMenuMusic(); }
             case "Journal" -> openStoryJournal();
             case "Hint" -> JOptionPane.showMessageDialog(this, story.hint(), "Language hint", JOptionPane.INFORMATION_MESSAGE);
             default -> { }
@@ -289,6 +545,13 @@ public class GamePanel extends JPanel {
 
     public void update() {
         animationFrame++;
+        if (screen == Screen.INTRO) {
+            introFrame++;
+            if (introFrame >= INTRO_TOTAL_FRAMES) {
+                screen = Screen.TITLE;
+                startMenuMusic();
+            }
+        }
         if (!notice.isEmpty() && System.currentTimeMillis() >= noticeExpiresAt) notice = "";
         if (screen == Screen.GAME && !talking) {
             player.update();
@@ -299,6 +562,7 @@ public class GamePanel extends JPanel {
             }
             eHandler.checkEvent();
         }
+        updateClickHearts();
     }
 
     @Override
@@ -355,6 +619,7 @@ public class GamePanel extends JPanel {
             g2.translate(uiOffsetX(), uiOffsetY());
             g2.scale(uiScale(), uiScale());
             switch (screen) {
+                case INTRO -> drawIntro(g2);
                 case TITLE -> drawTitle(g2);
                 case DICTIONARY -> drawDictionary(g2);
                 case SETTINGS -> drawSettings(g2);
@@ -370,11 +635,73 @@ public class GamePanel extends JPanel {
         super.paintChildren(g);
         Graphics2D overlay = (Graphics2D) g.create();
         drawNotice(overlay);
+        overlay.translate(uiOffsetX(), uiOffsetY());
+        overlay.scale(uiScale(), uiScale());
+        drawClickHearts(overlay);
         overlay.dispose();
+    }
+
+    private void drawIntro(Graphics2D g) {
+        Graphics2D ui = (Graphics2D) g.create();
+        ui.setColor(cream);
+        ui.fillRect(0, 0, 960, 576);
+        drawTitlePlaid(ui);
+
+        float alpha;
+        float fadeInProgress = Math.min(1f, introFrame / (float) INTRO_FADE_IN_FRAMES);
+        int fadeOutStart = INTRO_FADE_IN_FRAMES + INTRO_HOLD_FRAMES;
+        if (introFrame < INTRO_FADE_IN_FRAMES) {
+            alpha = smoothstep(fadeInProgress);
+        } else if (introFrame < fadeOutStart) {
+            alpha = 1f;
+        } else if (introFrame < fadeOutStart + INTRO_FADE_OUT_FRAMES) {
+            float t = (introFrame - fadeOutStart) / (float) INTRO_FADE_OUT_FRAMES;
+            alpha = 1f - smoothstep(t);
+        } else {
+            alpha = 0f;
+        }
+
+        if (alpha > 0f) {
+            int driftY = (int) Math.round((1f - smoothstep(fadeInProgress)) * 10.0);
+            ui.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+
+            // Subtle pill accent behind the studio name matching the UI palette
+            int badgeW = 430;
+            int badgeH = 152;
+            int badgeX = (960 - badgeW) / 2;
+            int badgeY = 206 + driftY;
+            ui.setColor(softYellow);
+            ui.fillRoundRect(badgeX, badgeY, badgeW, badgeH, 24, 24);
+            ui.setColor(pink);
+            ui.setStroke(new java.awt.BasicStroke(3f));
+            ui.drawRoundRect(badgeX, badgeY, badgeW, badgeH, 24, 24);
+
+            ui.setColor(ink);
+            ui.setFont(new Font("SansSerif", Font.BOLD, 17));
+            drawCentered(ui, "AN ORIGINAL PROJECT BY", 480, 250 + driftY);
+
+            ui.setColor(pink);
+            ui.fillRoundRect(410, 264 + driftY, 140, 3, 3, 3);
+
+            ui.setColor(raspberryPlum);
+            ui.setFont(new Font("SansSerif", Font.BOLD, 30));
+            drawCentered(ui, "POWERPUFFGIRLS", 480, 301 + driftY);
+
+            ui.setColor(ink);
+            ui.setFont(new Font("SansSerif", Font.PLAIN, 14));
+            drawCentered(ui, "GROUP 3 - CS2103", 480, 331 + driftY);
+        }
+        ui.dispose();
+    }
+
+    private static float smoothstep(float t) {
+        float clamped = Math.max(0f, Math.min(1f, t));
+        return clamped * clamped * (3f - 2f * clamped);
     }
 
     private void drawTitle(Graphics2D g) {
         Graphics2D ui=(Graphics2D)g.create();ui.setColor(cream);ui.fillRect(0,0,960,576);
+        drawTitlePlaid(ui);
         panel(ui,58,38,340,162,pink,20);
         ui.setColor(ink);ui.setFont(new Font("SansSerif",Font.BOLD,38));ui.drawString("In Other Words",73,108);
         ui.setColor(raspberryPlum);ui.setFont(new Font("SansSerif",Font.BOLD,31));ui.drawString("Mahal Kita",74,151);
@@ -409,22 +736,28 @@ public class GamePanel extends JPanel {
         int w=960, h=576;
         panel(g, 14, 12, 236, 54, cream, 12);
         g.setColor(ink); g.setFont(new Font("SansSerif",Font.BOLD,17)); g.drawString("Campus",28,35);
-        // Show partner-specific affection if a partner has been chosen, else global score
-        String _hudPartner = progress.getSelectedPartner();
-        char _hudInitial = data.GameProgress.partnerInitial(_hudPartner);
-        String _hudAffLine;
-        if (_hudInitial != '\0') {
-            int _rap = progress.getAffectionFor(_hudInitial);
-            _hudAffLine = "Chapter " + progress.getCurrentStage() + "  •  " + data.GameProgress.partnerName(_hudPartner) + " ♥ " + _rap;
-        } else {
-            _hudAffLine = "Chapter " + progress.getCurrentStage() + "  •  Affection " + progress.getAffectionScore();
+        // Show partner name with affectionScore to match StoryView's affection bar
+        String hudPartner = progress.getSelectedPartner();
+        char hudInitial = data.GameProgress.partnerInitial(hudPartner);
+        String hudAffText = (hudInitial != '\0')
+                ? data.GameProgress.partnerName(hudPartner) + " ♥ " + progress.getAffectionScore()
+                : "Affection " + progress.getAffectionScore();
+        String hudAffLine = "Chapter " + progress.getCurrentStage() + "  •  " + hudAffText;
+        g.setFont(new Font("SansSerif", Font.PLAIN, 14)); g.drawString(hudAffLine, 28, 55);
+        if (!talking && story != null && story.started() && !story.completed()) {
+            String goal = questGoalText();
+            if (!goal.isEmpty()) {
+                panel(g, 14, 72, 310, 44, softYellow, 12);
+                g.setColor(ink);
+                g.setFont(new Font("SansSerif", Font.BOLD, 12));
+                g.drawString("Goal: " + goal, 26, 99);
+            }
         }
-        g.setFont(new Font("SansSerif",Font.PLAIN,14)); g.drawString(_hudAffLine, 28, 55);
         if(!talking) panel(g, 14, h-66, w-28, 54, cream, 12);
         if(talking) return;
-        String[] labels={"Save","Load","Words","Journal","Options","Talk"};
-        int x=24; int[] widths={92,92,106,112,112,100};
-        for(int i=0;i<labels.length;i++){ button(g,x,h-57,widths[i],38,labels[i],labels[i].equals("Talk")?pink:cream); x+=widths[i]+8; }
+        String[] labels={"Save","Load","Words","Journal","Options"};
+        int x=24; int[] widths={92,92,106,112,112};
+        for(int i=0;i<labels.length;i++){ button(g,x,h-57,widths[i],38,labels[i],cream); x+=widths[i]+8; }
         g.setColor(ink);g.setFont(new Font("SansSerif",Font.PLAIN,13));g.drawString("WASD move  •  E talk  •  Esc back",w-258,h-34);
     }
 
@@ -555,13 +888,17 @@ public class GamePanel extends JPanel {
         g.setColor(ink);
         g.setFont(new Font("SansSerif", Font.PLAIN, 19));
         g.drawString(label, x, y);
+        String pct = value + "%";
+        g.setFont(new Font("SansSerif", Font.BOLD, 14));
+        int pctW = g.getFontMetrics().stringWidth(pct);
+        g.drawString(pct, x + width - pctW, y);
         panel(g, x, y + 12, width, 18, softYellow, 9);
 
-        int knobX = x + 8 + (width - 24) * value / 100;
+        int knobCenterX = x + 12 + (width - 24) * value / 100;
         g.setColor(pink);
-        g.fillOval(knobX - 10, y + 7, 28, 28);
+        g.fillOval(knobCenterX - 14, y + 7, 28, 28);
         g.setColor(ink);
-        g.drawOval(knobX - 10, y + 7, 28, 28);
+        g.drawOval(knobCenterX - 14, y + 7, 28, 28);
     }
 
     private void drawSaves(Graphics2D g) {
@@ -589,10 +926,10 @@ public class GamePanel extends JPanel {
             String partnerDisplay = partner.isEmpty() ? "Not chosen yet" : data.GameProgress.partnerName(partner);
             g.drawString("Partner: " + partnerDisplay, 240, 254);
 
-            // Per-character rapport mini-display
-            int rapJ = progress.getAffectionFor('J');
-            int rapI = progress.getAffectionFor('I');
-            int rapN = progress.getAffectionFor('N');
+            // Per-character rapport mini-display (selected partner reflects affectionScore)
+            int rapJ = (initial == 'J') ? progress.getAffectionScore() : progress.getAffectionFor('J');
+            int rapI = (initial == 'I') ? progress.getAffectionScore() : progress.getAffectionFor('I');
+            int rapN = (initial == 'N') ? progress.getAffectionScore() : progress.getAffectionFor('N');
             g.setFont(new Font("SansSerif", Font.PLAIN, 15));
             // Jessa – red tint label
             g.setColor(new java.awt.Color(200, 60, 60));   drawAffectionBar(g, "Jessa",  rapJ, 240, 284);
@@ -723,7 +1060,10 @@ public class GamePanel extends JPanel {
         int width = 960;
         int height = 576;
 
-        if (screen != Screen.TITLE && screen != Screen.GAME && isBackButton(x, y, width)) {
+        if (screen == Screen.INTRO) {
+            screen = Screen.TITLE;
+            startMenuMusic();
+        } else if (screen != Screen.TITLE && screen != Screen.GAME && isBackButton(x, y, width)) {
             goBack();
         } else if (screen == Screen.TITLE) {
             handleTitleClick(x, y, width, height);
@@ -863,8 +1203,12 @@ public class GamePanel extends JPanel {
                 else showNotice("The AI tutor needs a GEMINI_API_KEY on this computer.");
             }
             else muteAll = !muteAll;
+            applyMusicVolume();
         } else if ((y >= 235 && y < 280) || (y >= 345 && y < 390)) {
-            updateSlider(x, y, left, rightX, width);
+            boolean rightColumn = x >= rightX - 16;
+            boolean lowerRow = y >= 345;
+            activeSlider = (lowerRow ? 2 : 0) + (rightColumn ? 1 : 0);
+            applySliderDrag(x);
         }
     }
 
@@ -927,16 +1271,24 @@ public class GamePanel extends JPanel {
         showNotice(useFullscreen ? "Switched to Fullscreen." : "Window size: " + windowWidth + "x" + windowHeight);
     }
 
-    private void updateSlider(int x, int y, int left, int rightX, int width) {
-        int columnWidth = (width - 24 - left - 34) / 2;
-        boolean rightColumn = x >= rightX;
+    private void applySliderDrag(int x) {
+        int left = 198;
+        int colW = (960 - 24 - left - 34) / 2;
+        int rightX = left + colW + 34;
+        boolean rightColumn = (activeSlider == 1 || activeSlider == 3);
         int columnX = rightColumn ? rightX : left;
-        int value = Math.max(0, Math.min(100, (x - columnX) * 100 / Math.max(1, columnWidth)));
-        boolean lowerRow = y >= 345;
-        if (lowerRow && rightColumn) soundVolume = value;
-        else if (lowerRow) musicVolume = value;
-        else if (rightColumn) autoForward = value;
-        else textSpeed = value;
+        int value = Math.max(0, Math.min(100,
+                (int) Math.round((x - (columnX + 12)) * 100.0 / Math.max(1, colW - 24))));
+        switch (activeSlider) {
+            case 0 -> textSpeed = value;
+            case 1 -> autoForward = value;
+            case 2 -> {
+                musicVolume = value;
+                applyMusicVolume();
+            }
+            case 3 -> soundVolume = value;
+            default -> { }
+        }
     }
 
     private void handleSaveClick(int x, int y, int width, int height) {
@@ -958,7 +1310,7 @@ public class GamePanel extends JPanel {
     }
 
     private void goBack() {
-        if (screen == Screen.GAME) { talking = false; screen = Screen.TITLE; }
+        if (screen == Screen.GAME) { talking = false; screen = Screen.TITLE; pauseGameplayMusic(); startMenuMusic(); }
         else { screen = returnScreen; talking = returnTalking; }
         clearMovement();
     }
@@ -985,10 +1337,13 @@ public class GamePanel extends JPanel {
             }
             int[] location = readSavedLocation(loaded);
             story.load(loaded);
+            aSetter.updateNPCsForScene(story.current().scene);
             player.setDefaultValues();
             currentMap = location[0];
             player.worldX = location[1];
             player.worldY = location[2];
+            stopMenuMusic();
+            startGameplayMusic(true);
             screen = Screen.GAME; returnScreen = Screen.GAME; talking = true;
             storyView.resetPresentation();
             clearMovement();
@@ -1016,5 +1371,90 @@ public class GamePanel extends JPanel {
         } catch (NumberFormatException error) {
             throw new IllegalArgumentException("The saved map position is invalid.", error);
         }
+    }
+
+    private static final class HeartParticle {
+        double x, y, vx, vy;
+        int size, life, maxLife;
+        Color color;
+        HeartParticle(double x, double y, double vx, double vy, int size, int maxLife, Color color) {
+            this.x = x; this.y = y; this.vx = vx; this.vy = vy;
+            this.size = size; this.life = maxLife; this.maxLife = maxLife; this.color = color;
+        }
+    }
+
+    private final java.util.List<HeartParticle> clickHearts = new java.util.ArrayList<>();
+
+    private void spawnClickHearts(int uiX, int uiY) {
+        Color[] palette = {
+            new Color(255, 115, 145),
+            new Color(235, 75, 110),
+            new Color(255, 165, 185),
+            new Color(245, 200, 95)
+        };
+        for (int i = 0; i < 5; i++) {
+            double angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.6;
+            double speed = 1.2 + Math.random() * 1.8;
+            int size = 10 + (int) (Math.random() * 6);
+            int life = 26 + (int) (Math.random() * 12);
+            clickHearts.add(new HeartParticle(
+                uiX + (Math.random() - 0.5) * 10,
+                uiY + (Math.random() - 0.5) * 8,
+                Math.cos(angle) * speed,
+                Math.sin(angle) * speed - 0.6,
+                size, life, palette[i % palette.length]
+            ));
+        }
+    }
+
+    private void updateClickHearts() {
+        for (int i = clickHearts.size() - 1; i >= 0; i--) {
+            HeartParticle p = clickHearts.get(i);
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.04;
+            p.life--;
+            if (p.life <= 0) clickHearts.remove(i);
+        }
+    }
+
+    private void drawClickHearts(Graphics2D g2) {
+        if (clickHearts.isEmpty()) return;
+        Graphics2D g = (Graphics2D) g2.create();
+        g.setFont(new Font("SansSerif", Font.BOLD, 16));
+        for (HeartParticle p : clickHearts) {
+            float alpha = Math.max(0f, Math.min(1f, p.life / (float) p.maxLife));
+            g.setColor(new Color(p.color.getRed(), p.color.getGreen(), p.color.getBlue(), (int) (alpha * 235)));
+            g.setFont(new Font("SansSerif", Font.BOLD, p.size));
+            g.drawString("♥", (int) Math.round(p.x), (int) Math.round(p.y));
+        }
+        g.dispose();
+    }
+
+    private void drawTitlePlaid(Graphics2D ui) {
+        Graphics2D g = (Graphics2D) ui.create();
+        double ox = (pointerX - 480) * 0.05;
+        double oy = (pointerY - 288) * 0.05;
+        int step = 64;
+        int startX = (int) Math.floor((ox % step) - step * 2);
+        int startY = (int) Math.floor((oy % step) - step * 2);
+
+        // Soft translucent diagonal diamond plaid stripes
+        g.setStroke(new java.awt.BasicStroke(14f));
+        g.setColor(new Color(255, 178, 194, 48));
+        for (int x = startX - 600; x < 1600; x += step) {
+            g.drawLine(x, -64, x + 640, 640);
+        }
+        g.setColor(new Color(242, 222, 165, 55));
+        for (int x = startX - 600; x < 1600; x += step) {
+            g.drawLine(x + 640, -64, x, 640);
+        }
+        g.setStroke(new java.awt.BasicStroke(2f));
+        g.setColor(new Color(43, 25, 61, 18));
+        for (int x = startX - 600; x < 1600; x += step) {
+            g.drawLine(x, -64, x + 640, 640);
+            g.drawLine(x + 640, -64, x, 640);
+        }
+        g.dispose();
     }
 }
