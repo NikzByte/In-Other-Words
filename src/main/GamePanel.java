@@ -55,11 +55,26 @@ public class GamePanel extends JPanel {
     private static final int INTRO_TOTAL_FRAMES =
             INTRO_FADE_IN_FRAMES + INTRO_HOLD_FRAMES + INTRO_FADE_OUT_FRAMES + INTRO_END_PAUSE_FRAMES;
     private int introFrame;
+    private long titleSubtitleFrame;
+    private static final int TITLE_PHRASE_FRAMES = 300; // 5 seconds at 60 FPS
+    private static final int TITLE_FADE_FRAMES = 30;
+    private static final String[] TITLE_PHRASES = {
+        "Mahal Kita",
+        "Ganahan ko nimo",
+        "Ay-ayaten ka",
+        "Maogma ako"
+    };
     private final Color ink = new Color(0x2B, 0x19, 0x3D);
     private final Color cream = new Color(0xF6, 0xE9, 0xC7);
     private final Color pink = new Color(0xFF, 0xB2, 0xC2);
     private final Color raspberryPlum = new Color(0xBD, 0x2D, 0x87);
     private final Color softYellow = new Color(0xF2, 0xDE, 0xA5);
+    private final Color[] titlePhraseColors = {
+        raspberryPlum,
+        new Color(175, 22, 22),   // Jessa (Cebuano)
+        new Color(18, 78, 168),   // Inna (Ilokano)
+        new Color(135, 92, 0)     // Nikka (Central Bikol)
+    };
     private final GameProgress progress = new GameProgress();
     private final FileManager files;
     private StoryManager story;
@@ -79,7 +94,7 @@ public class GamePanel extends JPanel {
     private String searchText = "";
     private int textSpeed = 50;
     private int autoForward = 30;
-    private int musicVolume = 70;
+    private int musicVolume = 30;
     private int soundVolume = 80;
     private boolean showHints = true;
     /** AI tutor for typed answers: Gemini when GEMINI_API_KEY is set, otherwise offline. */
@@ -551,6 +566,8 @@ public class GamePanel extends JPanel {
                 screen = Screen.TITLE;
                 startMenuMusic();
             }
+        } else if (screen == Screen.TITLE) {
+            titleSubtitleFrame++;
         }
         if (!notice.isEmpty() && System.currentTimeMillis() >= noticeExpiresAt) notice = "";
         if (screen == Screen.GAME && !talking) {
@@ -704,7 +721,7 @@ public class GamePanel extends JPanel {
         drawTitlePlaid(ui);
         panel(ui,58,38,340,162,pink,20);
         ui.setColor(ink);ui.setFont(new Font("SansSerif",Font.BOLD,38));ui.drawString("In Other Words",73,108);
-        ui.setColor(raspberryPlum);ui.setFont(new Font("SansSerif",Font.BOLD,31));ui.drawString("Mahal Kita",74,151);
+        drawRotatingTitlePhrase(ui);
         ui.setColor(ink);ui.setFont(new Font("SansSerif",Font.PLAIN,17));ui.drawString("A language-learning story",74,181);
         int heartSize=20+(int)(2*Math.sin(animationFrame/8.0));ui.setColor(raspberryPlum);ui.setFont(new Font("SansSerif",Font.PLAIN,heartSize));ui.drawString("♥",365,75);
         String[] labels={"New Game","Load","Dictionary","Settings","About","Quit"};
@@ -730,6 +747,32 @@ public class GamePanel extends JPanel {
         ui.setFont(new Font("SansSerif",Font.PLAIN,14));
         drawCentered(ui,"Every language has a story. Sometimes, finding the right words is where yours begins.",480,551);
         ui.dispose();
+    }
+
+    private void drawRotatingTitlePhrase(Graphics2D ui) {
+        long cyclePos = titleSubtitleFrame % TITLE_PHRASE_FRAMES;
+        int idx = (int) ((titleSubtitleFrame / TITLE_PHRASE_FRAMES) % TITLE_PHRASES.length);
+        float alpha;
+        if (cyclePos < TITLE_FADE_FRAMES) {
+            alpha = smoothstep(cyclePos / (float) TITLE_FADE_FRAMES);
+        } else if (cyclePos >= TITLE_PHRASE_FRAMES - TITLE_FADE_FRAMES) {
+            alpha = 1f - smoothstep((cyclePos - (TITLE_PHRASE_FRAMES - TITLE_FADE_FRAMES)) / (float) TITLE_FADE_FRAMES);
+        } else {
+            alpha = 1f;
+        }
+        String phrase = TITLE_PHRASES[idx];
+        Color color = titlePhraseColors[idx];
+        Composite prev = ui.getComposite();
+        ui.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+        ui.setColor(color);
+        int size = 31;
+        ui.setFont(new Font("SansSerif", Font.BOLD, size));
+        while (ui.getFontMetrics().stringWidth(phrase) > 304 && size > 18) {
+            size--;
+            ui.setFont(new Font("SansSerif", Font.BOLD, size));
+        }
+        ui.drawString(phrase, 74, 151);
+        ui.setComposite(prev);
     }
 
     private void drawGameUi(Graphics2D g) {
